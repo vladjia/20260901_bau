@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- V3.9.4 · battle CTA + TimeGate tick-only lock -->
 <!-- V3.9.3 · restore accidentally deleted showGiftResult() -->
 <!-- V3.9.2 · white stage card visibility fix -->
 <!-- V3.9.1 · hard runtime white stage, independent of all existing CSS -->
@@ -3921,6 +3922,120 @@
       color:#9c5a2a!important;
     }
 
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.9.4 · HP 完成後「參戰」改成真正戰鬥 CTA
+       ═══════════════════════════════════════════════════════ */
+    #hp .hp-next{
+      position:relative!important;
+      min-width:238px!important;
+      min-height:78px!important;
+      margin-top:34px!important;
+      padding:28px 34px 16px!important;
+      border:2px solid #6f241c!important;
+      outline:1px solid rgba(224,165,78,.72)!important;
+      outline-offset:-7px!important;
+      clip-path:polygon(
+        10px 0,
+        calc(100% - 10px) 0,
+        100% 10px,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        10px 100%,
+        0 calc(100% - 10px),
+        0 10px
+      )!important;
+      background:
+        linear-gradient(90deg,transparent 0 9%,rgba(255,196,83,.12) 9% 11%,transparent 11% 89%,rgba(255,196,83,.12) 89% 91%,transparent 91%),
+        linear-gradient(180deg,#4b1916 0%,#2d0d0c 54%,#180807 100%)!important;
+      color:#fff0c2!important;
+      font-family:"Press Start 2P",ui-monospace,monospace!important;
+      font-size:22px!important;
+      line-height:1!important;
+      font-weight:950!important;
+      letter-spacing:.16em!important;
+      text-indent:.16em!important;
+      text-shadow:
+        0 2px 0 #571b14,
+        0 0 9px rgba(255,192,72,.72),
+        0 0 20px rgba(221,55,39,.56)!important;
+      box-shadow:
+        inset 0 0 0 4px #190807,
+        inset 0 0 24px rgba(225,48,31,.25),
+        5px 7px 0 #35110e,
+        0 0 0 2px rgba(84,24,18,.74),
+        0 0 26px rgba(219,53,38,.42),
+        0 0 45px rgba(233,171,69,.16)!important;
+      animation:v394BattleCTA 1.25s ease-in-out infinite!important;
+      overflow:visible!important;
+    }
+
+    #hp .hp-next::before{
+      content:"BATTLE ENTRY";
+      position:absolute;
+      left:50%;
+      top:9px;
+      transform:translateX(-50%);
+      width:max-content;
+      color:#efad51;
+      font:800 7px/1 ui-monospace,SFMono-Regular,Consolas,monospace;
+      letter-spacing:.24em;
+      text-shadow:0 0 7px rgba(239,173,81,.48);
+      opacity:.94;
+    }
+
+    #hp .hp-next::after{
+      content:"⚔  READY  ⚔";
+      position:absolute;
+      left:50%;
+      bottom:-19px;
+      transform:translateX(-50%);
+      padding:4px 10px 3px;
+      border:1px solid rgba(111,36,28,.72);
+      background:#eee2c4;
+      color:#7b251b;
+      font:900 7px/1 ui-monospace,SFMono-Regular,Consolas,monospace;
+      letter-spacing:.12em;
+      white-space:nowrap;
+      box-shadow:0 3px 0 rgba(76,35,22,.13);
+    }
+
+    #hp .hp-next:active{
+      transform:translate(2px,3px) scale(.985)!important;
+      filter:brightness(1.32)!important;
+      box-shadow:
+        inset 0 0 0 4px #190807,
+        inset 0 0 30px rgba(255,65,42,.38),
+        2px 3px 0 #35110e,
+        0 0 34px rgba(255,68,44,.62)!important;
+    }
+
+    @keyframes v394BattleCTA{
+      0%,100%{
+        transform:translateY(0) scale(1);
+        filter:brightness(1);
+      }
+      50%{
+        transform:translateY(-2px) scale(1.025);
+        filter:brightness(1.14);
+        box-shadow:
+          inset 0 0 0 4px #190807,
+          inset 0 0 30px rgba(225,48,31,.33),
+          5px 7px 0 #35110e,
+          0 0 0 2px rgba(84,24,18,.74),
+          0 0 35px rgba(228,53,38,.55),
+          0 0 58px rgba(236,177,72,.23)!important;
+      }
+    }
+
+    @media(max-width:370px){
+      #hp .hp-next{
+        min-width:218px!important;
+        min-height:72px!important;
+        font-size:19px!important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -4644,7 +4759,11 @@ size: ${size.toFixed(2)}%`;
     gateStartTimer=setTimeout(()=>{
       sec.classList.add('run');
       // 原本 portal 長音效只保留淡淡空間感；年份節奏不再跟它綁死。
-      portalAudio=playSfx('timePortal',.26,true);
+      // V3.9.4：舊的 portal 長音效完全停用。
+      // 時空穿梭只由「每年一顆 tick」跟動畫事件同步，
+      // 2026 最後再交給 arrival impact。
+      portalAudio=null;
+      stopSfx('timePortal');
       startPerf=performance.now();
       revealSkill(FIRST_YEAR);
       playGateYearTick(0,false); // 2003
