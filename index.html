@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- V3.9.7 · audio health fix: SFX independent from BGM + restored quiet sounds -->
 <!-- V3.9.6 · magic summon start SFX replaces card-shuffle sound -->
 <!-- V3.9.5 · CORE BLUE → VIOLET → PRISM → ITEM GET -->
 <!-- V3.9.4 · battle CTA + TimeGate tick-only lock -->
@@ -4853,6 +4854,20 @@ size: --</div>
   let calibrationActive=new URLSearchParams(location.search).get('calibrate')==='1';
   const sfxSrc={timePortal:'audio/sfx_time_portal.mp3',timeYearTick:'audio/sfx_time_year_tick.mp3',timeArrival:'audio/sfx_time_arrival.mp3',hpHeal:'audio/sfx_hp_heal.mp3',hpFull:'audio/sfx_hp_full.mp3',candleBlow:'audio/sfx_candle_blow.mp3',wishComplete:'audio/sfx_wish_complete.mp3',giftShuffle:'audio/sfx_gift_shuffle.mp3',giftReveal:'audio/sfx_gift_reveal.mp3',gachaSSR:'audio/sfx_gacha_ssr_confirm.mp3',gachaItemGet:'audio/sfx_gacha_item_get.mp3',gachaMagicStart:'audio/sfx_gacha_magic_start.mp3',bossBgm:'audio/boss_bgm.mp3',bossPunch1:'audio/boss_punch_01.mp3',bossPunch2:'audio/boss_punch_02.mp3',bossPunch3:'audio/boss_punch_03.mp3',bossCritical:'audio/boss_critical.mp3',bossKO:'audio/boss_ko.mp3',bossExplosion:'audio/boss_explosion.mp3',bossChestDrop:'audio/boss_chest_drop.mp3',bossChestOpen:'audio/boss_chest_open.mp3'};
   const activeSfx={};
+  const sfxPreload={};
+  function preloadShortSfx(){
+    const skip=new Set(['bossBgm']);
+    Object.entries(sfxSrc).forEach(([name,src])=>{
+      if(skip.has(name)||sfxPreload[name])return;
+      try{
+        const a=new Audio();
+        a.preload='auto';
+        a.src=src;
+        a.load();
+        sfxPreload[name]=a;
+      }catch(_){}
+    });
+  }
   let gateYearTickBuffer=null,gateYearTickLoadPromise=null;
   function getSharedAudioContext(){
     const AC=window.AudioContext||window.webkitAudioContext;
@@ -4875,7 +4890,6 @@ size: --</div>
     return gateYearTickLoadPromise;
   }
   function playGateYearTick(progress=0,finalTick=false){
-    if(!bgmOn)return;
     const ctx=getSharedAudioContext();
     if(ctx&&gateYearTickBuffer){
       try{
@@ -4898,11 +4912,12 @@ size: --</div>
     delete activeSfx[name];
   }
   function playSfx(name,volume=1,tracked=false){
-    if(!bgmOn) return null;
     const src=sfxSrc[name]; if(!src) return null;
     try{
       if(tracked) stopSfx(name);
-      const a=new Audio(src); a.volume=volume;
+      const a=new Audio(src);
+      a.preload='auto';
+      a.volume=Math.max(0,Math.min(1,volume));
       if(tracked){activeSfx[name]=a;a.addEventListener('ended',()=>{if(activeSfx[name]===a)delete activeSfx[name]},{once:true});}
       a.play().catch(()=>{}); return a;
     }catch(e){return null}
@@ -5006,6 +5021,7 @@ size: ${size.toFixed(2)}%`;
     const tick=now=>{const t=Math.min(1,(now-t0)/duration);bgm.volume=Math.max(0,Math.min(1,start+(target-start)*t));if(t<1)requestAnimationFrame(tick)};requestAnimationFrame(tick);
   }
   async function startAudio(){
+    preloadShortSfx();
     try{
       bgm.volume=.13;
       await bgm.play();
@@ -6204,6 +6220,20 @@ size: ${size.toFixed(2)}%`;
   }
   function playBirthday(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!audioCtx)audioCtx=new AC();if(audioCtx.state==='suspended')audioCtx.resume();let t=audioCtx.currentTime+.08;melody.forEach(([m,d])=>{crystalNote(audioCtx,m,t,d);t+=d+.045})}
 
+  // QA：F12 Console 可直接測單顆音效，例如：
+  // 測試音效('candleBlow') / 測試音效('wishComplete') / 測試音效('hpFull')
+  window.測試音效=function(name='candleBlow',volume=1){
+    if(!sfxSrc[name]){
+      console.warn('找不到音效：',name,'可用：',Object.keys(sfxSrc));
+      return false;
+    }
+    console.log('播放音效：',name,sfxSrc[name]);
+    return !!playSfx(name,volume,true);
+  };
+  window.音效清單=function(){
+    return Object.keys(sfxSrc);
+  };
+
   // Blow detection · V3.7.2：優先真的吹蠟燭，備援長按晚一點才出現
   const micBtn=document.getElementById('micBtn'),micState=document.getElementById('micState'),meterBar=document.getElementById('meterBar'),cake=document.getElementById('cake'),fallback=document.getElementById('fallback');
   function stopMic(){
@@ -6269,7 +6299,22 @@ size: ${size.toFixed(2)}%`;
   }
   function blowOut(){
     if(cake.classList.contains('out'))return;
-    clearTimeout(holdFallbackTimer);cake.classList.add('out');playSfx('candleBlow',.82);setTimeout(()=>playSfx('wishComplete',.62),220);stopMic();micBtn.classList.remove('attention','mic-guide-lock');micState.classList.remove('mic-guide-text');micBtn.disabled=true;fallback.classList.remove('show');micState.textContent='願望收到了。';fadeVolume(.035,550);clearTimeout(wishAdvanceTimer);wishAdvanceTimer=setTimeout(()=>showScene(9),1500)
+    clearTimeout(holdFallbackTimer);
+    cake.classList.add('out');
+
+    // V3.9.7：先讓「呼——」完整被聽見，再接願望完成音。
+    playSfx('candleBlow',.96,true);
+    setTimeout(()=>playSfx('wishComplete',.68,true),500);
+
+    stopMic();
+    micBtn.classList.remove('attention','mic-guide-lock');
+    micState.classList.remove('mic-guide-text');
+    micBtn.disabled=true;
+    fallback.classList.remove('show');
+    micState.textContent='願望收到了。';
+    fadeVolume(.035,550);
+    clearTimeout(wishAdvanceTimer);
+    wishAdvanceTimer=setTimeout(()=>showScene(9),1700)
   }
   micBtn.addEventListener('click',e=>{e.stopPropagation();startMic()});
   let holdTimer=null;
