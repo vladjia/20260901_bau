@@ -1,13 +1,14 @@
 <!doctype html>
+<!-- V3.7.2a · HTML DOM hotfix: prize-pool closing tags repaired -->
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#2a2119" />
-  <title>給師欸｜2026.09.01</title>
+  <title>給師欸｜09.01</title>
   <meta name="description" content="從 2003 一路走到 2026。二十多年了，技能點是你幫我點的。最後還有一場像素風的生日 BOSS 戰。" />
   <meta property="og:title" content="給師欸｜09.01" />
-  <meta property="og:description" content="從 2003 到 2026。謝謝你一路幫我點技能，今年換我幫你補個 HP。" />
+  <meta property="og:description" content="從 2003 到 2026。一路點技能，最後還有一份生日補給。" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="og-cover.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1059,6 +1060,143 @@
       82%{transform:translate(2px,-1px)}
     }
 
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.7.2 · 菜菜 QA 修正版
+       ═══════════════════════════════════════════════════════ */
+
+    /* 1) 手機點傳送陣不要出現瀏覽器藍色 tap/focus 框 */
+    .cover-portal,.portal-entry-label{
+      -webkit-tap-highlight-color:transparent!important;
+      -webkit-touch-callout:none;
+      user-select:none;
+      outline:none!important;
+    }
+    .cover-portal:focus,.cover-portal:focus-visible,.cover-portal:active{outline:none!important}
+
+    /* 2) Before / After 必須一眼看得出「可以拖」 */
+    .compare{position:relative}
+    .compare-guide{
+      position:absolute;left:50%;bottom:18px;z-index:12;
+      transform:translateX(-50%);
+      display:grid;grid-template-columns:auto auto;align-items:center;gap:3px 8px;
+      min-width:170px;padding:9px 13px;border:1px solid rgba(242,216,162,.55);
+      border-radius:999px;background:rgba(35,22,14,.83);color:#f5dfb4;
+      box-shadow:0 8px 24px rgba(0,0,0,.32),0 0 22px rgba(213,161,80,.14);
+      pointer-events:none;backdrop-filter:blur(8px);
+      animation:compareGuidePulse 1.25s ease-in-out infinite;
+      transition:.25s ease;
+    }
+    .compare-guide span{grid-row:1/3;font-size:25px;line-height:1;animation:compareGuideArrow .75s ease-in-out infinite alternate}
+    .compare-guide b{font-size:13px;letter-spacing:.06em;line-height:1.1}
+    .compare-guide small{font:700 7px/1 ui-monospace,monospace;letter-spacing:.14em;color:#bf9a61}
+    .compare-guide.used{opacity:0;transform:translateX(-50%) translateY(8px);visibility:hidden}
+    .compare-date{
+      display:flex!important;flex-direction:column;gap:5px;align-items:center;
+      margin-top:12px!important;font-size:12px!important;letter-spacing:.08em!important;
+      color:rgba(242,221,183,.86)!important;
+      animation:compareTextPulse 1.7s ease-in-out infinite;
+    }
+    .compare-date b{font-size:10px;letter-spacing:.16em;color:rgba(239,215,171,.62)}
+    .compare-date span{font-size:14px;font-weight:800;letter-spacing:.04em;color:#f1d8a6}
+    @keyframes compareGuidePulse{50%{box-shadow:0 8px 24px rgba(0,0,0,.32),0 0 32px rgba(221,170,88,.34);transform:translateX(-50%) scale(1.035)}}
+    @keyframes compareGuideArrow{to{transform:translateX(7px)}}
+    @keyframes compareTextPulse{50%{opacity:.72}}
+
+    /* 4) 麥克風優先，長按備援一開始隱藏 */
+    .mic-btn.attention{animation:micAttention .72s ease-in-out 3}
+    .fallback{
+      opacity:0;visibility:hidden;transform:translateY(5px);
+      transition:.28s ease;
+      min-height:18px;
+    }
+    .fallback.show{opacity:1;visibility:visible;transform:none;color:rgba(245,225,184,.78)}
+    @keyframes micAttention{50%{transform:scale(1.045);box-shadow:0 0 0 5px rgba(213,180,111,.14),0 0 28px rgba(213,180,111,.25)}}
+
+    /* 5/6) 獎池按鈕固定在右上角音樂下面，卡片未預覽前明確鎖定 */
+    #gift .gift-pool-btn{
+      position:fixed!important;right:14px!important;top:calc(var(--safe-t) + 48px)!important;
+      z-index:91!important;margin:0!important;width:58px;height:58px;padding:0!important;
+      border-radius:50%!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+      font-size:11px!important;line-height:1!important;
+      animation:poolBeacon 1.05s ease-in-out infinite;
+      box-shadow:0 0 0 0 rgba(216,164,84,.0),0 8px 24px rgba(0,0,0,.3)!important;
+    }
+    #gift .gift-pool-btn b{font-size:13px;letter-spacing:.08em}
+    #gift .gift-pool-btn small{font:700 5px/1 ui-monospace,monospace;letter-spacing:.06em;opacity:.74}
+    #gift .gift-pool-btn.hidden{display:none!important}
+    @keyframes poolBeacon{
+      50%{transform:scale(1.08);box-shadow:0 0 0 8px rgba(216,164,84,.11),0 9px 28px rgba(0,0,0,.38)!important}
+    }
+    #gift .gift-deck.pool-required{opacity:.30;filter:saturate(.45) blur(.2px);pointer-events:none}
+    #gift .gift-deck.pool-required::after{
+      content:"先看右上角「獎池」";
+      position:absolute;left:50%;top:50%;z-index:80;transform:translate(-50%,-50%);
+      width:max-content;max-width:78%;padding:10px 14px;border:1px solid rgba(235,203,144,.44);
+      background:rgba(31,20,13,.9);color:#efd5a1;border-radius:999px;
+      font:800 11px/1.3 ui-monospace,monospace;letter-spacing:.05em;
+      box-shadow:0 9px 28px rgba(0,0,0,.35);
+    }
+
+    /* 5) 獎池每張可翻出「假掉落率」 */
+    .gift-pool-hint{margin:8px 0 12px;font-size:11px;color:#80572f;font-weight:800}
+    .pool-item{position:relative;overflow:hidden;cursor:pointer;transform-style:preserve-3d;-webkit-tap-highlight-color:transparent}
+    .pool-item .pool-rate{
+      position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+      background:linear-gradient(145deg,#5d3820,#2d1b13);color:#f4dfb1;
+      transform:rotateY(180deg);backface-visibility:hidden;opacity:0;pointer-events:none;
+      transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .2s ease;
+    }
+    .pool-item.rate-open .pool-rate{transform:rotateY(0);opacity:1}
+    .pool-rate small{font:800 7px/1 ui-monospace,monospace;letter-spacing:.18em;color:#caa56d}
+    .pool-rate b{font:900 28px/1 ui-monospace,monospace;color:#f6d589;text-shadow:0 0 18px rgba(239,184,83,.22)}
+    .pool-rate span{font-size:8px;color:#bda27b}
+    .pool-item:focus{outline:2px solid rgba(124,93,52,.35);outline-offset:1px}
+
+    /* 7) 選卡後 TOKEN / GAS 寫入時整頁擋板，不讓人誤會當機 */
+    .voucher-loading.choice-mode .voucher-loading-card{border-color:rgba(223,181,104,.55)}
+    .voucher-loading.choice-mode .voucher-loading-orbit{animation-duration:.72s}
+
+    /* 8/10) 兌換券必須 PIN → 保存 → 才能收好 */
+    .voucher-actions-v352 .voucher-close.hidden{display:none!important}
+    .voucher-actions-v352 .voucher-save.hidden,
+    .voucher-actions-v352 .voucher-direct.hidden{display:none!important}
+    .voucher-close,.voucher-save,.voucher-direct{width:100%}
+    .voucher-actions{justify-content:stretch!important}
+
+    /* 9) PIN 手機鍵盤友善：不自動縮放、不點背景關掉 */
+    .pin-modal{
+      position:fixed!important;inset:0!important;
+      height:var(--pin-vvh,100dvh)!important;
+      min-height:0!important;overflow-y:auto!important;
+      place-items:start center!important;
+      padding:max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom))!important;
+    }
+    .pin-card{
+      width:min(94vw,370px)!important;max-height:none!important;
+      margin:auto!important;padding:20px 18px 18px!important;
+    }
+    .pin-field input{
+      font-size:18px!important;line-height:1.25!important;min-height:48px;
+      touch-action:manipulation;
+    }
+    .pin-actions-required{grid-template-columns:1fr!important}
+    .pin-submit{min-height:48px}
+    @media(max-width:430px){
+      .pin-copy{font-size:12px;line-height:1.55}
+      .pin-fine{font-size:9px;line-height:1.5}
+      .pin-card{width:calc(100vw - 24px)!important}
+    }
+
+    /* 11) 最後一頁改成結束，不再「再看一次」 */
+    .end-btn{
+      margin-top:18px;min-width:150px;padding:12px 22px;border:1px solid rgba(229,193,123,.55);
+      border-radius:4px;background:linear-gradient(#8b5b2e,#633b1e);color:#f7e2b7;
+      font-weight:900;letter-spacing:.12em;box-shadow:0 9px 26px rgba(0,0,0,.26);
+    }
+    .end-btn:disabled{opacity:.55}
+    .end-fallback{margin-top:12px;font-size:9px;letter-spacing:.1em;color:rgba(238,218,177,.68)}
+
   </style>
 </head>
 <body>
@@ -1112,12 +1250,13 @@ size: --</div>
       <div class="memory-head rise"><div><div class="memory-label mono">MEMORY / PHOTO EDIT</div><div class="memory-year">Before / After</div></div><div class="memory-label mono">DRAG</div></div>
       <div class="compare-wrap rise d2">
         <div class="compare" id="compare">
+          <div class="compare-guide" id="compareGuide"><span>↔</span><b>左右拖曳看看</b><small>DRAG TO COMPARE</small></div>
           <img src="photos/02_before.jpg" alt="我拍的原圖">
           <div class="after-wrap" id="afterWrap"><img id="afterImg" src="photos/03_after.jpg" alt="師欸修過的版本"></div>
           <div class="divider" id="divider"></div><div class="knob" id="knob">↔</div>
           <div class="compare-label before mono" id="beforeLabel">我拍的</div><div class="compare-label after mono" id="afterLabel">師欸修的</div>
         </div>
-        <div class="compare-date mono">2007.09.09 · 左右拖曳</div>
+        <div class="compare-date mono"><b>2007.09.09</b><span>← 拖曳照片，比較師欸修圖前後 →</span></div>
       </div>
       <div class="caption rise d3">那時候我根本不知道，<br>一張照片原來可以差這麼多。</div>
     </div>
@@ -1268,7 +1407,7 @@ size: --</div>
         <div class="gift-kicker mono rise">BONUS QUEST · BIRTHDAY DROP</div>
         <h2 class="gift-title rise d2" id="giftTitle">師欸，先看看今天可能掉什麼。</h2>
         <p class="gift-copy rise d2" id="giftCopy">獎池先給你看。<br>看完，自己選一張。</p>
-        <button class="gift-pool-btn rise d3" id="giftPoolOpen">展開獎池</button>
+        <button class="gift-pool-btn rise d3" id="giftPoolOpen"><b>獎池</b><small>DROP RATE</small></button>
         <div class="gift-deck choose8 rise d3" id="giftDeck" aria-label="生日禮物抽取">
           <div class="gift-card"><div class="gift-card-inner"><div class="gift-face gift-back"></div><div class="gift-face gift-front"></div></div></div>
           <div class="gift-card"><div class="gift-card-inner"><div class="gift-face gift-back"></div><div class="gift-face gift-front"></div></div></div>
@@ -1287,16 +1426,112 @@ size: --</div>
         <div class="gift-pool-overlay" id="giftPoolOverlay" aria-hidden="true">
           <div class="gift-pool-sheet">
             <div class="gift-pool-title">BIRTHDAY DROP POOL</div>
-            <div class="gift-pool-sub">TODAY'S POSSIBLE REWARDS · 8 ITEMS</div>
+            <div class="gift-pool-sub">TODAY'S POSSIBLE REWARDS · 8 ITEMS</div><div class="gift-pool-hint">點每一張卡，可以偷看掉落率。</div>
             <div class="gift-pool-grid">
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-711.png" alt="7-ELEVEN 禮券"></div><div class="pool-meta"><div class="pool-no">ITEM 01</div><div class="pool-name">7-ELEVEN 禮券</div><div class="pool-type">DAILY SUPPLY</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="https://www.starbucks.com.tw/common/objects/images/shop/product/20240823101529363.jpg" alt="星巴克飲料券"></div><div class="pool-meta"><div class="pool-no">ITEM 02</div><div class="pool-name">星巴克飲料券</div><div class="pool-type">COFFEE BUFF</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-screwdriver.png" alt="精密螺絲起子組"></div><div class="pool-meta"><div class="pool-no">ITEM 03</div><div class="pool-name">精密螺絲起子組</div><div class="pool-type">TOOL KIT</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-powerbank.png" alt="行動電源"></div><div class="pool-meta"><div class="pool-no">ITEM 04</div><div class="pool-name">行動電源</div><div class="pool-type">PORTABLE ENERGY</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-multimeter.png" alt="三用電表"></div><div class="pool-meta"><div class="pool-no">ITEM 05</div><div class="pool-name">三用電表</div><div class="pool-type">MEASURE TOOL</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-fastcharger.png" alt="USB-C 快充充電器"></div><div class="pool-meta"><div class="pool-no">ITEM 06</div><div class="pool-name">USB-C 快充充電器</div><div class="pool-type">FAST CHARGE</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-worklight.png" alt="磁吸式維修燈"></div><div class="pool-meta"><div class="pool-no">ITEM 07</div><div class="pool-name">磁吸式維修燈</div><div class="pool-type">WORK LIGHT</div></div></div>
-              <div class="pool-item"><div class="pool-thumb"><img src="art/gift-charger.png" alt="智慧修復充電器"></div><div class="pool-meta"><div class="pool-no">ITEM 08</div><div class="pool-name">智慧修復充電器</div><div class="pool-type">GARAGE SUPPLY</div></div></div>
+              <div class="pool-item" data-rate="20%" tabindex="0" role="button" aria-label="7-ELEVEN 禮券 掉落率 20%">
+                <div class="pool-thumb"><img src="art/gift-711.png" alt="7-ELEVEN 禮券"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 01</div>
+                  <div class="pool-name">7-ELEVEN 禮券</div>
+                  <div class="pool-type">DAILY SUPPLY</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>20%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="18%" tabindex="0" role="button" aria-label="星巴克飲料券 掉落率 18%">
+                <div class="pool-thumb"><img src="art/gift-starbucks.png" alt="星巴克飲料券"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 02</div>
+                  <div class="pool-name">星巴克飲料券</div>
+                  <div class="pool-type">COFFEE BUFF</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>18%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="16%" tabindex="0" role="button" aria-label="精密螺絲起子組 掉落率 16%">
+                <div class="pool-thumb"><img src="art/gift-screwdriver.png" alt="精密螺絲起子組"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 03</div>
+                  <div class="pool-name">精密螺絲起子組</div>
+                  <div class="pool-type">TOOL KIT</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>16%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="14%" tabindex="0" role="button" aria-label="行動電源 掉落率 14%">
+                <div class="pool-thumb"><img src="art/gift-powerbank.png" alt="行動電源"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 04</div>
+                  <div class="pool-name">行動電源</div>
+                  <div class="pool-type">PORTABLE ENERGY</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>14%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="12%" tabindex="0" role="button" aria-label="三用電表 掉落率 12%">
+                <div class="pool-thumb"><img src="art/gift-multimeter.png" alt="三用電表"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 05</div>
+                  <div class="pool-name">三用電表</div>
+                  <div class="pool-type">MEASURE TOOL</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>12%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="10%" tabindex="0" role="button" aria-label="USB-C 快充充電器 掉落率 10%">
+                <div class="pool-thumb"><img src="art/gift-fastcharger.png" alt="USB-C 快充充電器"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 06</div>
+                  <div class="pool-name">USB-C 快充充電器</div>
+                  <div class="pool-type">FAST CHARGE</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>10%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="7%" tabindex="0" role="button" aria-label="磁吸式維修燈 掉落率 7%">
+                <div class="pool-thumb"><img src="art/gift-worklight.png" alt="磁吸式維修燈"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 07</div>
+                  <div class="pool-name">磁吸式維修燈</div>
+                  <div class="pool-type">WORK LIGHT</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>7%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
+              <div class="pool-item" data-rate="3%" tabindex="0" role="button" aria-label="智慧修復充電器 掉落率 3%">
+                <div class="pool-thumb"><img src="art/gift-charger.png" alt="智慧修復充電器"></div>
+                <div class="pool-meta">
+                  <div class="pool-no">ITEM 08</div>
+                  <div class="pool-name">智慧修復充電器</div>
+                  <div class="pool-type">GARAGE SUPPLY</div>
+                </div>
+                <div class="pool-rate">
+                  <small>DROP RATE</small>
+                  <b>3%</b>
+                  <span>點一下翻回</span>
+                </div>
+              </div>
             </div>
             <button class="pool-close" id="giftPoolClose">看完了，開始洗牌 ›</button>
           </div>
@@ -1341,10 +1576,10 @@ size: --</div>
             <div class="pin-kicker">PRIVATE REDEMPTION PIN</div>
             <div class="pin-title" id="pinTitle">設定你的兌換 PIN</div>
             <div class="pin-copy">設定 4～6 位數字。實體禮物交付時，元家掃描 QR 後會向你詢問這組 PIN。</div>
-            <div class="pin-field"><label for="pinInput">PIN</label><input id="pinInput" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" placeholder="4～6 位數字"></div>
-            <div class="pin-field"><label for="pinConfirm">再輸入一次</label><input id="pinConfirm" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" placeholder="再次確認"></div>
+            <div class="pin-field"><label for="pinInput">PIN</label><input id="pinInput" type="password" inputmode="numeric" enterkeyhint="next" autocomplete="new-password" maxlength="6" placeholder="4～6 位數字"></div>
+            <div class="pin-field"><label for="pinConfirm">再輸入一次</label><input id="pinConfirm" type="password" inputmode="numeric" enterkeyhint="done" autocomplete="new-password" maxlength="6" placeholder="再次確認"></div>
             <div class="pin-error" id="pinError" aria-live="polite"></div>
-            <div class="pin-actions"><button class="pin-cancel" id="pinCancel" type="button">取消</button><button class="pin-submit" id="pinSubmit" type="button">確認設定</button></div>
+            <div class="pin-actions pin-actions-required"><button class="pin-submit" id="pinSubmit" type="button">確認設定</button></div>
             <div class="pin-fine">PIN 不會顯示在兌換憑證上，也不會儲存在這支手機。忘記 PIN 時請找元家重設。</div>
           </div>
         </div>
@@ -1355,7 +1590,7 @@ size: --</div>
   <section class="scene" id="final" data-scene="12">
     <div class="scene-inner">
       <div class="final-box rise">師欸，<br><br>從我 15 歲到現在，真的教了我很多東西。<br>以前可能沒有特別講，但這些我都有記得。<br><br><b>二十多年了，技能點是你幫我點的。</b><br>所以到現在，我最常講的還是——<br><br><span class="save-me">師欸，救我。</span><br><br>生日快樂啦。<div class="final-sign">—— 元家</div></div>
-      <div class="save-complete mono rise d2">QUEST COMPLETE · 2003 → 2026</div>
+      <div class="save-complete mono rise d2">QUEST COMPLETE · 2003 → 2026</div><button class="end-btn rise d3" id="endBtn" type="button">結束</button><div class="end-fallback mono hidden" id="endFallback">任務完成 · 可以關閉這個頁面了</div>
     </div>
   </section>
 
@@ -1509,8 +1744,8 @@ size: ${size.toFixed(2)}%`;
   function updateHud(){
     hudLabel.textContent=`${String(index).padStart(2,'0')} / ${String(max).padStart(2,'0')}`;
     dots.forEach((d,i)=>d.classList.toggle('active',i===index-1));
-    advanceLabel.textContent=index===max?'再看一次':'點一下繼續';
-    advance.classList.toggle('hidden',index===8 || index===9 || index===11); // Wish + HP + gift draw are interactive.
+    advanceLabel.textContent='點一下繼續';
+    advance.classList.toggle('hidden',index===8 || index===9 || index===11 || index===max); // Wish + HP + gift draw are interactive.
   }
   function clearGateSkillTimers(){gateSkillTimers.forEach(t=>clearTimeout(t));gateSkillTimers=[]}
   function queueGateSkill(cards,idx,delay){gateSkillTimers.push(setTimeout(()=>cards[idx]?.classList.add('shown'),delay))}
@@ -1616,10 +1851,10 @@ size: ${size.toFixed(2)}%`;
     },620);
   }
   function resetWish(){
-    clearTimeout(wishAdvanceTimer);wishAdvanceTimer=null;stopMic();
-    cake.classList.remove('out');
+    clearTimeout(wishAdvanceTimer);clearTimeout(holdFallbackTimer);wishAdvanceTimer=null;holdFallbackTimer=null;stopMic();holdFallbackEnabled=false;
+    cake.classList.remove('out');fallback?.classList.remove('show');micBtn.classList.remove('attention');
     micBtn.disabled=false;
-    micState.textContent='手機會先詢問麥克風權限';
+    micState.textContent='先開啟麥克風，再對著螢幕吹蠟燭。';
     meterBar.style.width='0%';
   }
   function showScene(n){
@@ -1629,6 +1864,7 @@ size: ${size.toFixed(2)}%`;
     index=Math.max(0,Math.min(n,max));
     scenes[index].classList.add('active');
     updateHud();
+    if(index===2)setTimeout(runCompareDemo,320);
     if(index===5) runTimeGate();
     if(index===8){resetWish();fadeVolume(.075,900)}
     if(index===9){fadeVolume(.045,550);runHP()}
@@ -1637,16 +1873,16 @@ size: ${size.toFixed(2)}%`;
     if(index===12)setTimeout(()=>fadeVolume(.12,1200),900);
   }
 
-  async function enterMap(e){if(e){e.preventDefault();e.stopPropagation()}if(calibrationActive)return;await startAudio();hud.classList.remove('hidden');audioToggle.classList.remove('hidden');showScene(1)}
+  async function enterMap(e){if(e){e.preventDefault();e.stopPropagation()}if(calibrationActive)return;try{portal.blur()}catch(_){}await startAudio();hud.classList.remove('hidden');audioToggle.classList.remove('hidden');showScene(1)}
   portal.addEventListener('click',enterMap);
   portal.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){enterMap(e)}});
-  advance.addEventListener('click',e=>{e.stopPropagation();if(index===max){revealed=false;showScene(1)}else showScene(index+1)});
+  advance.addEventListener('click',e=>{e.stopPropagation();if(index<max)showScene(index+1)});
   document.getElementById('hpNext').addEventListener('click',e=>{e.stopPropagation();showScene(11)});
-  const giftDeck=document.getElementById('giftDeck'),giftCards=[...giftDeck.querySelectorAll('.gift-card')],giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinCancel=document.getElementById('pinCancel'),pinSubmit=document.getElementById('pinSubmit');
+  const giftDeck=document.getElementById('giftDeck'),giftCards=[...giftDeck.querySelectorAll('.gift-card')],giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
   const GIFT_KEY='shie_birthday_gift_2026',GIFT_PICK_KEY='shie_birthday_gift_pick_2026',BOSS_CLEAR_KEY='shie_birthday_boss_clear_2026',RESET_VERSION_KEY='shie_birthday_reset_version_2026';
   const GIFT_TOKEN='SHIE-0901-HP999-X7K2';
   const GAS_WEB_APP_URL='https://script.google.com/macros/s/AKfycby3M7IV-P_Aqy-8OBWnG3oAn-CxMJwBh1nJY9szVuOOH34gYjNTUP1j_R77QcPpwNadGQ/exec';
-  let giftPickTimer=null,giftResolveTimer=null,remoteGiftState=null,bossHP=1800,bossComboCount=0,bossActive=false,bossKO=false,bossComboTimer=null,bossTauntTimer=null,bossPhase=1,bossTransitioning=false;
+  let giftPickTimer=null,giftResolveTimer=null,remoteGiftState=null,bossHP=1800,bossComboCount=0,bossActive=false,bossKO=false,bossComboTimer=null,bossTauntTimer=null,bossPhase=1,bossTransitioning=false,voucherSavedThisOpen=false,holdFallbackEnabled=false,holdFallbackTimer=null;
   function gasEnabled(){return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:$|\?)/.test(GAS_WEB_APP_URL)}
   function formatSupplyTime(raw){
     if(!raw)return '';
@@ -1856,7 +2092,14 @@ size: ${size.toFixed(2)}%`;
   }
   function prepareGiftPool(){
     stopBossBgm(120);
-    bossStage.classList.add('boss-hidden');giftWrap.classList.remove('boss-hidden');fadeVolume(.07,450);giftPoolOpen.textContent='展開獎池';giftTitle.textContent='BOSS 掉寶了。';giftCopy.innerHTML='俠刀蜀道胖打完收工。<br>來看看今天可能掉什麼。';giftPoolOpen.classList.remove('hidden');giftStatus.textContent=gasEnabled()?'DROP UNLOCKED · OPEN THE PRIZE POOL':'LOCAL TEST MODE · DROP UNLOCKED';giftOnce.textContent='獎池裡有 8 種可能。';
+    bossStage.classList.add('boss-hidden');giftWrap.classList.remove('boss-hidden');fadeVolume(.07,450);
+    giftPoolOpen.innerHTML='<b>獎池</b><small>DROP RATE</small>';
+    giftTitle.textContent='先看獎池。';
+    giftCopy.innerHTML='右上角「獎池」正在發光。<br>看完掉落率，才會開始洗牌。';
+    giftDeck.classList.add('pool-required');
+    giftPoolOpen.classList.remove('hidden');
+    giftStatus.textContent='STEP 1 · OPEN PRIZE POOL';
+    giftOnce.textContent='先看完 8 種可能，再開始選卡。';
   }
   function openBossChest(){
     if(!bossKO||!bossStage.classList.contains('chest')||bossStage.classList.contains('chest-opening'))return;bossStage.classList.add('chest-opening','heavy-shake');bossChestSfx(true);bossVibrate([18,20,35,25,65]);setTimeout(()=>bossStage.classList.remove('heavy-shake'),520);setTimeout(prepareGiftPool,900)
@@ -1872,7 +2115,9 @@ size: ${size.toFixed(2)}%`;
   function clearGiftFaces(){giftCards.forEach(c=>{c.classList.remove('chosen');const f=c.querySelector('.gift-front');if(f)f.innerHTML=''})}
   function fillWinningFace(card){const f=card.querySelector('.gift-front');if(!f)return;f.innerHTML='<img src="art/gift-charger.png" alt="生日禮物"><div class="gift-item-get">ITEM GET!</div><div class="gift-item-name">12V / 6A 智慧修復充電器</div>'}
   function showGiftResult(pick,instant=false){
-    clearTimeout(giftPickTimer);clearTimeout(giftResolveTimer);stopSfx('giftShuffle');bossStage.classList.add('boss-hidden');giftWrap.classList.remove('boss-hidden');
+    clearTimeout(giftPickTimer);clearTimeout(giftResolveTimer);stopSfx('giftShuffle');
+    if(voucherLoading){voucherLoading.classList.remove('show','choice-mode');voucherLoading.setAttribute('aria-hidden','true')}
+    bossStage.classList.add('boss-hidden');giftWrap.classList.remove('boss-hidden');
     giftDeck.classList.remove('drawing','choose-mode','selected-pending');giftDeck.classList.add('resolved');
     clearGiftFaces();const card=giftCards[pick]||giftCards[2];card.classList.add('chosen');fillWinningFace(card);
     if(!instant)playSfx('giftReveal',.78);
@@ -1883,7 +2128,7 @@ size: ${size.toFixed(2)}%`;
     clearTimeout(giftPickTimer);clearTimeout(giftResolveTimer);stopSfx('giftShuffle');resetBossVisuals();
     giftWrap.classList.add('boss-hidden');bossStage.classList.add('boss-hidden');
     giftCards.forEach(c=>{c.style.animation='';const inner=c.querySelector('.gift-card-inner');if(inner)inner.style.transform=''});clearGiftFaces();
-    giftDeck.classList.remove('drawing','choose-mode','selected-pending','resolved');giftPoolOverlay.classList.remove('show');voucherLoading?.classList.remove('show');voucherOverlay.classList.remove('show');pinModal?.classList.remove('show');giftNext.classList.add('hidden');voucherOpen.classList.add('hidden');giftPoolOpen.classList.add('hidden');delete giftPoolOpen.dataset.retry;
+    giftDeck.classList.remove('drawing','choose-mode','selected-pending','resolved','pool-required');giftPoolOverlay.classList.remove('show');voucherLoading?.classList.remove('show');voucherOverlay.classList.remove('show');pinModal?.classList.remove('show');giftNext.classList.add('hidden');voucherOpen.classList.add('hidden');giftPoolOpen.classList.add('hidden');delete giftPoolOpen.dataset.retry;
 
     // Already drawn: skip every battle screen and show the locked result directly.
     if(giftWasDrawn()){
@@ -1939,12 +2184,17 @@ size: ${size.toFixed(2)}%`;
     startBossBattle();
   }
   function startGiftShuffle(){
-    giftPoolOverlay.classList.remove('show');giftPoolOverlay.setAttribute('aria-hidden','true');giftPoolOpen.classList.add('hidden');giftDeck.classList.remove('choose-mode');giftDeck.classList.add('drawing');giftTitle.textContent='洗牌中…';giftCopy.innerHTML='俠刀蜀道胖已經把怪清掉了，<br>這次你自己選。';giftStatus.textContent='SHUFFLING…';giftOnce.textContent='';playSfx('giftShuffle',.75,true);
+    giftPoolOverlay.classList.remove('show');giftPoolOverlay.setAttribute('aria-hidden','true');giftPoolOpen.classList.add('hidden');giftDeck.classList.remove('choose-mode','pool-required');giftDeck.classList.add('drawing');giftTitle.textContent='洗牌中…';giftCopy.innerHTML='俠刀蜀道胖已經把怪清掉了，<br>這次你自己選。';giftStatus.textContent='SHUFFLING…';giftOnce.textContent='';playSfx('giftShuffle',.75,true);
     giftPickTimer=setTimeout(()=>{stopSfx('giftShuffle');giftDeck.classList.remove('drawing');giftDeck.classList.add('choose-mode');giftTitle.textContent='選一張。';giftCopy.innerHTML='你點哪張，<br>就開哪張。';giftStatus.textContent='CHOOSE ONE';giftOnce.textContent='只有一次機會。'},2250)
   }
   function chooseGift(card,pick){
     if((remoteGiftState&&remoteGiftState.drawn)||!giftDeck.classList.contains('choose-mode'))return;
-    giftDeck.classList.remove('choose-mode');card.classList.add('chosen');giftDeck.classList.add('selected-pending');giftTitle.textContent='好，就這張。';giftCopy.innerHTML='看看裡面有什麼……';giftStatus.textContent=gasEnabled()?'SEALING YOUR CHOICE…':'OPENING…';giftOnce.textContent='';
+    giftDeck.classList.remove('choose-mode');card.classList.add('chosen');giftDeck.classList.add('selected-pending');giftTitle.textContent='好，就這張。';giftCopy.innerHTML='正在封印你的選擇……';giftStatus.textContent=gasEnabled()?'SEALING YOUR CHOICE…':'OPENING…';giftOnce.textContent='';
+    if(voucherLoading){
+      voucherLoading.classList.add('show','choice-mode');voucherLoading.setAttribute('aria-hidden','false');
+      if(voucherLoadingTitle)voucherLoadingTitle.textContent='正在封印你的選擇…';
+      if(voucherLoadingSub)voucherLoadingSub.textContent='SEALING YOUR CHOICE';
+    }
     giftResolveTimer=setTimeout(async()=>{
       try{
         if(gasEnabled()){
@@ -1954,25 +2204,43 @@ size: ${size.toFixed(2)}%`;
           rememberGift(pick);showGiftResult(pick,false)
         }
       }catch(err){
-        card.classList.remove('chosen');giftDeck.classList.remove('selected-pending');giftDeck.classList.add('choose-mode');giftTitle.textContent='剛剛沒鎖成功。';giftCopy.innerHTML='網路可能抖了一下，<br>再點一次就好。';giftStatus.textContent='GAS SAVE ERROR';giftOnce.textContent='不會重抽，GAS 會以第一筆成功紀錄為準。';
+        card.classList.remove('chosen');giftDeck.classList.remove('selected-pending');giftDeck.classList.add('choose-mode');giftTitle.textContent='剛剛沒鎖成功。';giftCopy.innerHTML='網路可能抖了一下，<br>再點一次就好。';giftStatus.textContent='GAS SAVE ERROR';giftOnce.textContent='不會重抽，GAS 會以第一筆成功紀錄為準。';if(voucherLoading){voucherLoading.classList.remove('show','choice-mode');voucherLoading.setAttribute('aria-hidden','true')}
       }
     },760)
   }
   giftPoolOpen.addEventListener('click',e=>{e.stopPropagation();if(giftPoolOpen.dataset.retry==='1'){runGift();return}giftPoolOverlay.classList.add('show');giftPoolOverlay.setAttribute('aria-hidden','false')});
-  giftPoolOverlay.addEventListener('click',e=>{if(e.target===giftPoolOverlay){e.stopPropagation();giftPoolOverlay.classList.remove('show');giftPoolOverlay.setAttribute('aria-hidden','true')}});
+  giftPoolOverlay.addEventListener('click',e=>{if(e.target===giftPoolOverlay)e.stopPropagation()});
   giftPoolClose.addEventListener('click',e=>{e.stopPropagation();startGiftShuffle()});
   giftCards.forEach((card,i)=>card.addEventListener('click',e=>{e.stopPropagation();chooseGift(card,i)}));
+  const poolItems=[...giftPoolOverlay.querySelectorAll('.pool-item')];
+  poolItems.forEach(item=>{
+    const toggle=e=>{e.preventDefault();e.stopPropagation();item.classList.toggle('rate-open')};
+    item.addEventListener('click',toggle);
+    item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){toggle(e)}});
+  });
+
   function updateVoucherActions(st){
     const pinSet=!!(st&&st.pinSet),redeemed=!!(st&&st.redeemed);
-    voucherSetPin.classList.toggle('hidden',pinSet||redeemed);
-    voucherSave.classList.toggle('hidden',!pinSet);
-    voucherSaveHint.classList.toggle('hidden',!pinSet);
+    if(redeemed){
+      voucherSetPin.classList.add('hidden');voucherSave.classList.add('hidden');voucherSaveHint.classList.add('hidden');voucherClose.classList.remove('hidden');return;
+    }
+    if(!pinSet){
+      voucherSetPin.classList.remove('hidden');voucherSave.classList.add('hidden');voucherSaveHint.classList.add('hidden');voucherClose.classList.add('hidden');return;
+    }
+    if(!voucherSavedThisOpen){
+      voucherSetPin.classList.add('hidden');voucherSave.classList.remove('hidden');voucherSaveHint.classList.remove('hidden');voucherClose.classList.add('hidden');return;
+    }
+    voucherSetPin.classList.add('hidden');voucherSave.classList.add('hidden');voucherSaveHint.classList.add('hidden');voucherClose.classList.remove('hidden');
+  }
+  function syncPinViewport(){
+    const h=window.visualViewport?window.visualViewport.height:window.innerHeight;
+    document.documentElement.style.setProperty('--pin-vvh',Math.max(260,h)+'px');
   }
   function openPinModal(){
     pinError.textContent='';pinInput.value='';pinConfirm.value='';pinSubmit.disabled=false;pinSubmit.textContent='確認設定';
-    pinModal.classList.add('show');pinModal.setAttribute('aria-hidden','false');setTimeout(()=>pinInput.focus(),120);
+    syncPinViewport();pinModal.classList.add('show');pinModal.setAttribute('aria-hidden','false');
   }
-  function closePinModal(){pinModal.classList.remove('show');pinModal.setAttribute('aria-hidden','true')}
+  function closePinModal(){pinModal.classList.remove('show');pinModal.setAttribute('aria-hidden','true');document.documentElement.style.removeProperty('--pin-vvh')}
   function friendlyPinError(code){
     if(code==='PIN_FORMAT')return '請輸入 4～6 位數字。';
     if(code==='PIN_ALREADY_SET')return '這張補給券已經設定過 PIN 了。';
@@ -1988,7 +2256,7 @@ size: ${size.toFixed(2)}%`;
     if(pin!==confirm){pinError.textContent='兩次輸入不一樣，再確認一次。';pinConfirm.focus();return}
     pinSubmit.disabled=true;pinSubmit.textContent='設定中…';
     try{
-      const st=await gasJsonp('setpin',{pin});remoteGiftState=st;updateVoucherActions(st);
+      const st=await gasJsonp('setpin',{pin});remoteGiftState=st;voucherSavedThisOpen=false;updateVoucherActions(st);
       const vs=document.getElementById('voucherStatus'),vn=document.getElementById('voucherNote');
       vs.textContent='SUPPLY TICKET READY';vn.textContent='兌換 PIN 已設定。把這張憑證保存好，實體交付時出示 QR CODE 給元家即可。';
       closePinModal();
@@ -2010,11 +2278,11 @@ size: ${size.toFixed(2)}%`;
             const file=new File([blob],filename,{type:'image/png'});
             if(navigator.canShare({files:[file]})){
               await navigator.share({files:[file],title:'胖胖的生日補給兌換憑證'});
-              return;
+              return true;
             }
           }
         }catch(err){
-          if(err && err.name==='AbortError') return;
+          if(err && err.name==='AbortError') return false;
           // 本機 file:// 測試時 fetch 可能被瀏覽器擋，下面會改走直接檔案連結。
         }
       }
@@ -2027,10 +2295,12 @@ size: ${size.toFixed(2)}%`;
       document.body.appendChild(a);
       a.click();
       a.remove();
+      return true;
     }catch(err){
       // 最後備援：直接打開完整圖片，手機可長按保存。
       const w=window.open(src,'_blank','noopener');
-      if(!w) alert('瀏覽器擋住了圖片視窗，請允許彈出視窗後再試一次。');
+      if(!w){alert('瀏覽器擋住了圖片視窗，請允許彈出視窗後再試一次。');return false}
+      return true;
     }finally{
       voucherSave.disabled=false;
       voucherSave.textContent=original;
@@ -2039,8 +2309,11 @@ size: ${size.toFixed(2)}%`;
   voucherOpen.addEventListener('click',async e=>{
     e.stopPropagation();
     const vs=document.getElementById('voucherStatus'),vn=document.getElementById('voucherNote');
+    voucherSavedThisOpen=false;
     voucherOpen.disabled=true;
-    voucherLoading?.classList.add('show');voucherLoading?.setAttribute('aria-hidden','false');
+    if(voucherLoadingTitle)voucherLoadingTitle.textContent='正在讀取補給憑證…';
+    if(voucherLoadingSub)voucherLoadingSub.textContent='CHECKING SUPPLY RECORD';
+    voucherLoading?.classList.remove('choice-mode');voucherLoading?.classList.add('show');voucherLoading?.setAttribute('aria-hidden','false');
     const minWait=new Promise(r=>setTimeout(r,520));
     try{
       if(gasEnabled()){
@@ -2055,18 +2328,33 @@ size: ${size.toFixed(2)}%`;
         }
       }else await minWait;
       voucherOverlay.classList.add('show');voucherOverlay.setAttribute('aria-hidden','false');
+      if(remoteGiftState&&!remoteGiftState.redeemed&&!remoteGiftState.pinSet)setTimeout(openPinModal,220);
     }finally{
       voucherLoading?.classList.remove('show');voucherLoading?.setAttribute('aria-hidden','true');voucherOpen.disabled=false;
     }
   });
   voucherSetPin.addEventListener('click',e=>{e.stopPropagation();openPinModal()});
-  pinCancel.addEventListener('click',e=>{e.stopPropagation();closePinModal()});
-  pinModal.addEventListener('click',e=>{if(e.target===pinModal){e.stopPropagation();closePinModal()}});
+  pinModal.addEventListener('click',e=>{if(e.target===pinModal)e.stopPropagation()});
   pinSubmit.addEventListener('click',e=>{e.stopPropagation();submitHolderPin()});
   pinConfirm.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitHolderPin()}});
+  pinInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();pinConfirm.focus()}});
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',()=>{if(pinModal.classList.contains('show'))syncPinViewport()});
+    window.visualViewport.addEventListener('scroll',()=>{if(pinModal.classList.contains('show'))syncPinViewport()});
+  }
   [pinInput,pinConfirm].forEach(el=>el.addEventListener('input',()=>{el.value=el.value.replace(/\D/g,'').slice(0,6);pinError.textContent=''}));
-  voucherSave.addEventListener('click',e=>{e.stopPropagation();saveVoucherImage()});
-  voucherOverlay.addEventListener('click',e=>{if(e.target===voucherOverlay){e.stopPropagation();voucherOverlay.classList.remove('show');voucherOverlay.setAttribute('aria-hidden','true')}});
+  voucherSave.addEventListener('click',async e=>{
+    e.stopPropagation();
+    const ok=await saveVoucherImage();
+    if(ok){
+      voucherSavedThisOpen=true;
+      updateVoucherActions(remoteGiftState||{pinSet:true});
+      const vs=document.getElementById('voucherStatus'),vn=document.getElementById('voucherNote');
+      vs.textContent='VOUCHER SAVED · READY';
+      vn.textContent='憑證已送出保存流程。收好後，實體交付時出示 QR CODE 給元家即可。';
+    }
+  });
+  voucherOverlay.addEventListener('click',e=>{if(e.target===voucherOverlay)e.stopPropagation()});
   voucherClose.addEventListener('click',e=>{e.stopPropagation();voucherOverlay.classList.remove('show');voucherOverlay.setAttribute('aria-hidden','true');voucherOpen.classList.add('hidden');giftNext.classList.remove('hidden')});
   giftNext.addEventListener('click',e=>{e.stopPropagation();showScene(12)});
 
@@ -2088,17 +2376,44 @@ size: ${size.toFixed(2)}%`;
     });
   }
 
-  // Before/After drag
-  const compare=document.getElementById('compare'),afterWrap=document.getElementById('afterWrap'),afterImg=document.getElementById('afterImg'),divider=document.getElementById('divider'),knob=document.getElementById('knob'),beforeLabel=document.getElementById('beforeLabel'),afterLabel=document.getElementById('afterLabel');
+  // Before/After drag · 有動畫示範，避免第一次看到的人不知道可拖
+  const compare=document.getElementById('compare'),afterWrap=document.getElementById('afterWrap'),afterImg=document.getElementById('afterImg'),divider=document.getElementById('divider'),knob=document.getElementById('knob'),beforeLabel=document.getElementById('beforeLabel'),afterLabel=document.getElementById('afterLabel'),compareGuide=document.getElementById('compareGuide');
+  let compareTouched=false,compareDemoRAF=null;
   function setCompare(x){
     const r=compare.getBoundingClientRect();const pct=Math.max(0,Math.min(100,(x-r.left)/r.width*100));
-    // V3: left = ORIGINAL, right = MASTER EDIT.
     afterWrap.style.left=pct+'%';afterWrap.style.width=(100-pct)+'%';
     afterImg.style.width=r.width+'px';afterImg.style.left=(-pct/100*r.width)+'px';
     divider.style.left=pct+'%';knob.style.left=pct+'%';
     beforeLabel.classList.toggle('is-hidden',pct<27);afterLabel.classList.toggle('is-hidden',(100-pct)<27);
   }
-  compare.addEventListener('pointerdown',e=>{e.stopPropagation();compare.setPointerCapture(e.pointerId);setCompare(e.clientX)});compare.addEventListener('pointermove',e=>{if(e.buttons){e.stopPropagation();setCompare(e.clientX)}});compare.addEventListener('click',e=>e.stopPropagation());window.addEventListener('resize',()=>{const r=compare.getBoundingClientRect();if(r.width)setCompare(r.left+r.width/2)});
+  function stopCompareDemo(){
+    compareTouched=true;if(compareDemoRAF)cancelAnimationFrame(compareDemoRAF);compareDemoRAF=null;compareGuide?.classList.add('used')
+  }
+  function runCompareDemo(){
+    if(index!==2||compareTouched)return;
+    const r=compare.getBoundingClientRect();if(!r.width)return;
+    const t0=performance.now(),dur=1750;
+    const keyframes=[[0,50],[.26,67],[.58,34],[1,50]];
+    const sample=p=>{
+      for(let i=1;i<keyframes.length;i++){
+        if(p<=keyframes[i][0]){
+          const [p0,v0]=keyframes[i-1],[p1,v1]=keyframes[i],u=(p-p0)/(p1-p0);
+          return v0+(v1-v0)*(u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2)
+        }
+      }return 50
+    };
+    const step=now=>{
+      if(compareTouched||index!==2)return;
+      const p=Math.min(1,(now-t0)/dur),pct=sample(p);
+      setCompare(r.left+r.width*pct/100);
+      if(p<1)compareDemoRAF=requestAnimationFrame(step)
+    };
+    compareDemoRAF=requestAnimationFrame(step);
+  }
+  compare.addEventListener('pointerdown',e=>{stopCompareDemo();e.stopPropagation();compare.setPointerCapture(e.pointerId);setCompare(e.clientX)});
+  compare.addEventListener('pointermove',e=>{if(e.buttons){e.stopPropagation();setCompare(e.clientX)}});
+  compare.addEventListener('click',e=>e.stopPropagation());
+  window.addEventListener('resize',()=>{const r=compare.getBoundingClientRect();if(r.width)setCompare(r.left+r.width/2)});
 
   // Crystal / RPG birthday melody
   const NOTE=n=>440*Math.pow(2,(n-69)/12);
@@ -2113,29 +2428,97 @@ size: ${size.toFixed(2)}%`;
   }
   function playBirthday(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!audioCtx)audioCtx=new AC();if(audioCtx.state==='suspended')audioCtx.resume();let t=audioCtx.currentTime+.08;melody.forEach(([m,d])=>{crystalNote(audioCtx,m,t,d);t+=d+.045})}
 
-  // Blow detection
-  const micBtn=document.getElementById('micBtn'),micState=document.getElementById('micState'),meterBar=document.getElementById('meterBar'),cake=document.getElementById('cake');
-  function stopMic(){if(micRAF)cancelAnimationFrame(micRAF);micRAF=null;if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null}}
+  // Blow detection · V3.7.2：優先真的吹蠟燭，備援長按晚一點才出現
+  const micBtn=document.getElementById('micBtn'),micState=document.getElementById('micState'),meterBar=document.getElementById('meterBar'),cake=document.getElementById('cake'),fallback=document.getElementById('fallback');
+  function stopMic(){
+    if(micRAF)cancelAnimationFrame(micRAF);micRAF=null;
+    if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null}
+  }
+  function enableHoldFallback(message='真的吹不掉的話，長按蠟燭 1 秒也可以。'){
+    holdFallbackEnabled=true;fallback.textContent=message;fallback.classList.add('show');
+  }
   async function startMic(){
-    if(!navigator.mediaDevices?.getUserMedia){micState.textContent='這台裝置無法使用麥克風，長按蠟燭即可。';return}
-    if(!window.isSecureContext && location.hostname!=='localhost'){micState.textContent='本機預覽不能開麥克風；放到 GitHub Pages 後就可以。先長按蠟燭測試。';return}
+    clearTimeout(holdFallbackTimer);holdFallbackEnabled=false;fallback.classList.remove('show');micBtn.classList.remove('attention');
+    if(!navigator.mediaDevices?.getUserMedia){micState.textContent='這台裝置無法使用麥克風。';enableHoldFallback('這台裝置不能用麥克風，長按蠟燭 1 秒完成。');return}
+    if(!window.isSecureContext && location.hostname!=='localhost'){micState.textContent='本機預覽不能開麥克風；GitHub Pages 才可以。';enableHoldFallback('測試模式：長按蠟燭 1 秒完成。');return}
     micBtn.disabled=true;micState.textContent='正在取得麥克風…';
     try{
-      micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
-      const AC=window.AudioContext||window.webkitAudioContext;const ctx=new AC();if(ctx.state==='suspended')await ctx.resume();const src=ctx.createMediaStreamSource(micStream),an=ctx.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=.35;src.connect(an);
-      const time=new Uint8Array(an.fftSize),freq=new Uint8Array(an.frequencyBinCount);let baselineSamples=[],calibrating=true,baseline=.012,blowMs=0,last=performance.now();
-      micState.textContent='先安靜一下，我在抓環境音…';
-      setTimeout(()=>{calibrating=false;baseline=baselineSamples.length?baselineSamples.reduce((a,b)=>a+b,0)/baselineSamples.length:.012;micState.textContent='好了，對著手機麥克風吹一下。';},1000);
+      micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
+      const AC=window.AudioContext||window.webkitAudioContext;const ctx=new AC();if(ctx.state==='suspended')await ctx.resume();
+      const src=ctx.createMediaStreamSource(micStream),an=ctx.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=.18;src.connect(an);
+      const time=new Uint8Array(an.fftSize),freq=new Uint8Array(an.frequencyBinCount);
+      let baselineSamples=[],calibrating=true,baseline=.008,blowMs=0,last=performance.now();
+      micState.textContent='先安靜一下，正在感應環境音…';
+      setTimeout(()=>{
+        calibrating=false;
+        baseline=baselineSamples.length?baselineSamples.reduce((a,b)=>a+b,0)/baselineSamples.length:.008;
+        micState.textContent='好了！直接對著螢幕吹一口氣。';
+        holdFallbackTimer=setTimeout(()=>enableHoldFallback(),8000);
+      },700);
       const loop=now=>{
-        an.getByteTimeDomainData(time);let sq=0;for(let i=0;i<time.length;i++){const v=(time[i]-128)/128;sq+=v*v}const rms=Math.sqrt(sq/time.length);meterBar.style.width=Math.min(100,rms*600)+'%';if(calibrating){baselineSamples.push(rms);micRAF=requestAnimationFrame(loop);return}
-        an.getByteFrequencyData(freq);const binHz=ctx.sampleRate/an.fftSize;let total=0,high=0;for(let i=2;i<freq.length;i++){const hz=i*binHz;if(hz>11000)break;const e=freq[i]*freq[i];if(hz>120)total+=e;if(hz>1600)high+=e}const ratio=total?high/total:0;const threshold=Math.max(.045,baseline*2.25);const dt=Math.min(80,now-last);last=now;if(rms>threshold&&ratio>.30)blowMs+=dt;else blowMs=Math.max(0,blowMs-dt*.75);if(blowMs>320){stopMic();ctx.close();blowOut();return}micRAF=requestAnimationFrame(loop)
-      };micRAF=requestAnimationFrame(loop);
-    }catch(err){micBtn.disabled=false;micState.textContent='麥克風沒有開啟，沒關係：長按蠟燭 1 秒也可以。'}
+        an.getByteTimeDomainData(time);
+        let sq=0;for(let i=0;i<time.length;i++){const v=(time[i]-128)/128;sq+=v*v}
+        const rms=Math.sqrt(sq/time.length);
+        meterBar.style.width=Math.min(100,rms*1200)+'%';
+        if(calibrating){baselineSamples.push(rms);micRAF=requestAnimationFrame(loop);return}
+        an.getByteFrequencyData(freq);
+        const binHz=ctx.sampleRate/an.fftSize;
+        let total=0,breathBand=0;
+        for(let i=2;i<freq.length;i++){
+          const hz=i*binHz;if(hz>10000)break;
+          const e=freq[i]*freq[i];
+          if(hz>100)total+=e;
+          if(hz>900&&hz<8000)breathBand+=e;
+        }
+        const breathRatio=total?breathBand/total:0;
+        // 比舊版寬鬆很多：不用直接吹手機底部麥克風，對螢幕吹出的寬頻呼氣聲即可。
+        const threshold=Math.max(.015,baseline*1.45+.002);
+        const dt=Math.min(90,now-last);last=now;
+        if(rms>threshold&&breathRatio>.12)blowMs+=dt;
+        else blowMs=Math.max(0,blowMs-dt*.42);
+        if(blowMs>170){
+          clearTimeout(holdFallbackTimer);stopMic();ctx.close();blowOut();return
+        }
+        micRAF=requestAnimationFrame(loop)
+      };
+      micRAF=requestAnimationFrame(loop);
+    }catch(err){
+      micBtn.disabled=false;micState.textContent='麥克風沒有開啟。';
+      enableHoldFallback('麥克風沒有開啟，長按蠟燭 1 秒完成。');
+    }
   }
-  function blowOut(){if(cake.classList.contains('out'))return;cake.classList.add('out');playSfx('candleBlow',.82);setTimeout(()=>playSfx('wishComplete',.62),220);stopMic();micBtn.disabled=true;micState.textContent='願望收到了。';fadeVolume(.035,550);clearTimeout(wishAdvanceTimer);wishAdvanceTimer=setTimeout(()=>showScene(9),1500)}
+  function blowOut(){
+    if(cake.classList.contains('out'))return;
+    clearTimeout(holdFallbackTimer);cake.classList.add('out');playSfx('candleBlow',.82);setTimeout(()=>playSfx('wishComplete',.62),220);stopMic();micBtn.disabled=true;fallback.classList.remove('show');micState.textContent='願望收到了。';fadeVolume(.035,550);clearTimeout(wishAdvanceTimer);wishAdvanceTimer=setTimeout(()=>showScene(9),1500)
+  }
   micBtn.addEventListener('click',e=>{e.stopPropagation();startMic()});
-  let holdTimer=null;function startHold(e){e.stopPropagation();if(cake.classList.contains('out'))return;holdTimer=setTimeout(blowOut,900)}function cancelHold(){clearTimeout(holdTimer);holdTimer=null}
+  let holdTimer=null;
+  function startHold(e){
+    e.stopPropagation();
+    if(cake.classList.contains('out'))return;
+    if(!holdFallbackEnabled){
+      micState.textContent='先按「開啟麥克風」，真的吹一次看看。';
+      micBtn.classList.remove('attention');void micBtn.offsetWidth;micBtn.classList.add('attention');
+      return;
+    }
+    holdTimer=setTimeout(blowOut,900)
+  }
+  function cancelHold(){clearTimeout(holdTimer);holdTimer=null}
   cake.addEventListener('pointerdown',startHold);cake.addEventListener('pointerup',cancelHold);cake.addEventListener('pointercancel',cancelHold);cake.addEventListener('pointerleave',cancelHold);cake.addEventListener('click',e=>e.stopPropagation());
+
+
+  const endBtn=document.getElementById('endBtn'),endFallback=document.getElementById('endFallback');
+  endBtn?.addEventListener('click',e=>{
+    e.stopPropagation();
+    endBtn.disabled=true;endBtn.textContent='結束中…';
+    try{window.close()}catch(_){}
+    setTimeout(()=>{
+      if(!document.hidden){
+        endBtn.classList.add('hidden');
+        endFallback.classList.remove('hidden');
+      }
+    },420);
+  });
 
   // Debug preview: ?scene=5
   const qs=new URLSearchParams(location.search);if(qs.get('resetGift')==='1'){clearBirthdayLocalState()}const debugScene=Number(qs.get('scene'));if(Number.isFinite(debugScene)&&debugScene>=0&&debugScene<=max){scenes[0].classList.remove('active');index=debugScene;scenes[index].classList.add('active');hud.classList.toggle('hidden',index===0);updateHud();if(index===5)runTimeGate();if(index===8)resetWish();if(index===9)runHP();if(index===10&&!revealed){revealed=true;setTimeout(playBirthday,180)}if(index===11)runGift()}
