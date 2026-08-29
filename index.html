@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- V3.7.2a · HTML DOM hotfix: prize-pool closing tags repaired -->
+<!-- V3.7.4 · probability rarity colors + desktop voucher save fix -->
+<!-- V3.7.3 · 菜菜 QA Round 2 -->
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
@@ -1138,20 +1139,6 @@
       box-shadow:0 9px 28px rgba(0,0,0,.35);
     }
 
-    /* 5) 獎池每張可翻出「假掉落率」 */
-    .gift-pool-hint{margin:8px 0 12px;font-size:11px;color:#80572f;font-weight:800}
-    .pool-item{position:relative;overflow:hidden;cursor:pointer;transform-style:preserve-3d;-webkit-tap-highlight-color:transparent}
-    .pool-item .pool-rate{
-      position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-      background:linear-gradient(145deg,#5d3820,#2d1b13);color:#f4dfb1;
-      transform:rotateY(180deg);backface-visibility:hidden;opacity:0;pointer-events:none;
-      transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .2s ease;
-    }
-    .pool-item.rate-open .pool-rate{transform:rotateY(0);opacity:1}
-    .pool-rate small{font:800 7px/1 ui-monospace,monospace;letter-spacing:.18em;color:#caa56d}
-    .pool-rate b{font:900 28px/1 ui-monospace,monospace;color:#f6d589;text-shadow:0 0 18px rgba(239,184,83,.22)}
-    .pool-rate span{font-size:8px;color:#bda27b}
-    .pool-item:focus{outline:2px solid rgba(124,93,52,.35);outline-offset:1px}
 
     /* 7) 選卡後 TOKEN / GAS 寫入時整頁擋板，不讓人誤會當機 */
     .voucher-loading.choice-mode .voucher-loading-card{border-color:rgba(223,181,104,.55)}
@@ -1196,6 +1183,142 @@
     }
     .end-btn:disabled{opacity:.55}
     .end-fallback{margin-top:12px;font-size:9px;letter-spacing:.1em;color:rgba(238,218,177,.68)}
+
+  
+
+    /* ═══════════════════════════════════════════════════════
+       V3.7.3 · 菜菜 QA ROUND 2
+       ═══════════════════════════════════════════════════════ */
+
+    /* 1) 動態出現的獎池鈕不能再吃到早已跑完的 .rise 動畫。 */
+    #gift .gift-pool-btn{
+      opacity:1!important;transform:none!important;
+      top:calc(var(--safe-t) + 48px)!important;
+      right:14px!important;
+      width:62px!important;height:62px!important;
+      z-index:96!important;
+      animation:poolBeacon373 1.08s ease-in-out infinite!important;
+    }
+    #gift .gift-pool-btn b{font-size:13px!important}
+    #gift .gift-pool-btn small{font-size:5px!important;letter-spacing:.05em!important}
+    @keyframes poolBeacon373{50%{transform:scale(1.07)!important;box-shadow:0 0 0 8px rgba(216,164,84,.12),0 9px 28px rgba(0,0,0,.4)!important}}
+
+    /* 2) 八張主卡就是獎池預覽：可逐張翻開，卡面直接寫品項與掉落率。 */
+    #gift .gift-deck.choose8.preview-mode .gift-card{pointer-events:auto!important;cursor:pointer!important;transition:opacity .32s ease,filter .32s ease,left .5s cubic-bezier(.2,.82,.2,1),top .5s cubic-bezier(.2,.82,.2,1),transform .5s cubic-bezier(.2,.82,.2,1),width .5s ease!important}
+    #gift .gift-deck.choose8.preview-mode .gift-card.preview-open{
+      left:50%!important;top:50%!important;width:min(39vw,142px)!important;
+      transform:translate(-50%,-50%) scale(1.18)!important;z-index:60!important;
+      opacity:1!important;filter:none!important;
+    }
+    #gift .gift-deck.choose8.preview-mode .gift-card.preview-open .gift-card-inner{transform:rotateY(180deg)!important}
+    #gift .gift-deck.choose8.preview-reading .gift-card:not(.preview-open){opacity:.18!important;filter:brightness(.55) blur(.3px)!important}
+    #gift .gift-deck.choose8.preview-mode .gift-front{padding:7px 6px 6px!important;justify-content:flex-start!important}
+    #gift .gift-deck.choose8.preview-mode .gift-front img{height:48%!important;min-height:0!important;object-fit:contain!important}
+    #gift .gift-deck.choose8.preview-mode .gift-item-get{margin-top:5px!important;font-size:5px!important;line-height:1.2!important}
+    #gift .gift-deck.choose8.preview-mode .gift-item-name{margin-top:5px!important;font-size:9px!important;line-height:1.25!important;min-height:23px;display:flex;align-items:center;justify-content:center;overflow-wrap:anywhere}
+    .gift-item-rate{margin-top:auto;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding-top:5px;border-top:1px solid rgba(91,62,37,.18);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .gift-item-rate span{font-size:5px;letter-spacing:.1em;color:#896644}.gift-item-rate b{font-size:12px;color:#7a4a24}
+    .gift-preview-hint{margin-top:-2px;font-size:10px;line-height:1.55;color:rgba(232,200,143,.72);animation:previewHintPulse 1.5s ease-in-out infinite}
+    @keyframes previewHintPulse{50%{opacity:.55}}
+
+    /* 5) 抽中後卡片要依手機寬度放大，中文字永遠不能被裁掉。 */
+    #gift .gift-deck.choose8.resolved .gift-card.chosen{
+      width:min(46vw,168px)!important;
+      left:50%!important;top:48%!important;
+      transform:translate(-50%,-50%) scale(1)!important;
+    }
+    #gift .gift-deck.choose8.resolved .gift-card.chosen .gift-front{padding:9px 8px 8px!important;justify-content:flex-start!important;overflow:hidden!important}
+    #gift .gift-deck.choose8.resolved .gift-card.chosen .gift-front img{height:52%!important;min-height:0!important;flex:0 1 auto!important;object-fit:contain!important}
+    #gift .gift-deck.choose8.resolved .gift-card.chosen .gift-item-get{margin-top:7px!important;font-size:clamp(5px,1.8vw,8px)!important;line-height:1.2!important;flex:0 0 auto}
+    #gift .gift-deck.choose8.resolved .gift-card.chosen .gift-item-name{
+      margin-top:7px!important;padding:0 2px!important;
+      font-size:clamp(10px,3.2vw,13px)!important;line-height:1.28!important;
+      overflow-wrap:anywhere!important;word-break:normal!important;
+      max-width:100%!important;flex:1 1 auto;display:flex;align-items:center;justify-content:center;
+    }
+    @media(max-width:360px){
+      #gift .gift-deck.choose8.preview-mode .gift-card.preview-open{width:min(43vw,138px)!important;transform:translate(-50%,-50%) scale(1.05)!important}
+      #gift .gift-deck.choose8.resolved .gift-card.chosen{width:min(48vw,154px)!important}
+    }
+
+    /* 8) 兌換券本身不允許任何元素把畫面撐出橫向捲軸。 */
+    .voucher-overlay{overflow-x:hidden!important}
+    .voucher-overlay .voucher-sheet{max-width:calc(100vw - 18px)!important;min-width:0!important}
+    .voucher-top,.voucher-qrbox,.voucher-meta,.voucher-actions{min-width:0!important}
+    .voucher-qrtext,.voucher-title,.voucher-item,.voucher-note,.voucher-status{min-width:0!important;overflow-wrap:anywhere!important}
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.7.4 · DROP RATE 稀有度配色
+       綠 → 藍 → 紫 → 橘 → 紅金，機率越低越醒目。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gift-card{
+      --rate-main:#8fbf70;
+      --rate-soft:rgba(89,135,68,.14);
+      --rate-line:rgba(81,124,60,.46);
+      --rate-glow:rgba(99,150,73,.20);
+    }
+    #gift .gift-card[data-rarity="common"]{
+      --rate-main:#65a856;--rate-soft:rgba(70,150,72,.15);--rate-line:rgba(64,137,68,.48);--rate-glow:rgba(87,181,87,.20);
+    }
+    #gift .gift-card[data-rarity="uncommon"]{
+      --rate-main:#397fc3;--rate-soft:rgba(57,127,195,.13);--rate-line:rgba(57,127,195,.48);--rate-glow:rgba(73,145,213,.22);
+    }
+    #gift .gift-card[data-rarity="rare"]{
+      --rate-main:#8454b7;--rate-soft:rgba(132,84,183,.13);--rate-line:rgba(132,84,183,.48);--rate-glow:rgba(155,101,214,.23);
+    }
+    #gift .gift-card[data-rarity="epic"]{
+      --rate-main:#c6762c;--rate-soft:rgba(198,118,44,.14);--rate-line:rgba(198,118,44,.52);--rate-glow:rgba(224,141,55,.25);
+    }
+    #gift .gift-card[data-rarity="legendary"]{
+      --rate-main:#bd4539;--rate-soft:rgba(189,69,57,.13);--rate-line:#d9a23b;--rate-glow:rgba(224,157,52,.34);
+    }
+    #gift .gift-item-rate{
+      margin-top:auto!important;
+      width:100%!important;
+      display:grid!important;
+      grid-template-columns:1fr auto!important;
+      grid-template-rows:auto auto!important;
+      align-items:center!important;
+      gap:1px 7px!important;
+      padding:5px 7px!important;
+      border:1px solid var(--rate-line)!important;
+      border-radius:5px!important;
+      background:var(--rate-soft)!important;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.22),0 0 13px var(--rate-glow)!important;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+    }
+    #gift .gift-item-rate span{
+      grid-column:1;grid-row:1;
+      font-size:5px!important;line-height:1.1!important;
+      letter-spacing:.11em!important;color:#725b46!important;text-align:left!important;
+    }
+    #gift .gift-item-rate em{
+      grid-column:1;grid-row:2;
+      font-style:normal!important;font-size:5px!important;line-height:1.1!important;
+      letter-spacing:.08em!important;color:var(--rate-main)!important;
+      font-weight:900!important;text-align:left!important;
+    }
+    #gift .gift-item-rate b{
+      grid-column:2;grid-row:1/3;
+      font-size:14px!important;line-height:1!important;
+      color:var(--rate-main)!important;
+      text-shadow:0 0 9px var(--rate-glow)!important;
+    }
+    #gift .gift-deck.choose8.preview-mode .gift-card.preview-open .gift-front{
+      border-color:var(--rate-line)!important;
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.32),
+        inset 0 0 24px var(--rate-soft),
+        0 0 24px var(--rate-glow)!important;
+    }
+    #gift .gift-card[data-rarity="legendary"].preview-open .gift-front{
+      box-shadow:
+        inset 0 0 0 2px rgba(255,236,185,.46),
+        inset 0 0 28px rgba(191,62,49,.09),
+        0 0 10px rgba(216,157,54,.42),
+        0 0 30px rgba(196,69,53,.24)!important;
+    }
 
   </style>
 </head>
@@ -1407,7 +1530,7 @@ size: --</div>
         <div class="gift-kicker mono rise">BONUS QUEST · BIRTHDAY DROP</div>
         <h2 class="gift-title rise d2" id="giftTitle">師欸，先看看今天可能掉什麼。</h2>
         <p class="gift-copy rise d2" id="giftCopy">獎池先給你看。<br>看完，自己選一張。</p>
-        <button class="gift-pool-btn rise d3" id="giftPoolOpen"><b>獎池</b><small>DROP RATE</small></button>
+        <button class="gift-pool-btn" id="giftPoolOpen"><b>獎池</b><small>START DRAW</small></button>
         <div class="gift-deck choose8 rise d3" id="giftDeck" aria-label="生日禮物抽取">
           <div class="gift-card"><div class="gift-card-inner"><div class="gift-face gift-back"></div><div class="gift-face gift-front"></div></div></div>
           <div class="gift-card"><div class="gift-card-inner"><div class="gift-face gift-back"></div><div class="gift-face gift-front"></div></div></div>
@@ -1419,117 +1542,77 @@ size: --</div>
           <div class="gift-card"><div class="gift-card-inner"><div class="gift-face gift-back"></div><div class="gift-face gift-front"></div></div></div>
         </div>
         <div class="gift-sparks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="gift-status mono" id="giftStatus">OPEN THE PRIZE POOL</div>
+        <div class="gift-preview-hint hidden" id="giftPreviewHint">點任一張卡翻開預覽 · 再點一次收回</div><div class="gift-status mono" id="giftStatus">OPEN THE PRIZE POOL</div>
         <button class="voucher-trigger hidden" id="voucherOpen">領取兌換憑證</button>
         <button class="gift-next hidden" id="giftNext">繼續 ›</button>
         <div class="gift-once" id="giftOnce">獎池裡有 8 種可能。</div>
         <div class="gift-pool-overlay" id="giftPoolOverlay" aria-hidden="true">
           <div class="gift-pool-sheet">
             <div class="gift-pool-title">BIRTHDAY DROP POOL</div>
-            <div class="gift-pool-sub">TODAY'S POSSIBLE REWARDS · 8 ITEMS</div><div class="gift-pool-hint">點每一張卡，可以偷看掉落率。</div>
+            <div class="gift-pool-sub">TODAY'S POSSIBLE REWARDS · 8 ITEMS</div><div class="gift-pool-hint">掉落率藏在外面的卡片裡；每張都可以翻。</div>
             <div class="gift-pool-grid">
-              <div class="pool-item" data-rate="20%" tabindex="0" role="button" aria-label="7-ELEVEN 禮券 掉落率 20%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-711.png" alt="7-ELEVEN 禮券"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 01</div>
                   <div class="pool-name">7-ELEVEN 禮券</div>
                   <div class="pool-type">DAILY SUPPLY</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>20%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="18%" tabindex="0" role="button" aria-label="星巴克飲料券 掉落率 18%">
-                <div class="pool-thumb"><img src="art/gift-starbucks.png" alt="星巴克飲料券"></div>
+              <div class="pool-item">
+                <div class="pool-thumb"><img src="https://www.starbucks.com.tw/common/objects/images/shop/product/20240823101529363.jpg" alt="星巴克飲料券"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 02</div>
                   <div class="pool-name">星巴克飲料券</div>
                   <div class="pool-type">COFFEE BUFF</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>18%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="16%" tabindex="0" role="button" aria-label="精密螺絲起子組 掉落率 16%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-screwdriver.png" alt="精密螺絲起子組"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 03</div>
                   <div class="pool-name">精密螺絲起子組</div>
                   <div class="pool-type">TOOL KIT</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>16%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="14%" tabindex="0" role="button" aria-label="行動電源 掉落率 14%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-powerbank.png" alt="行動電源"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 04</div>
                   <div class="pool-name">行動電源</div>
                   <div class="pool-type">PORTABLE ENERGY</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>14%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="12%" tabindex="0" role="button" aria-label="三用電表 掉落率 12%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-multimeter.png" alt="三用電表"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 05</div>
                   <div class="pool-name">三用電表</div>
                   <div class="pool-type">MEASURE TOOL</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>12%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="10%" tabindex="0" role="button" aria-label="USB-C 快充充電器 掉落率 10%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-fastcharger.png" alt="USB-C 快充充電器"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 06</div>
                   <div class="pool-name">USB-C 快充充電器</div>
                   <div class="pool-type">FAST CHARGE</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>10%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="7%" tabindex="0" role="button" aria-label="磁吸式維修燈 掉落率 7%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-worklight.png" alt="磁吸式維修燈"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 07</div>
                   <div class="pool-name">磁吸式維修燈</div>
                   <div class="pool-type">WORK LIGHT</div>
                 </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>7%</b>
-                  <span>點一下翻回</span>
-                </div>
               </div>
-              <div class="pool-item" data-rate="3%" tabindex="0" role="button" aria-label="智慧修復充電器 掉落率 3%">
+              <div class="pool-item">
                 <div class="pool-thumb"><img src="art/gift-charger.png" alt="智慧修復充電器"></div>
                 <div class="pool-meta">
                   <div class="pool-no">ITEM 08</div>
                   <div class="pool-name">智慧修復充電器</div>
                   <div class="pool-type">GARAGE SUPPLY</div>
-                </div>
-                <div class="pool-rate">
-                  <small>DROP RATE</small>
-                  <b>3%</b>
-                  <span>點一下翻回</span>
                 </div>
               </div>
             </div>
@@ -1565,7 +1648,7 @@ size: --</div>
             <div class="voucher-fine">※ 本券限本人使用 · 不得折現 · 不得轉讓 · 不得要求重抽。</div>
             <div class="voucher-actions voucher-actions-v352">
               <button class="voucher-direct" id="voucherSetPin" type="button">設定我的兌換 PIN</button>
-              <button class="voucher-save hidden" id="voucherSave" type="button">保存兌換憑證</button>
+              <button class="voucher-save hidden" id="voucherSave" type="button">保存兌換憑證（PNG）</button>
               <div class="voucher-save-hint hidden" id="voucherSaveHint">保存的是完整憑證圖片，不會包含你的 PIN。</div>
               <button class="voucher-close" id="voucherClose">收好兌換券 ›</button>
             </div>
@@ -1878,8 +1961,8 @@ size: ${size.toFixed(2)}%`;
   portal.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){enterMap(e)}});
   advance.addEventListener('click',e=>{e.stopPropagation();if(index<max)showScene(index+1)});
   document.getElementById('hpNext').addEventListener('click',e=>{e.stopPropagation();showScene(11)});
-  const giftDeck=document.getElementById('giftDeck'),giftCards=[...giftDeck.querySelectorAll('.gift-card')],giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
-  const GIFT_KEY='shie_birthday_gift_2026',GIFT_PICK_KEY='shie_birthday_gift_pick_2026',BOSS_CLEAR_KEY='shie_birthday_boss_clear_2026',RESET_VERSION_KEY='shie_birthday_reset_version_2026';
+  const giftDeck=document.getElementById('giftDeck'),giftCards=[...giftDeck.querySelectorAll('.gift-card')],giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftPreviewHint=document.getElementById('giftPreviewHint'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
+  const GIFT_KEY='shie_birthday_gift_2026',GIFT_PICK_KEY='shie_birthday_gift_pick_2026',BOSS_CLEAR_KEY='shie_birthday_boss_clear_2026',RESET_VERSION_KEY='shie_birthday_reset_version_2026',VOUCHER_SAVED_KEY='shie_birthday_voucher_saved_2026';
   const GIFT_TOKEN='SHIE-0901-HP999-X7K2';
   const GAS_WEB_APP_URL='https://script.google.com/macros/s/AKfycby3M7IV-P_Aqy-8OBWnG3oAn-CxMJwBh1nJY9szVuOOH34gYjNTUP1j_R77QcPpwNadGQ/exec';
   let giftPickTimer=null,giftResolveTimer=null,remoteGiftState=null,bossHP=1800,bossComboCount=0,bossActive=false,bossKO=false,bossComboTimer=null,bossTauntTimer=null,bossPhase=1,bossTransitioning=false,voucherSavedThisOpen=false,holdFallbackEnabled=false,holdFallbackTimer=null;
@@ -1910,6 +1993,7 @@ size: ${size.toFixed(2)}%`;
       localStorage.removeItem(GIFT_KEY);
       localStorage.removeItem(GIFT_PICK_KEY);
       localStorage.removeItem(BOSS_CLEAR_KEY);
+      localStorage.removeItem(VOUCHER_SAVED_KEY);
       localStorage.removeItem(CALIB_KEY);
     }catch(e){
       window.__giftDrawn=false;
@@ -1924,6 +2008,7 @@ size: ${size.toFixed(2)}%`;
         localStorage.getItem(GIFT_KEY) ||
         localStorage.getItem(GIFT_PICK_KEY) ||
         localStorage.getItem(BOSS_CLEAR_KEY) ||
+        localStorage.getItem(VOUCHER_SAVED_KEY) ||
         localStorage.getItem(CALIB_KEY)
       );
     }catch(e){
@@ -1994,6 +2079,13 @@ size: ${size.toFixed(2)}%`;
     if(remoteGiftState&&Number.isInteger(Number(remoteGiftState.pick)))return Number(remoteGiftState.pick);
     try{const v=Number(localStorage.getItem(GIFT_PICK_KEY));return Number.isInteger(v)&&v>=0&&v<giftCards.length?v:2}catch(e){return Number.isInteger(window.__giftPick)?window.__giftPick:2}
   }
+  function voucherWasSaved(){
+    try{return localStorage.getItem(VOUCHER_SAVED_KEY)==='1'}catch(e){return window.__voucherSaved===true}
+  }
+  function rememberVoucherSaved(){
+    try{localStorage.setItem(VOUCHER_SAVED_KEY,'1')}catch(e){window.__voucherSaved=true}
+  }
+
 
   const BOSS_MAX_HP=1800;
   const BOSS_PHASES={
@@ -2093,13 +2185,15 @@ size: ${size.toFixed(2)}%`;
   function prepareGiftPool(){
     stopBossBgm(120);
     bossStage.classList.add('boss-hidden');giftWrap.classList.remove('boss-hidden');fadeVolume(.07,450);
-    giftPoolOpen.innerHTML='<b>獎池</b><small>DROP RATE</small>';
-    giftTitle.textContent='先看獎池。';
-    giftCopy.innerHTML='右上角「獎池」正在發光。<br>看完掉落率，才會開始洗牌。';
-    giftDeck.classList.add('pool-required');
+    clearGiftFaces();fillPreviewFaces();
+    giftDeck.classList.add('preview-mode');
+    giftPoolOpen.innerHTML='<b>獎池</b><small>START DRAW</small>';
     giftPoolOpen.classList.remove('hidden');
-    giftStatus.textContent='STEP 1 · OPEN PRIZE POOL';
-    giftOnce.textContent='先看完 8 種可能，再開始選卡。';
+    giftPreviewHint.classList.remove('hidden');
+    giftTitle.textContent='先偷看一下。';
+    giftCopy.innerHTML='八張都可以翻。<br>卡片上會告訴你是什麼、掉落率多少。';
+    giftStatus.textContent='PREVIEW MODE · TAP A CARD';
+    giftOnce.textContent='準備好了，就按右上角「獎池」開始抽。';
   }
   function openBossChest(){
     if(!bossKO||!bossStage.classList.contains('chest')||bossStage.classList.contains('chest-opening'))return;bossStage.classList.add('chest-opening','heavy-shake');bossChestSfx(true);bossVibrate([18,20,35,25,65]);setTimeout(()=>bossStage.classList.remove('heavy-shake'),520);setTimeout(prepareGiftPool,900)
@@ -2112,8 +2206,32 @@ size: ${size.toFixed(2)}%`;
   function rememberGift(pick){cacheGiftState({drawn:true,pick:Number(pick)})}
   async function loadRemoteGiftState(){const st=await gasJsonp('status');applyRemoteResetVersion(st);remoteGiftState=st;if(st.drawn)cacheGiftState(st);return st}
   async function commitRemoteGiftPick(pick){const st=await gasJsonp('draw',{pick});remoteGiftState=st;cacheGiftState(st);return st}
-  function clearGiftFaces(){giftCards.forEach(c=>{c.classList.remove('chosen');const f=c.querySelector('.gift-front');if(f)f.innerHTML=''})}
-  function fillWinningFace(card){const f=card.querySelector('.gift-front');if(!f)return;f.innerHTML='<img src="art/gift-charger.png" alt="生日禮物"><div class="gift-item-get">ITEM GET!</div><div class="gift-item-name">12V / 6A 智慧修復充電器</div>'}
+  const GIFT_PREVIEW_ITEMS=[
+    {name:'7-ELEVEN 禮券',rate:'20%',rarity:'common',rarityLabel:'COMMON',img:'art/gift-711.png'},
+    {name:'星巴克飲料券',rate:'18%',rarity:'common',rarityLabel:'COMMON',img:'https://www.starbucks.com.tw/common/objects/images/shop/product/20240823101529363.jpg'},
+    {name:'精密螺絲起子組',rate:'16%',rarity:'uncommon',rarityLabel:'UNCOMMON',img:'art/gift-screwdriver.png'},
+    {name:'行動電源',rate:'14%',rarity:'uncommon',rarityLabel:'UNCOMMON',img:'art/gift-powerbank.png'},
+    {name:'三用電表',rate:'12%',rarity:'rare',rarityLabel:'RARE',img:'art/gift-multimeter.png'},
+    {name:'USB-C 快充充電器',rate:'10%',rarity:'rare',rarityLabel:'RARE',img:'art/gift-fastcharger.png'},
+    {name:'磁吸式維修燈',rate:'7%',rarity:'epic',rarityLabel:'EPIC',img:'art/gift-worklight.png'},
+    {name:'12V / 6A 智慧修復充電器',rate:'3%',rarity:'legendary',rarityLabel:'LEGENDARY',img:'art/gift-charger.png'}
+  ];
+  function clearGiftFaces(){giftCards.forEach(c=>{c.classList.remove('chosen','preview-open');delete c.dataset.rarity;const f=c.querySelector('.gift-front');if(f)f.innerHTML=''});giftDeck.classList.remove('preview-reading')}
+  function fillPreviewFaces(){
+    giftCards.forEach((card,i)=>{
+      const item=GIFT_PREVIEW_ITEMS[i],f=card.querySelector('.gift-front');if(!item||!f)return;
+      card.dataset.rarity=item.rarity;
+      f.innerHTML=`<img src="${item.img}" alt="${item.name}"><div class="gift-item-get">DROP PREVIEW</div><div class="gift-item-name">${item.name}</div><div class="gift-item-rate"><span>DROP RATE</span><em>${item.rarityLabel}</em><b>${item.rate}</b></div>`;
+    })
+  }
+  function toggleGiftPreview(card){
+    if(!giftDeck.classList.contains('preview-mode'))return;
+    const opening=!card.classList.contains('preview-open');
+    giftCards.forEach(c=>c.classList.remove('preview-open'));
+    if(opening)card.classList.add('preview-open');
+    giftDeck.classList.toggle('preview-reading',opening);
+  }
+  function fillWinningFace(card){const f=card.querySelector('.gift-front');if(!f)return;card.dataset.rarity='legendary';f.innerHTML='<img src="art/gift-charger.png" alt="生日禮物"><div class="gift-item-get">ITEM GET!</div><div class="gift-item-name">12V / 6A 智慧修復充電器</div>'}
   function showGiftResult(pick,instant=false){
     clearTimeout(giftPickTimer);clearTimeout(giftResolveTimer);stopSfx('giftShuffle');
     if(voucherLoading){voucherLoading.classList.remove('show','choice-mode');voucherLoading.setAttribute('aria-hidden','true')}
@@ -2121,14 +2239,14 @@ size: ${size.toFixed(2)}%`;
     giftDeck.classList.remove('drawing','choose-mode','selected-pending');giftDeck.classList.add('resolved');
     clearGiftFaces();const card=giftCards[pick]||giftCards[2];card.classList.add('chosen');fillWinningFace(card);
     if(!instant)playSfx('giftReveal',.78);
-    giftTitle.textContent='抽到了。';giftCopy.innerHTML='這張就是你的。';giftPoolOpen.classList.add('hidden');giftStatus.textContent='ITEM ACQUIRED';voucherOpen.classList.remove('hidden');giftNext.classList.add('hidden');giftOnce.textContent='這份禮物已經被你帶走了。';
+    giftTitle.textContent='抽到了。';giftCopy.innerHTML='掉落結果已鎖定。';giftPoolOpen.classList.add('hidden');giftPreviewHint.classList.add('hidden');giftStatus.textContent='DROP LOCKED';voucherOpen.classList.remove('hidden');giftNext.classList.add('hidden');giftOnce.textContent='這份補給已經為你保留，實體禮物還在等交付。';
     if(instant){giftCards.forEach(c=>c.style.animation='none');card.querySelector('.gift-card-inner').style.transform='rotateY(180deg)'}
   }
   async function runGift(){
     clearTimeout(giftPickTimer);clearTimeout(giftResolveTimer);stopSfx('giftShuffle');resetBossVisuals();
     giftWrap.classList.add('boss-hidden');bossStage.classList.add('boss-hidden');
     giftCards.forEach(c=>{c.style.animation='';const inner=c.querySelector('.gift-card-inner');if(inner)inner.style.transform=''});clearGiftFaces();
-    giftDeck.classList.remove('drawing','choose-mode','selected-pending','resolved','pool-required');giftPoolOverlay.classList.remove('show');voucherLoading?.classList.remove('show');voucherOverlay.classList.remove('show');pinModal?.classList.remove('show');giftNext.classList.add('hidden');voucherOpen.classList.add('hidden');giftPoolOpen.classList.add('hidden');delete giftPoolOpen.dataset.retry;
+    giftDeck.classList.remove('drawing','choose-mode','selected-pending','resolved','pool-required','preview-mode','preview-reading');giftPreviewHint.classList.add('hidden');giftPoolOverlay.classList.remove('show');voucherLoading?.classList.remove('show');voucherOverlay.classList.remove('show');pinModal?.classList.remove('show');giftNext.classList.add('hidden');voucherOpen.classList.add('hidden');giftPoolOpen.classList.add('hidden');delete giftPoolOpen.dataset.retry;
 
     // Already drawn: skip every battle screen and show the locked result directly.
     if(giftWasDrawn()){
@@ -2184,16 +2302,16 @@ size: ${size.toFixed(2)}%`;
     startBossBattle();
   }
   function startGiftShuffle(){
-    giftPoolOverlay.classList.remove('show');giftPoolOverlay.setAttribute('aria-hidden','true');giftPoolOpen.classList.add('hidden');giftDeck.classList.remove('choose-mode','pool-required');giftDeck.classList.add('drawing');giftTitle.textContent='洗牌中…';giftCopy.innerHTML='俠刀蜀道胖已經把怪清掉了，<br>這次你自己選。';giftStatus.textContent='SHUFFLING…';giftOnce.textContent='';playSfx('giftShuffle',.75,true);
+    giftPoolOverlay.classList.remove('show');giftPoolOverlay.setAttribute('aria-hidden','true');giftPoolOpen.classList.add('hidden');giftPreviewHint.classList.add('hidden');giftCards.forEach(c=>c.classList.remove('preview-open'));giftDeck.classList.remove('choose-mode','pool-required','preview-mode','preview-reading');giftDeck.classList.add('drawing');giftTitle.textContent='洗牌中…';giftCopy.innerHTML='俠刀蜀道胖已經把怪清掉了，<br>這次你自己選。';giftStatus.textContent='SHUFFLING…';giftOnce.textContent='';playSfx('giftShuffle',.75,true);
     giftPickTimer=setTimeout(()=>{stopSfx('giftShuffle');giftDeck.classList.remove('drawing');giftDeck.classList.add('choose-mode');giftTitle.textContent='選一張。';giftCopy.innerHTML='你點哪張，<br>就開哪張。';giftStatus.textContent='CHOOSE ONE';giftOnce.textContent='只有一次機會。'},2250)
   }
   function chooseGift(card,pick){
     if((remoteGiftState&&remoteGiftState.drawn)||!giftDeck.classList.contains('choose-mode'))return;
-    giftDeck.classList.remove('choose-mode');card.classList.add('chosen');giftDeck.classList.add('selected-pending');giftTitle.textContent='好，就這張。';giftCopy.innerHTML='正在封印你的選擇……';giftStatus.textContent=gasEnabled()?'SEALING YOUR CHOICE…':'OPENING…';giftOnce.textContent='';
+    giftDeck.classList.remove('choose-mode');card.classList.add('chosen');giftDeck.classList.add('selected-pending');giftTitle.textContent='好，就這張。';giftCopy.innerHTML='正在記錄這張卡……';giftStatus.textContent=gasEnabled()?'SAVING YOUR PICK…':'OPENING…';giftOnce.textContent='';
     if(voucherLoading){
       voucherLoading.classList.add('show','choice-mode');voucherLoading.setAttribute('aria-hidden','false');
-      if(voucherLoadingTitle)voucherLoadingTitle.textContent='正在封印你的選擇…';
-      if(voucherLoadingSub)voucherLoadingSub.textContent='SEALING YOUR CHOICE';
+      if(voucherLoadingTitle)voucherLoadingTitle.textContent='正在記錄你的選擇…';
+      if(voucherLoadingSub)voucherLoadingSub.textContent='SAVING YOUR PICK';
     }
     giftResolveTimer=setTimeout(async()=>{
       try{
@@ -2211,13 +2329,7 @@ size: ${size.toFixed(2)}%`;
   giftPoolOpen.addEventListener('click',e=>{e.stopPropagation();if(giftPoolOpen.dataset.retry==='1'){runGift();return}giftPoolOverlay.classList.add('show');giftPoolOverlay.setAttribute('aria-hidden','false')});
   giftPoolOverlay.addEventListener('click',e=>{if(e.target===giftPoolOverlay)e.stopPropagation()});
   giftPoolClose.addEventListener('click',e=>{e.stopPropagation();startGiftShuffle()});
-  giftCards.forEach((card,i)=>card.addEventListener('click',e=>{e.stopPropagation();chooseGift(card,i)}));
-  const poolItems=[...giftPoolOverlay.querySelectorAll('.pool-item')];
-  poolItems.forEach(item=>{
-    const toggle=e=>{e.preventDefault();e.stopPropagation();item.classList.toggle('rate-open')};
-    item.addEventListener('click',toggle);
-    item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){toggle(e)}});
-  });
+  giftCards.forEach((card,i)=>card.addEventListener('click',e=>{e.stopPropagation();if(giftDeck.classList.contains('preview-mode')){toggleGiftPreview(card);return}chooseGift(card,i)}));
 
   function updateVoucherActions(st){
     const pinSet=!!(st&&st.pinSet),redeemed=!!(st&&st.redeemed);
@@ -2262,45 +2374,77 @@ size: ${size.toFixed(2)}%`;
       closePinModal();
     }catch(err){pinError.textContent=friendlyPinError(String(err&&err.message||err));pinSubmit.disabled=false;pinSubmit.textContent='確認設定'}
   }
+  async function fetchVoucherBlob(){
+    const res=await fetch('art/voucher-save.png',{cache:'no-store'});
+    if(!res.ok)throw new Error('VOUCHER_IMAGE_FETCH_FAILED');
+    return await res.blob();
+  }
   async function saveVoucherImage(){
     const original=voucherSave.textContent;
-    voucherSave.disabled=true;
-    voucherSave.textContent='正在準備憑證…';
-    const src='art/voucher-save.png';
     const filename='胖胖_生日補給兌換憑證.png';
+    const ua=String(navigator.userAgent||'');
+    const mobileDevice=(navigator.userAgentData&&navigator.userAgentData.mobile===true)||/Android|iPhone|iPad|iPod/i.test(ua);
+    voucherSave.disabled=true;
     try{
-      // HTTPS / GitHub Pages：優先叫出手機原生分享，可直接存到照片或檔案。
-      if(navigator.share && navigator.canShare){
+      // 手機：保留原生分享/儲存體驗。
+      if(mobileDevice && navigator.share && navigator.canShare){
+        voucherSave.textContent='正在開啟保存選單…';
         try{
-          const res=await fetch(src,{cache:'no-store'});
-          if(res.ok){
-            const blob=await res.blob();
-            const file=new File([blob],filename,{type:'image/png'});
-            if(navigator.canShare({files:[file]})){
-              await navigator.share({files:[file],title:'胖胖的生日補給兌換憑證'});
-              return true;
-            }
+          const blob=await fetchVoucherBlob();
+          const file=new File([blob],filename,{type:'image/png'});
+          if(navigator.canShare({files:[file]})){
+            await navigator.share({files:[file],title:'胖胖的生日補給兌換憑證'});
+            return true;
           }
         }catch(err){
-          if(err && err.name==='AbortError') return false;
-          // 本機 file:// 測試時 fetch 可能被瀏覽器擋，下面會改走直接檔案連結。
+          if(err && err.name==='AbortError')return false;
+          // 不導頁，直接落到 blob download。
         }
       }
-      // 不依賴 Canvas：直接下載預先做好的完整 PNG 憑證。
+
+      // Windows Chrome / Edge 等桌機：優先叫真正的「另存新檔」。
+      // 這個 API 不會把目前生日頁導向成 PNG。
+      if(!mobileDevice && window.showSaveFilePicker && window.isSecureContext){
+        try{
+          voucherSave.textContent='選擇保存位置…';
+          const handle=await window.showSaveFilePicker({
+            suggestedName:filename,
+            types:[{description:'PNG 圖片',accept:{'image/png':['.png']}}]
+          });
+          voucherSave.textContent='正在保存憑證…';
+          const blob=await fetchVoucherBlob();
+          const writable=await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+          return true;
+        }catch(err){
+          if(err && err.name==='AbortError')return false;
+          // iframe / 權限不支援時，改走 blob download；絕不 window.open。
+        }
+      }
+
+      // 通用桌機 fallback：先把圖片轉成 blob URL，再觸發 download。
+      // blob URL + download 可避免瀏覽器把目前網址直接換成 voucher-save.png。
+      voucherSave.textContent='正在下載憑證…';
+      const blob=await fetchVoucherBlob();
+      const blobUrl=URL.createObjectURL(blob);
       const a=document.createElement('a');
-      a.href=src;
+      a.href=blobUrl;
       a.download=filename;
-      a.target='_blank';
-      a.rel='noopener';
+      a.style.position='fixed';
+      a.style.left='-9999px';
+      a.style.opacity='0';
       document.body.appendChild(a);
       a.click();
-      a.remove();
+      setTimeout(()=>{
+        try{a.remove()}catch(_){}
+        try{URL.revokeObjectURL(blobUrl)}catch(_){}
+      },1600);
       return true;
     }catch(err){
-      // 最後備援：直接打開完整圖片，手機可長按保存。
-      const w=window.open(src,'_blank','noopener');
-      if(!w){alert('瀏覽器擋住了圖片視窗，請允許彈出視窗後再試一次。');return false}
-      return true;
+      console.error('voucher save failed',err);
+      alert('憑證目前無法保存，但頁面不會離開。請稍後再按一次「保存兌換憑證」。');
+      return false;
     }finally{
       voucherSave.disabled=false;
       voucherSave.textContent=original;
@@ -2309,7 +2453,7 @@ size: ${size.toFixed(2)}%`;
   voucherOpen.addEventListener('click',async e=>{
     e.stopPropagation();
     const vs=document.getElementById('voucherStatus'),vn=document.getElementById('voucherNote');
-    voucherSavedThisOpen=false;
+    voucherSavedThisOpen=voucherWasSaved();
     voucherOpen.disabled=true;
     if(voucherLoadingTitle)voucherLoadingTitle.textContent='正在讀取補給憑證…';
     if(voucherLoadingSub)voucherLoadingSub.textContent='CHECKING SUPPLY RECORD';
@@ -2321,7 +2465,7 @@ size: ${size.toFixed(2)}%`;
           const [st]=await Promise.all([loadRemoteGiftState(),minWait]);
           updateVoucherActions(st);
           if(st.redeemed){vs.textContent='QUEST COMPLETE · ITEM RECEIVED';vn.textContent='這份生日補給已完成交付。'+(st.redeemedAt?' · '+formatSupplyTime(st.redeemedAt):'')}
-          else if(st.pinSet){vs.textContent='SUPPLY TICKET READY';vn.textContent='兌換 PIN 已設定。把這張憑證保存好，交付時出示 QR CODE 給元家即可。'}
+          else if(st.pinSet){if(voucherSavedThisOpen){vs.textContent='VOUCHER SAVED · WAITING FOR DELIVERY';vn.textContent='這台裝置已保存過兌換憑證。實體禮物交付時，出示 QR CODE 給元家即可。'}else{vs.textContent='SUPPLY TICKET READY';vn.textContent='兌換 PIN 已設定。把這張憑證保存好，交付時出示 QR CODE 給元家即可。'}}
           else{vs.textContent='STEP 1 · SET REDEMPTION PIN';vn.textContent='先在這張卡裡設定你的兌換 PIN。設定完成後，就可以把完整兌換憑證保存到手機。'}
         }catch(_){
           await minWait;vs.textContent='QUEST STATUS · OFFLINE';vn.textContent='目前讀不到補給紀錄，稍後再開啟這張補給券即可。';voucherSetPin.classList.add('hidden');voucherSave.classList.add('hidden');voucherSaveHint.classList.add('hidden');
@@ -2347,11 +2491,11 @@ size: ${size.toFixed(2)}%`;
     e.stopPropagation();
     const ok=await saveVoucherImage();
     if(ok){
-      voucherSavedThisOpen=true;
+      voucherSavedThisOpen=true;rememberVoucherSaved();
       updateVoucherActions(remoteGiftState||{pinSet:true});
       const vs=document.getElementById('voucherStatus'),vn=document.getElementById('voucherNote');
-      vs.textContent='VOUCHER SAVED · READY';
-      vn.textContent='憑證已送出保存流程。收好後，實體交付時出示 QR CODE 給元家即可。';
+      vs.textContent='VOUCHER SAVED · WAITING FOR DELIVERY';
+      vn.textContent='兌換憑證已保存。實體禮物交付時，再出示 QR CODE 給元家即可。';
     }
   });
   voucherOverlay.addEventListener('click',e=>{if(e.target===voucherOverlay)e.stopPropagation()});
