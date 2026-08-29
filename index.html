@@ -1,4 +1,15 @@
 <!doctype html>
+<!-- V3.9.3 · restore accidentally deleted showGiftResult() -->
+<!-- V3.9.2 · white stage card visibility fix -->
+<!-- V3.9.1 · hard runtime white stage, independent of all existing CSS -->
+<!-- V3.9.0 · SSR ball -> pure white stage -> card slowly fades in -->
+<!-- V3.8.9 · gacha A/V sync + SSR sting + real fullscreen whiteout -->
+<!-- V3.8.8 · centered summon core + slower cinematic + SSR hold before whiteout -->
+<!-- V3.8.7 · centered R/SR + non-vanishing rainbow cinematic -->
+<!-- V3.8.6 · stable visible rainbow phase + no invisible fullscreen blockers -->
+<!-- V3.8.5 · independent rainbow-core cinematic + body-mounted prize modal -->
+<!-- V3.8.4 · year-synced Time Gate tick + prize-pool modal hardfix -->
+<!-- V3.8.3 · gacha cinematic R→SR→rainbow→whiteout→SSR + layout tune -->
 <!-- V3.8.2 · animated rarity cards + persistent candle mic guidance -->
 <!-- V3.8.1 · BOSS core drop + gacha layout fix -->
 <!-- V3.8.0 · full mobile-game gacha rebuild -->
@@ -1816,8 +1827,8 @@
     @keyframes gachaRankReveal{0%{opacity:0;transform:translateY(-10px) scale(.5)}100%{opacity:1;transform:none}}
 
     /* Pool sheet */
-    #gift .gacha-pool-overlay{z-index:160}
-    #gift .gacha-pool-sheet{
+    #giftPoolOverlay{z-index:160}
+    #giftPoolOverlay .gacha-pool-sheet{
       width:min(94vw,520px)!important;
       max-height:min(86dvh,780px)!important;
       overflow:auto!important;
@@ -1826,18 +1837,18 @@
       background:linear-gradient(180deg,#f3e5c4,#d9bb86)!important;
       overscroll-behavior:contain;
     }
-    #gift .gacha-pool-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:0 4px 10px;border-bottom:1px solid rgba(91,56,28,.20)}
-    #gift .gacha-pool-head .gift-pool-title{text-align:left!important;font-size:20px!important;color:#43291a}
-    #gift .gacha-pool-head .gift-pool-sub{text-align:left!important;margin-top:4px}
-    #gift .gacha-pool-total{flex:0 0 auto;text-align:right;font:800 7px/1.2 ui-monospace,monospace;color:#87633e;letter-spacing:.10em}
-    #gift .gacha-pool-total b{font-size:14px;color:#55331d}
-    #gift .gacha-pool-tip{margin:10px 4px 12px;padding:8px 10px;border-radius:7px;background:rgba(255,248,222,.55);font-size:10px;line-height:1.45;color:#76502e}
-    #gift .gacha-pool-grid{
+    #giftPoolOverlay .gacha-pool-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:0 4px 10px;border-bottom:1px solid rgba(91,56,28,.20)}
+    #giftPoolOverlay .gacha-pool-head .gift-pool-title{text-align:left!important;font-size:20px!important;color:#43291a}
+    #giftPoolOverlay .gacha-pool-head .gift-pool-sub{text-align:left!important;margin-top:4px}
+    #giftPoolOverlay .gacha-pool-total{flex:0 0 auto;text-align:right;font:800 7px/1.2 ui-monospace,monospace;color:#87633e;letter-spacing:.10em}
+    #giftPoolOverlay .gacha-pool-total b{font-size:14px;color:#55331d}
+    #giftPoolOverlay .gacha-pool-tip{margin:10px 4px 12px;padding:8px 10px;border-radius:7px;background:rgba(255,248,222,.55);font-size:10px;line-height:1.45;color:#76502e}
+    #giftPoolOverlay .gacha-pool-grid{
       display:grid!important;
       grid-template-columns:repeat(2,minmax(0,1fr))!important;
       gap:9px!important;
     }
-    #gift .gacha-pool-card{
+    #giftPoolOverlay .gacha-pool-card{
       min-width:0!important;
       height:auto!important;
       min-height:136px!important;
@@ -1853,20 +1864,20 @@
       overflow:hidden!important;
       cursor:default!important;
     }
-    #gift .gacha-pool-card.rank-r{--pool-main:#467aa4;--pool-line:rgba(57,107,147,.45);--pool-soft:rgba(75,128,170,.10)}
-    #gift .gacha-pool-card.rank-sr{--pool-main:#7d4ba6;--pool-line:rgba(119,71,158,.48);--pool-soft:rgba(126,75,170,.11)}
-    #gift .gacha-pool-card.rank-srp{--pool-main:#b46a25;--pool-line:rgba(182,104,34,.52);--pool-soft:rgba(194,112,35,.13)}
-    #gift .gacha-pool-card.rank-ssr{--pool-main:#bb4137;--pool-line:#d49a36;--pool-soft:rgba(205,92,47,.13);box-shadow:0 5px 14px rgba(63,35,17,.15),0 0 16px rgba(205,139,44,.24)!important}
-    #gift .gacha-pool-card .pool-thumb{width:70px!important;height:88px!important;border-radius:6px!important;background:rgba(255,255,255,.58)!important;display:grid!important;place-items:center!important;padding:3px!important}
-    #gift .gacha-pool-card .pool-thumb img{max-width:100%!important;max-height:100%!important;object-fit:contain!important}
-    #gift .gacha-pool-card .pool-meta{min-width:0!important}
-    #gift .gacha-pool-card .pool-rarity{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-    #gift .gacha-pool-card .pool-rarity b{font:950 18px/1 ui-monospace,monospace;color:var(--pool-main);text-shadow:0 0 10px color-mix(in srgb,var(--pool-main) 30%,transparent)}
-    #gift .gacha-pool-card .pool-rarity span{font:950 12px/1 ui-monospace,monospace;color:#4f3522}
-    #gift .gacha-pool-card .pool-name{font-size:11px!important;line-height:1.24!important;font-weight:900!important;color:#4a301f!important;word-break:break-word}
-    #gift .gacha-pool-card .pool-type{margin-top:5px;font:800 6px/1.2 ui-monospace,monospace!important;letter-spacing:.08em!important;color:#94714a!important}
-    #gift .gacha-pool-card.rank-ssr .pool-rarity b{color:#bd4236;text-shadow:0 0 10px rgba(219,132,48,.45)}
-    #gift .gacha-pool-sheet .pool-close{margin-top:14px!important;width:100%!important}
+    #giftPoolOverlay .gacha-pool-card.rank-r{--pool-main:#467aa4;--pool-line:rgba(57,107,147,.45);--pool-soft:rgba(75,128,170,.10)}
+    #giftPoolOverlay .gacha-pool-card.rank-sr{--pool-main:#7d4ba6;--pool-line:rgba(119,71,158,.48);--pool-soft:rgba(126,75,170,.11)}
+    #giftPoolOverlay .gacha-pool-card.rank-srp{--pool-main:#b46a25;--pool-line:rgba(182,104,34,.52);--pool-soft:rgba(194,112,35,.13)}
+    #giftPoolOverlay .gacha-pool-card.rank-ssr{--pool-main:#bb4137;--pool-line:#d49a36;--pool-soft:rgba(205,92,47,.13);box-shadow:0 5px 14px rgba(63,35,17,.15),0 0 16px rgba(205,139,44,.24)!important}
+    #giftPoolOverlay .gacha-pool-card .pool-thumb{width:70px!important;height:88px!important;border-radius:6px!important;background:rgba(255,255,255,.58)!important;display:grid!important;place-items:center!important;padding:3px!important}
+    #giftPoolOverlay .gacha-pool-card .pool-thumb img{max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+    #giftPoolOverlay .gacha-pool-card .pool-meta{min-width:0!important}
+    #giftPoolOverlay .gacha-pool-card .pool-rarity{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+    #giftPoolOverlay .gacha-pool-card .pool-rarity b{font:950 18px/1 ui-monospace,monospace;color:var(--pool-main);text-shadow:0 0 10px color-mix(in srgb,var(--pool-main) 30%,transparent)}
+    #giftPoolOverlay .gacha-pool-card .pool-rarity span{font:950 12px/1 ui-monospace,monospace;color:#4f3522}
+    #giftPoolOverlay .gacha-pool-card .pool-name{font-size:11px!important;line-height:1.24!important;font-weight:900!important;color:#4a301f!important;word-break:break-word}
+    #giftPoolOverlay .gacha-pool-card .pool-type{margin-top:5px;font:800 6px/1.2 ui-monospace,monospace!important;letter-spacing:.08em!important;color:#94714a!important}
+    #giftPoolOverlay .gacha-pool-card.rank-ssr .pool-rarity b{color:#bd4236;text-shadow:0 0 10px rgba(219,132,48,.45)}
+    #giftPoolOverlay .gacha-pool-sheet .pool-close{margin-top:14px!important;width:100%!important}
 
     /* Nudge */
     #gift .gacha-nudge{
@@ -1902,9 +1913,9 @@
       #gift .gacha-stage{width:91vw;min-height:397px}
       #gift .gacha-summon-zone{height:197px}
       #gift .gacha-banner-title{font-size:21px}
-      #gift .gacha-pool-grid{grid-template-columns:1fr!important}
-      #gift .gacha-pool-card{min-height:108px!important;grid-template-columns:74px minmax(0,1fr)!important}
-      #gift .gacha-pool-card .pool-thumb{height:82px!important}
+      #giftPoolOverlay .gacha-pool-grid{grid-template-columns:1fr!important}
+      #giftPoolOverlay .gacha-pool-card{min-height:108px!important;grid-template-columns:74px minmax(0,1fr)!important}
+      #giftPoolOverlay .gacha-pool-card .pool-thumb{height:82px!important}
       #gift .gacha-result{min-height:345px}
     }
 
@@ -2093,7 +2104,7 @@
        V3.8.2 · 稀有度卡面動畫
        R 藍 / SR 紫 / SR+ 金 / SSR 彩虹
        ═══════════════════════════════════════════════════════ */
-    #gift .gacha-pool-card{
+    #giftPoolOverlay .gacha-pool-card{
       position:relative!important;
       isolation:isolate;
       overflow:hidden!important;
@@ -2101,7 +2112,7 @@
     }
 
     /* 所有卡都有微弱移動光帶，不會像死圖 */
-    #gift .gacha-pool-card::before{
+    #giftPoolOverlay .gacha-pool-card::before{
       content:"";
       position:absolute;
       z-index:0;
@@ -2119,7 +2130,7 @@
       );
       animation:rarityCardSweep 3.8s ease-in-out infinite;
     }
-    #gift .gacha-pool-card > *{
+    #giftPoolOverlay .gacha-pool-card > *{
       position:relative;
       z-index:2;
     }
@@ -2131,7 +2142,7 @@
     }
 
     /* R · BLUE */
-    #gift .gacha-pool-card.rank-r{
+    #giftPoolOverlay .gacha-pool-card.rank-r{
       --pool-main:#3c8bd0!important;
       --pool-line:rgba(70,155,225,.72)!important;
       --pool-soft:rgba(45,122,184,.19)!important;
@@ -2144,7 +2155,7 @@
         0 0 11px rgba(74,151,211,.18)!important;
       animation:rarityBlueBreath 2.8s ease-in-out infinite;
     }
-    #gift .gacha-pool-card.rank-r::after{
+    #giftPoolOverlay .gacha-pool-card.rank-r::after{
       content:"";
       position:absolute;inset:2px;z-index:1;border-radius:7px;pointer-events:none;
       border:1px solid rgba(111,197,255,.34);
@@ -2155,7 +2166,7 @@
     }
 
     /* SR · PURPLE */
-    #gift .gacha-pool-card.rank-sr{
+    #giftPoolOverlay .gacha-pool-card.rank-sr{
       --pool-main:#9554d5!important;
       --pool-line:rgba(157,91,219,.78)!important;
       --pool-soft:rgba(133,70,187,.21)!important;
@@ -2168,7 +2179,7 @@
         0 0 14px rgba(151,82,205,.24)!important;
       animation:rarityPurpleAura 2.35s ease-in-out infinite;
     }
-    #gift .gacha-pool-card.rank-sr::after{
+    #giftPoolOverlay .gacha-pool-card.rank-sr::after{
       content:"";
       position:absolute;inset:-1px;z-index:1;border-radius:10px;pointer-events:none;
       background:radial-gradient(circle at 50% 110%,rgba(213,148,255,.22),transparent 48%);
@@ -2182,7 +2193,7 @@
     }
 
     /* SR+ · GOLD */
-    #gift .gacha-pool-card.rank-srp{
+    #giftPoolOverlay .gacha-pool-card.rank-srp{
       --pool-main:#b77a15!important;
       --pool-line:#e0ad43!important;
       --pool-soft:rgba(205,145,36,.22)!important;
@@ -2195,7 +2206,7 @@
         0 0 18px rgba(223,163,52,.31)!important;
       animation:rarityGoldPulse 1.85s ease-in-out infinite;
     }
-    #gift .gacha-pool-card.rank-srp::before{
+    #giftPoolOverlay .gacha-pool-card.rank-srp::before{
       opacity:.52;
       background:linear-gradient(
         106deg,
@@ -2207,7 +2218,7 @@
       );
       animation-duration:2.55s;
     }
-    #gift .gacha-pool-card.rank-srp::after{
+    #giftPoolOverlay .gacha-pool-card.rank-srp::after{
       content:"✦";
       position:absolute;z-index:3;right:8px;top:7px;
       color:#fff1a4;font-size:12px;
@@ -2222,7 +2233,7 @@
     }
 
     /* SSR · RAINBOW */
-    #gift .gacha-pool-card.rank-ssr{
+    #giftPoolOverlay .gacha-pool-card.rank-ssr{
       --pool-main:#fff!important;
       --pool-line:rgba(255,255,255,.80)!important;
       --pool-soft:rgba(255,255,255,.15)!important;
@@ -2247,7 +2258,7 @@
         0 0 30px rgba(86,198,255,.21)!important;
       animation:ssrBorderCycle 2.3s linear infinite,ssrFloatGlow 1.45s ease-in-out infinite alternate;
     }
-    #gift .gacha-pool-card.rank-ssr::before{
+    #giftPoolOverlay .gacha-pool-card.rank-ssr::before{
       inset:-48%;
       opacity:.68;
       background:
@@ -2262,7 +2273,7 @@
         );
       animation:ssrRainbowSweep 1.85s ease-in-out infinite;
     }
-    #gift .gacha-pool-card.rank-ssr::after{
+    #giftPoolOverlay .gacha-pool-card.rank-ssr::after{
       content:"✦  ✧  ✦";
       position:absolute;z-index:3;
       left:7px;right:7px;top:5px;
@@ -2275,7 +2286,7 @@
         0 0 15px rgba(255,112,201,.75);
       animation:ssrSparkles 1.05s ease-in-out infinite alternate;
     }
-    #gift .gacha-pool-card.rank-ssr .pool-rarity b{
+    #giftPoolOverlay .gacha-pool-card.rank-ssr .pool-rarity b{
       background:linear-gradient(90deg,#ff5067,#f5a637,#c7a900,#37ad68,#268ac8,#7153c9,#bd49ad,#ff5067);
       background-size:260% 100%;
       -webkit-background-clip:text;
@@ -2284,7 +2295,7 @@
       text-shadow:none!important;
       animation:ssrTextRainbow 1.7s linear infinite;
     }
-    #gift .gacha-pool-card.rank-ssr .pool-rarity span{
+    #giftPoolOverlay .gacha-pool-card.rank-ssr .pool-rarity span{
       color:#a43150!important;
       text-shadow:0 0 8px rgba(255,119,162,.34);
     }
@@ -2393,6 +2404,1522 @@
       }
     }
     @keyframes micGuideText{50%{opacity:.66!important}}
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.3 · QA layout tune
+       ═══════════════════════════════════════════════════════ */
+
+    /* 1. HP 頁的「參戰！」要像真正主 CTA */
+    #hp .hp-next{
+      min-width:190px!important;
+      min-height:58px!important;
+      padding:16px 30px!important;
+      margin-top:32px!important;
+      font-size:12px!important;
+      line-height:1.45!important;
+      letter-spacing:.07em!important;
+      border-width:3px!important;
+      box-shadow:
+        inset 0 0 0 4px #274c2d,
+        5px 5px 0 #0a2a13,
+        0 0 30px rgba(89,235,103,.28)!important;
+    }
+
+    /* 2. BOSS 掉落核心：整組稍微上移，避免跟下方角色/字卡擠在一起 */
+    #bossStage .boss-core-wrap{
+      top:43.5%!important;
+      transform:translate(-50%,-60%)!important;
+    }
+
+    /* 3. 召喚核心：只移核心與稀有度文字，不動圓環座標 */
+    #gift .gacha-orb{
+      position:relative!important;
+      top:25px!important;
+    }
+    #gift .gacha-rarity{
+      top:calc(50% + 25px)!important;
+    }
+
+    /* 4. 獎項一覽改成真正 full viewport modal，避免父層寬度把右欄裁掉 */
+    #giftPoolOverlay{
+      position:fixed!important;
+      inset:0!important;
+      width:100vw!important;
+      height:100dvh!important;
+      box-sizing:border-box!important;
+      overflow-y:auto!important;
+      overscroll-behavior:contain!important;
+      padding:
+        max(12px,env(safe-area-inset-top))
+        max(12px,env(safe-area-inset-right))
+        max(14px,env(safe-area-inset-bottom))
+        max(12px,env(safe-area-inset-left))!important;
+    }
+    #giftPoolOverlay .gacha-pool-sheet{
+      width:min(100%,460px)!important;
+      max-width:460px!important;
+      min-width:0!important;
+      max-height:none!important;
+      margin:auto!important;
+      box-sizing:border-box!important;
+      overflow:visible!important;
+    }
+    #giftPoolOverlay .gacha-pool-grid{
+      width:100%!important;
+      min-width:0!important;
+      box-sizing:border-box!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      gap:9px!important;
+    }
+    #giftPoolOverlay .gacha-pool-card{
+      width:auto!important;
+      max-width:100%!important;
+      min-width:0!important;
+      box-sizing:border-box!important;
+      grid-template-columns:62px minmax(0,1fr)!important;
+      gap:8px!important;
+    }
+    #giftPoolOverlay .gacha-pool-card .pool-thumb{
+      width:62px!important;
+      height:82px!important;
+      min-width:0!important;
+    }
+    #giftPoolOverlay .gacha-pool-card .pool-meta{
+      width:100%!important;
+      min-width:0!important;
+      overflow:hidden!important;
+    }
+    #giftPoolOverlay .gacha-pool-card .pool-name{
+      width:100%!important;
+      max-width:100%!important;
+      white-space:normal!important;
+      overflow-wrap:anywhere!important;
+      word-break:break-word!important;
+    }
+    #giftPoolOverlay .gacha-pool-card .pool-rarity{
+      min-width:0!important;
+      flex-wrap:nowrap!important;
+    }
+    @media(max-width:365px){
+      #giftPoolOverlay .gacha-pool-grid{
+        grid-template-columns:1fr!important;
+      }
+      #giftPoolOverlay .gacha-pool-card{
+        grid-template-columns:72px minmax(0,1fr)!important;
+        min-height:105px!important;
+      }
+      #giftPoolOverlay .gacha-pool-card .pool-thumb{
+        width:72px!important;
+        height:82px!important;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       V3.8.3 · CINEMATIC GACHA
+       R 藍假鎖定 → SR 紫突破 → 七彩 → 全螢幕白爆 → SSR
+       ═══════════════════════════════════════════════════════ */
+
+    /* R / SR 假鎖定：核心短暫收緊，像結果要確定 */
+    #gift .gacha-stage.fake-lock .gacha-orb{
+      animation:gachaFakeLock .46s cubic-bezier(.19,.82,.2,1) forwards!important;
+    }
+    #gift .gacha-stage.fake-lock .gacha-ring.ring-a{
+      animation:gachaRingLockA .46s ease-out forwards!important;
+    }
+    #gift .gacha-stage.fake-lock .gacha-ring.ring-b{
+      animation:gachaRingLockB .46s ease-out forwards!important;
+    }
+    #gift .gacha-stage.fake-lock .gacha-rarity{
+      animation:gachaFakeRankLock .46s ease-out forwards!important;
+    }
+    @keyframes gachaFakeLock{
+      0%{transform:scale(1)}
+      48%{transform:scale(.84)}
+      76%{transform:scale(1.08)}
+      100%{transform:scale(.96)}
+    }
+    @keyframes gachaRingLockA{
+      to{transform:translate(-50%,-50%) rotate(165deg) scale(.77);opacity:.92}
+    }
+    @keyframes gachaRingLockB{
+      to{transform:translate(-50%,-50%) rotate(-135deg) scale(.84);opacity:.88}
+    }
+    @keyframes gachaFakeRankLock{
+      0%{opacity:.55;transform:translate(-50%,-50%) scale(.9)}
+      50%{opacity:1;transform:translate(-50%,-50%) scale(1.23)}
+      100%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    }
+
+    /* 從假結果突破到下一階 */
+    #gift .gacha-stage.rank-break .gacha-orb{
+      animation:gachaRankBreak .36s cubic-bezier(.13,.8,.22,1)!important;
+    }
+    @keyframes gachaRankBreak{
+      0%{transform:scale(.94)}
+      36%{transform:scale(1.34);filter:brightness(1.45)}
+      100%{transform:scale(1);filter:brightness(1)}
+    }
+
+    /* 最後不先秀 SSR 文字，直接變成未知的七彩核心 */
+    #gift .gacha-stage.rainbow-break .gacha-rarity{
+      opacity:0!important;
+      animation:none!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-orb{
+      overflow:hidden!important;
+      border-color:rgba(255,255,255,.94)!important;
+      background:
+        radial-gradient(circle at 50% 50%,#fff 0 8%,rgba(255,255,255,.78) 9% 15%,transparent 16%),
+        conic-gradient(from 0deg,#ff526b,#ffad3f,#fff26a,#55e88d,#52dfff,#7585ff,#d06aff,#ff64b6,#ff526b)!important;
+      box-shadow:
+        0 0 0 9px rgba(255,255,255,.13),
+        0 0 23px rgba(255,101,183,.60),
+        0 0 43px rgba(77,211,255,.54),
+        0 0 66px rgba(255,203,71,.38)!important;
+      animation:gachaRainbowCore .62s linear infinite!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-orb::before{
+      content:"";
+      position:absolute;
+      inset:-32%;
+      border-radius:50%;
+      background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.92),transparent 23%,rgba(255,255,255,.58),transparent 52%,rgba(255,255,255,.86),transparent);
+      animation:gachaRainbowInner .43s linear infinite;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-orb-core{
+      position:relative;z-index:3;
+      background:#fff!important;
+      box-shadow:0 0 13px #fff,0 0 29px rgba(255,255,255,.95)!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-ring{
+      border-color:rgba(255,255,255,.72)!important;
+      box-shadow:0 0 14px rgba(255,255,255,.28)!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-ring.ring-a{
+      animation:gachaRainbowRingA .72s linear infinite!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-ring.ring-b{
+      animation:gachaRainbowRingB .54s linear infinite!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-ring.ring-c{
+      animation:gachaRainbowRingA .38s linear infinite!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-stars i{
+      color:#fff!important;
+      opacity:1!important;
+      text-shadow:0 0 8px #fff,0 0 14px rgba(104,214,255,.9);
+      animation-duration:.48s!important;
+    }
+    @keyframes gachaRainbowCore{
+      to{filter:hue-rotate(360deg) brightness(1.17);transform:scale(1.12) rotate(360deg)}
+    }
+    @keyframes gachaRainbowInner{to{transform:rotate(-360deg)}}
+    @keyframes gachaRainbowRingA{
+      to{transform:translate(-50%,-50%) rotate(360deg) scale(1.08)}
+    }
+    @keyframes gachaRainbowRingB{
+      to{transform:translate(-50%,-50%) rotate(-360deg) scale(.94)}
+    }
+
+    /* 整個畫面一閃全白，結果卡已經在白光底下生成 */
+    #gachaWhiteout{
+      position:fixed;
+      inset:0;
+      z-index:230;
+      pointer-events:none;
+      background:#fff;
+      opacity:0;
+      visibility:hidden;
+      transform:translateZ(0);
+    }
+    #gachaWhiteout.fire{
+      visibility:visible;
+      animation:gachaFullWhiteout .82s cubic-bezier(.16,.84,.18,1) forwards;
+    }
+    @keyframes gachaFullWhiteout{
+      0%{opacity:0}
+      16%{opacity:1}
+      48%{opacity:1}
+      100%{opacity:0}
+    }
+
+    /* 白爆前的最後一拳：整張召喚 Banner 微震 */
+    #gift .gacha-stage.rainbow-impact{
+      animation:gachaRainbowImpact .42s steps(6,end)!important;
+    }
+    @keyframes gachaRainbowImpact{
+      0%,100%{transform:translate(0,0)}
+      16%{transform:translate(-4px,1px)}
+      32%{transform:translate(5px,-2px)}
+      48%{transform:translate(-3px,-2px)}
+      64%{transform:translate(4px,2px)}
+      80%{transform:translate(-2px,1px)}
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.4 · 獎項一覽 modal hardfix
+       修正某些手機只剩黑色遮罩、sheet 本體不渲染的問題。
+       ═══════════════════════════════════════════════════════ */
+    #giftPoolOverlay{
+      position:fixed!important;
+      inset:0!important;
+      z-index:999!important;
+      width:100%!important;
+      height:100dvh!important;
+      min-height:100%!important;
+      display:flex!important;
+      flex-direction:column!important;
+      align-items:center!important;
+      justify-content:flex-start!important;
+      overflow-y:auto!important;
+      overflow-x:hidden!important;
+      box-sizing:border-box!important;
+      padding:
+        max(14px,env(safe-area-inset-top))
+        max(12px,env(safe-area-inset-right))
+        max(18px,env(safe-area-inset-bottom))
+        max(12px,env(safe-area-inset-left))!important;
+      background:rgba(18,12,8,.93)!important;
+      -webkit-backdrop-filter:none!important;
+      backdrop-filter:none!important;
+      opacity:0!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+      transform:none!important;
+      contain:none!important;
+    }
+    #giftPoolOverlay.show{
+      opacity:1!important;
+      visibility:visible!important;
+      pointer-events:auto!important;
+    }
+    #giftPoolOverlay .gacha-pool-sheet{
+      position:relative!important;
+      z-index:1000!important;
+      display:block!important;
+      flex:0 0 auto!important;
+      width:min(100%,460px)!important;
+      max-width:460px!important;
+      min-width:0!important;
+      max-height:none!important;
+      height:auto!important;
+      margin:0 auto!important;
+      padding:18px 14px calc(18px + env(safe-area-inset-bottom))!important;
+      box-sizing:border-box!important;
+      overflow:visible!important;
+      opacity:1!important;
+      visibility:visible!important;
+      transform:none!important;
+      filter:none!important;
+      pointer-events:auto!important;
+      background:linear-gradient(180deg,#f3e5c4,#d9bb86)!important;
+      border:1px solid #76502b!important;
+      border-radius:14px!important;
+      box-shadow:0 22px 62px rgba(0,0,0,.48)!important;
+    }
+    #giftPoolOverlay.show .gacha-pool-sheet{
+      display:block!important;
+      opacity:1!important;
+      visibility:visible!important;
+      transform:none!important;
+    }
+    #giftPoolOverlay .gacha-pool-grid{
+      display:grid!important;
+      width:100%!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      gap:9px!important;
+    }
+    @media(max-width:365px){
+      #giftPoolOverlay .gacha-pool-grid{
+        grid-template-columns:1fr!important;
+      }
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.5 · 獨立七彩核心
+       不再讓原本 SR 球自己換 CSS；避免手機 compositing layer 消失。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-rainbow-core{
+      position:absolute;
+      left:50%;
+      top:calc(50% + 25px);
+      z-index:18;
+      width:162px;
+      height:162px;
+      transform:translate(-50%,-50%) scale(.14) rotate(-14deg);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      will-change:transform,opacity;
+    }
+
+    #gift .gacha-rainbow-shell{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:92px;
+      height:92px;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      overflow:hidden;
+      border:2px solid rgba(255,255,255,.98);
+      background:
+        conic-gradient(
+          from 0deg,
+          #ff4967,
+          #ff9d38,
+          #ffe960,
+          #53ed8c,
+          #4bddff,
+          #7180ff,
+          #c85fff,
+          #ff61b5,
+          #ff4967
+        );
+      box-shadow:
+        0 0 0 8px rgba(255,255,255,.14),
+        0 0 22px rgba(255,255,255,.72),
+        0 0 38px rgba(255,90,184,.67),
+        0 0 58px rgba(72,215,255,.58),
+        0 0 82px rgba(255,201,68,.42);
+    }
+    #gift .gacha-rainbow-shell::before{
+      content:"";
+      position:absolute;
+      inset:-38%;
+      border-radius:50%;
+      background:conic-gradient(
+        from 0deg,
+        transparent 0 9%,
+        rgba(255,255,255,.98) 13%,
+        transparent 18% 31%,
+        rgba(255,255,255,.72) 36%,
+        transparent 42% 58%,
+        rgba(255,255,255,.92) 63%,
+        transparent 69% 83%,
+        rgba(255,255,255,.62) 88%,
+        transparent 94%
+      );
+      animation:v385RainbowSweep .39s linear infinite;
+    }
+    #gift .gacha-rainbow-shell::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:24px;
+      height:24px;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background:#fff;
+      box-shadow:
+        0 0 12px #fff,
+        0 0 28px #fff,
+        0 0 44px rgba(255,255,255,.92);
+    }
+    #gift .gacha-rainbow-shell i{
+      position:absolute;
+      inset:0;
+      z-index:3;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 31% 24%,rgba(255,255,255,.98) 0 7%,transparent 8%),
+        radial-gradient(circle at 40% 34%,rgba(255,255,255,.50) 0 4%,transparent 5%);
+    }
+
+    #gift .gacha-rainbow-ring{
+      position:absolute;
+      left:50%;
+      top:50%;
+      border-radius:50%;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+    }
+    #gift .gacha-rainbow-ring.rr1{
+      width:126px;
+      height:126px;
+      border:2px solid rgba(255,255,255,.76);
+      box-shadow:0 0 17px rgba(100,222,255,.55);
+      animation:v385RingA .64s linear infinite;
+    }
+    #gift .gacha-rainbow-ring.rr2{
+      width:157px;
+      height:157px;
+      border:1px dashed rgba(255,231,132,.88);
+      box-shadow:0 0 20px rgba(255,126,203,.43);
+      animation:v385RingB .48s linear infinite;
+    }
+
+    #gift .gacha-rainbow-spark{
+      position:absolute;
+      color:#fff;
+      font-style:normal;
+      text-shadow:
+        0 0 7px #fff,
+        0 0 14px rgba(86,218,255,.95),
+        0 0 20px rgba(255,101,198,.62);
+      animation:v385Spark .54s ease-in-out infinite alternate;
+    }
+    #gift .gacha-rainbow-spark.rs1{left:3%;top:22%}
+    #gift .gacha-rainbow-spark.rs2{right:4%;top:13%;animation-delay:.09s}
+    #gift .gacha-rainbow-spark.rs3{left:10%;bottom:12%;animation-delay:.18s}
+    #gift .gacha-rainbow-spark.rs4{right:7%;bottom:20%;animation-delay:.27s}
+    #gift .gacha-rainbow-spark.rs5{left:42%;top:0%;animation-delay:.36s}
+    #gift .gacha-rainbow-spark.rs6{right:39%;bottom:0%;animation-delay:.45s}
+
+    /* 七彩出現：紫球不消失，而是退到後面當能量底 */
+    #gift .gacha-stage.rainbow-break .gacha-orb{
+      opacity:.26!important;
+      filter:brightness(2.1)!important;
+      transform:scale(.92)!important;
+      animation:none!important;
+      transition:
+        opacity .32s ease,
+        filter .32s ease,
+        transform .32s ease!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-rarity{
+      opacity:0!important;
+      visibility:hidden!important;
+      animation:none!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-ring{
+      opacity:.30!important;
+      transition:opacity .25s ease!important;
+    }
+
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-core{
+      visibility:visible;
+      animation:
+        v385RainbowBirth .72s cubic-bezier(.15,.90,.19,1) forwards,
+        v385RainbowHold .82s .72s ease-in-out infinite alternate;
+    }
+
+    /* 整張召喚卡同步被彩虹能量淹上來 */
+    #gift .gacha-stage.rainbow-break::after{
+      content:"";
+      position:absolute;
+      inset:-18%;
+      z-index:12;
+      pointer-events:none;
+      opacity:0;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 50% 34%,
+          rgba(255,255,255,.58) 0 7%,
+          rgba(255,110,192,.23) 13%,
+          rgba(78,220,255,.22) 23%,
+          rgba(255,219,91,.15) 34%,
+          transparent 58%),
+        conic-gradient(
+          from 0deg,
+          transparent,
+          rgba(255,80,130,.13),
+          rgba(255,199,69,.15),
+          rgba(71,225,142,.13),
+          rgba(73,211,255,.15),
+          rgba(132,98,255,.14),
+          rgba(255,88,187,.13),
+          transparent
+        );
+      animation:v385StageRainbow 1.05s ease-in-out infinite alternate;
+    }
+
+    @keyframes v385RainbowBirth{
+      0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(.14) rotate(-16deg);
+      }
+      32%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.20) rotate(7deg);
+      }
+      61%{
+        transform:translate(-50%,-50%) scale(.96) rotate(-3deg);
+      }
+      100%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.05) rotate(0);
+      }
+    }
+    @keyframes v385RainbowHold{
+      to{
+        filter:brightness(1.16);
+        transform:translate(-50%,-50%) scale(1.11);
+      }
+    }
+    @keyframes v385RainbowSweep{to{transform:rotate(360deg)}}
+    @keyframes v385RingA{to{transform:translate(-50%,-50%) rotate(360deg)}}
+    @keyframes v385RingB{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+    @keyframes v385Spark{
+      to{opacity:.30;transform:scale(.52) rotate(30deg)}
+    }
+    @keyframes v385StageRainbow{
+      0%{opacity:.26;transform:scale(.92) rotate(-3deg)}
+      100%{opacity:.72;transform:scale(1.06) rotate(5deg)}
+    }
+
+    /* 真正全螢幕白爆；節點會搬到 body，完全脫離 scene stacking context */
+    #gachaWhiteout{
+      position:fixed!important;
+      inset:0!important;
+      z-index:2147483646!important;
+      width:100vw!important;
+      height:100dvh!important;
+      pointer-events:none!important;
+      background:#fff!important;
+      opacity:0;
+      visibility:hidden;
+      transform:none!important;
+    }
+    #gachaWhiteout.fire{
+      visibility:visible!important;
+      animation:v385FullWhiteout .94s cubic-bezier(.15,.84,.18,1) forwards!important;
+    }
+    @keyframes v385FullWhiteout{
+      0%{opacity:0}
+      13%{opacity:1}
+      52%{opacity:1}
+      100%{opacity:0}
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       V3.8.5 · 獎項一覽永久掛在 body 最外層
+       ═══════════════════════════════════════════════════════ */
+    body > #giftPoolOverlay{
+      position:fixed!important;
+      inset:0!important;
+      z-index:2147483000!important;
+      width:100vw!important;
+      height:100dvh!important;
+      min-height:100dvh!important;
+      display:flex!important;
+      flex-direction:column!important;
+      align-items:center!important;
+      justify-content:flex-start!important;
+      overflow-y:auto!important;
+      overflow-x:hidden!important;
+      box-sizing:border-box!important;
+      padding:
+        max(14px,env(safe-area-inset-top))
+        max(12px,env(safe-area-inset-right))
+        max(18px,env(safe-area-inset-bottom))
+        max(12px,env(safe-area-inset-left))!important;
+      background:rgba(18,12,8,.94)!important;
+      -webkit-backdrop-filter:none!important;
+      backdrop-filter:none!important;
+      opacity:0!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+      transform:none!important;
+      filter:none!important;
+      contain:none!important;
+      isolation:isolate!important;
+    }
+    body > #giftPoolOverlay.show{
+      opacity:1!important;
+      visibility:visible!important;
+      pointer-events:auto!important;
+    }
+    body > #giftPoolOverlay .gacha-pool-sheet{
+      position:relative!important;
+      z-index:2147483001!important;
+      display:block!important;
+      flex:0 0 auto!important;
+      width:min(100%,460px)!important;
+      max-width:460px!important;
+      min-width:0!important;
+      height:auto!important;
+      max-height:none!important;
+      margin:0 auto!important;
+      overflow:visible!important;
+      opacity:1!important;
+      visibility:visible!important;
+      transform:none!important;
+      filter:none!important;
+      pointer-events:auto!important;
+      box-sizing:border-box!important;
+      background:linear-gradient(180deg,#f3e5c4,#d9bb86)!important;
+      border:1px solid #76502b!important;
+      border-radius:14px!important;
+      box-shadow:0 22px 62px rgba(0,0,0,.48)!important;
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.6 · 全頁遮罩關閉時真的不存在於 hit testing
+       修正首頁按鈕被透明全頁層影響的可能性。
+       ═══════════════════════════════════════════════════════ */
+    body > #giftPoolOverlay{
+      display:none!important;
+      opacity:0!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+    }
+    body > #giftPoolOverlay.show{
+      display:flex!important;
+      opacity:1!important;
+      visibility:visible!important;
+      pointer-events:auto!important;
+    }
+    body > #gachaWhiteout{
+      display:none!important;
+      opacity:0!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+    }
+    body > #gachaWhiteout.fire{
+      display:block!important;
+      visibility:visible!important;
+      pointer-events:none!important;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       V3.8.6 · 七彩核心「本體常駐」版本
+       外層不再跑會把 scale 接回 .14 的動畫。
+       真正會動的是 shell / rings / halo / sparks。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-rainbow-core{
+      opacity:0!important;
+      visibility:hidden!important;
+      transform:translate(-50%,-50%) scale(.20)!important;
+      animation:none!important;
+      transition:none!important;
+    }
+
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-core{
+      opacity:1!important;
+      visibility:visible!important;
+      transform:translate(-50%,-50%) scale(1.06)!important;
+      animation:none!important;
+    }
+
+    /* 出生瞬間由獨立 halo 爆開，不拿 core 自己做 scale 接力 */
+    #gift .gacha-rainbow-core::before{
+      content:"";
+      position:absolute;
+      left:50%;top:50%;
+      width:106px;height:106px;
+      transform:translate(-50%,-50%) scale(.35);
+      border-radius:50%;
+      opacity:0;
+      pointer-events:none;
+      background:radial-gradient(circle,
+        rgba(255,255,255,.95) 0 8%,
+        rgba(255,238,130,.66) 12%,
+        rgba(255,104,194,.40) 25%,
+        rgba(80,218,255,.35) 41%,
+        transparent 68%);
+    }
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-core::before{
+      animation:v386RainbowBirthHalo .72s cubic-bezier(.15,.88,.18,1) forwards;
+    }
+    @keyframes v386RainbowBirthHalo{
+      0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}
+      28%{opacity:1}
+      62%{opacity:.86;transform:translate(-50%,-50%) scale(1.55)}
+      100%{opacity:0;transform:translate(-50%,-50%) scale(2.30)}
+    }
+
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-shell{
+      animation:
+        v386RainbowShellSpin 1.15s linear infinite,
+        v386RainbowShellPulse .58s ease-in-out infinite alternate!important;
+    }
+    @keyframes v386RainbowShellSpin{
+      to{rotate:360deg}
+    }
+    @keyframes v386RainbowShellPulse{
+      from{
+        filter:saturate(1.10) brightness(1.03);
+        box-shadow:
+          0 0 0 8px rgba(255,255,255,.14),
+          0 0 22px rgba(255,255,255,.72),
+          0 0 38px rgba(255,90,184,.67),
+          0 0 58px rgba(72,215,255,.58),
+          0 0 82px rgba(255,201,68,.42);
+      }
+      to{
+        filter:saturate(1.42) brightness(1.27);
+        box-shadow:
+          0 0 0 11px rgba(255,255,255,.17),
+          0 0 34px rgba(255,255,255,.90),
+          0 0 58px rgba(255,76,180,.84),
+          0 0 82px rgba(65,216,255,.74),
+          0 0 110px rgba(255,200,55,.55);
+      }
+    }
+
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-ring.rr1{
+      animation:v386RainbowRingA .66s linear infinite!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-ring.rr2{
+      animation:v386RainbowRingB .48s linear infinite!important;
+    }
+    @keyframes v386RainbowRingA{
+      from{transform:translate(-50%,-50%) rotate(0) scale(.96)}
+      to{transform:translate(-50%,-50%) rotate(360deg) scale(1.07)}
+    }
+    @keyframes v386RainbowRingB{
+      from{transform:translate(-50%,-50%) rotate(0) scale(1.05)}
+      to{transform:translate(-50%,-50%) rotate(-360deg) scale(.96)}
+    }
+
+    /* 七彩階段開始 1.45 秒後進入暴走，但仍然保持可見 */
+    #gift .gacha-stage.rainbow-climax .gacha-rainbow-core{
+      opacity:1!important;
+      visibility:visible!important;
+      transform:translate(-50%,-50%) scale(1.14)!important;
+    }
+    #gift .gacha-stage.rainbow-climax .gacha-rainbow-shell{
+      animation:
+        v386RainbowShellSpin .48s linear infinite,
+        v386RainbowClimax .30s ease-in-out infinite alternate!important;
+    }
+    #gift .gacha-stage.rainbow-climax .gacha-rainbow-ring.rr1{
+      animation-duration:.34s!important;
+    }
+    #gift .gacha-stage.rainbow-climax .gacha-rainbow-ring.rr2{
+      animation-duration:.26s!important;
+    }
+    #gift .gacha-stage.rainbow-climax::after{
+      opacity:.92!important;
+      animation:v386StagePrism .38s ease-in-out infinite alternate!important;
+    }
+    @keyframes v386RainbowClimax{
+      from{filter:saturate(1.35) brightness(1.25)}
+      to{filter:saturate(1.70) brightness(1.65)}
+    }
+    @keyframes v386StagePrism{
+      from{transform:scale(1.0) rotate(-2deg);filter:hue-rotate(0deg) brightness(1)}
+      to{transform:scale(1.11) rotate(3deg);filter:hue-rotate(55deg) brightness(1.45)}
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.7 · R / SR 真正以球心定位
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-stage{
+      opacity:1!important;
+    }
+    #gift .gacha-orb{
+      position:relative!important;
+    }
+    #gift .gacha-orb .gacha-rarity{
+      position:absolute!important;
+      inset:0!important;
+      width:100%!important;
+      height:100%!important;
+      left:auto!important;
+      top:auto!important;
+      display:grid!important;
+      place-items:center!important;
+      box-sizing:border-box!important;
+      transform:none!important;
+      opacity:0;
+      margin:0!important;
+      padding:0 1px 2px 0!important;
+      font:950 43px/1 ui-monospace,SFMono-Regular,Consolas,monospace!important;
+      letter-spacing:-.08em!important;
+      text-align:center!important;
+      color:#fff5d3;
+      text-shadow:
+        0 2px 0 rgba(73,43,29,.88),
+        0 0 16px rgba(255,235,180,.82)!important;
+      pointer-events:none;
+      z-index:8!important;
+    }
+    #gift .gacha-stage.show-rarity .gacha-orb .gacha-rarity{
+      animation:v387RankPop .50s cubic-bezier(.18,.86,.22,1) forwards!important;
+    }
+    #gift .gacha-stage.fake-lock .gacha-orb .gacha-rarity{
+      animation:v387RankLock .46s ease-out forwards!important;
+    }
+    @keyframes v387RankPop{
+      0%{opacity:0;transform:scale(.38)}
+      58%{opacity:1;transform:scale(1.16)}
+      100%{opacity:1;transform:scale(1)}
+    }
+    @keyframes v387RankLock{
+      0%{opacity:1;transform:scale(1)}
+      48%{opacity:1;transform:scale(.82)}
+      75%{opacity:1;transform:scale(1.13)}
+      100%{opacity:1;transform:scale(1)}
+    }
+
+    /* 舊 sibling 座標規則全部失效 */
+    #gift .gacha-rarity{
+      left:auto!important;
+      top:auto!important;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       V3.8.7 · 七彩階段不能再讓整張面板消失
+       舊版 rainbow-impact 會蓋掉 .rise 的 opacity animation。
+       現在 stage 永遠保持 opacity:1，震動只跑 summon-zone。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-stage.rainbow-impact{
+      animation:none!important;
+      opacity:1!important;
+      transform:none!important;
+    }
+    #gift .gacha-stage.rainbow-impact .gacha-summon-zone{
+      animation:v387RainbowShake .38s steps(6,end)!important;
+    }
+    @keyframes v387RainbowShake{
+      0%,100%{transform:translate(0,0)}
+      16%{transform:translate(-3px,1px)}
+      32%{transform:translate(4px,-2px)}
+      48%{transform:translate(-2px,-1px)}
+      64%{transform:translate(3px,2px)}
+      82%{transform:translate(-2px,1px)}
+    }
+
+    /* 七彩時整個召喚區出現能量場，不只靠一顆球 */
+    #gift .gacha-summon-zone::after{
+      content:"";
+      position:absolute;
+      inset:-8% -3%;
+      z-index:10;
+      border-radius:50%;
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transform:scale(.45) rotate(0deg);
+      background:
+        radial-gradient(circle at 50% 50%,
+          rgba(255,255,255,.76) 0 7%,
+          rgba(255,243,143,.42) 11%,
+          rgba(255,87,183,.31) 22%,
+          rgba(72,216,255,.31) 34%,
+          rgba(132,95,255,.22) 46%,
+          transparent 66%),
+        conic-gradient(
+          from 0deg,
+          transparent 0 4%,
+          rgba(255,70,112,.34) 8%,
+          rgba(255,181,63,.32) 17%,
+          rgba(255,241,92,.30) 26%,
+          rgba(82,229,139,.31) 36%,
+          rgba(72,212,255,.32) 47%,
+          rgba(114,130,255,.32) 58%,
+          rgba(204,93,255,.31) 69%,
+          rgba(255,91,182,.34) 80%,
+          transparent 94%);
+    }
+    #gift .gacha-stage.rainbow-break .gacha-summon-zone::after{
+      visibility:visible;
+      animation:v387RainbowField 1.0s ease-in-out infinite alternate!important;
+    }
+    @keyframes v387RainbowField{
+      0%{
+        opacity:.42;
+        transform:scale(.72) rotate(-7deg);
+      }
+      100%{
+        opacity:.90;
+        transform:scale(1.10) rotate(10deg);
+      }
+    }
+
+    /* 七彩核心固定在球心；不再吃任何舊 top/translate 動畫 */
+    #gift .gacha-rainbow-core{
+      left:50%!important;
+      top:calc(50% + 25px)!important;
+      width:170px!important;
+      height:170px!important;
+      z-index:24!important;
+    }
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-core{
+      opacity:1!important;
+      visibility:visible!important;
+      transform:translate(-50%,-50%) scale(1.04)!important;
+      animation:none!important;
+    }
+    #gift .gacha-stage.rainbow-climax .gacha-rainbow-core{
+      opacity:1!important;
+      visibility:visible!important;
+      transform:translate(-50%,-50%) scale(1.15)!important;
+    }
+
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-shell{
+      animation:
+        v387ShellRotate 1.08s linear infinite,
+        v387ShellPulse .52s ease-in-out infinite alternate!important;
+    }
+    @keyframes v387ShellRotate{
+      to{rotate:360deg}
+    }
+    @keyframes v387ShellPulse{
+      from{
+        filter:brightness(1.08) saturate(1.18);
+        box-shadow:
+          0 0 0 8px rgba(255,255,255,.17),
+          0 0 26px rgba(255,255,255,.78),
+          0 0 44px rgba(255,84,184,.72),
+          0 0 66px rgba(64,215,255,.60);
+      }
+      to{
+        filter:brightness(1.42) saturate(1.55);
+        box-shadow:
+          0 0 0 13px rgba(255,255,255,.22),
+          0 0 39px rgba(255,255,255,.98),
+          0 0 67px rgba(255,72,181,.92),
+          0 0 92px rgba(59,216,255,.82),
+          0 0 118px rgba(255,211,68,.60);
+      }
+    }
+
+    /* 七彩暴走時，能量場變得更滿，但面板本體仍保持 */
+    #gift .gacha-stage.rainbow-climax .gacha-summon-zone::after{
+      visibility:visible!important;
+      opacity:1!important;
+      animation:v387PrismOverload .30s ease-in-out infinite alternate!important;
+    }
+    @keyframes v387PrismOverload{
+      from{transform:scale(.98) rotate(-5deg);opacity:.72}
+      to{transform:scale(1.18) rotate(7deg);opacity:1}
+    }
+
+    /* summon-zone 內層 stacking 明確化 */
+    #gift .gacha-ring{z-index:2!important}
+    #gift .gacha-orb{z-index:14!important}
+    #gift .gacha-stars{position:absolute!important;inset:0!important;z-index:16!important;pointer-events:none}
+    #gift .gacha-rainbow-core{z-index:22!important}
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.8 · 召喚核心重新對準圓環正中心
+       R / SR 已經是 orb 子元素，所以不需要任何額外 y offset。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-orb{
+      top:0!important;
+    }
+    #gift .gacha-rainbow-core{
+      top:50%!important;
+    }
+
+    /* SSR 正式確認階段：先讓玩家看到「SSR」再白爆 */
+    #gift .gacha-stage.ssr-confirm .gacha-rainbow-core{
+      opacity:1!important;
+      visibility:visible!important;
+      transform:translate(-50%,-50%) scale(1.18)!important;
+    }
+    #gift .gacha-stage.ssr-confirm .gacha-rainbow-shell{
+      animation:
+        v388SSRSpin .74s linear infinite,
+        v388SSRConfirmPulse .42s ease-in-out infinite alternate!important;
+    }
+    #gift .gacha-stage.ssr-confirm .gacha-rainbow-ring.rr1{
+      animation-duration:.38s!important;
+      border-color:rgba(255,255,255,.94)!important;
+    }
+    #gift .gacha-stage.ssr-confirm .gacha-rainbow-ring.rr2{
+      animation-duration:.29s!important;
+      border-color:rgba(255,231,119,.95)!important;
+    }
+    #gift .gacha-stage.ssr-confirm .gacha-summon-zone::after{
+      visibility:visible!important;
+      opacity:1!important;
+      animation:v388SSRField .34s ease-in-out infinite alternate!important;
+    }
+    #gift .gacha-stage.ssr-confirm .gacha-rainbow-core::after{
+      content:"SSR";
+      position:absolute;
+      left:50%;top:50%;
+      z-index:40;
+      transform:translate(-50%,-50%);
+      font:950 48px/.9 ui-monospace,SFMono-Regular,Consolas,monospace;
+      letter-spacing:-.05em;
+      background:linear-gradient(90deg,
+        #ff5870,#ffab43,#f5d84c,#55cf7f,#4ebde8,#7c6add,#d05dc2,#ff5870);
+      background-size:250% 100%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      filter:drop-shadow(0 2px 0 rgba(71,35,39,.78))
+             drop-shadow(0 0 8px rgba(255,255,255,.96))
+             drop-shadow(0 0 18px rgba(255,116,201,.74));
+      animation:v388SSRTextIn .66s cubic-bezier(.15,.9,.18,1) both,
+                ssrTextRainbow 1.25s .66s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes v388SSRSpin{to{rotate:360deg}}
+    @keyframes v388SSRConfirmPulse{
+      from{filter:brightness(1.25) saturate(1.4)}
+      to{filter:brightness(1.72) saturate(1.8)}
+    }
+    @keyframes v388SSRField{
+      from{transform:scale(1.06) rotate(-4deg);opacity:.76}
+      to{transform:scale(1.22) rotate(6deg);opacity:1}
+    }
+    @keyframes v388SSRTextIn{
+      0%{opacity:0;transform:translate(-50%,-50%) scale(.24)}
+      56%{opacity:1;transform:translate(-50%,-50%) scale(1.24)}
+      78%{transform:translate(-50%,-50%) scale(.96)}
+      100%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    }
+
+    /* SSR 確認時，原 R/SR 球徹底退到背景，但不整張消失 */
+    #gift .gacha-stage.ssr-confirm .gacha-orb{
+      opacity:.10!important;
+      filter:brightness(2)!important;
+      transition:opacity .25s ease!important;
+    }
+
+    /* 白爆拉長：前半真的全白，卡片在白底下切好，後半才退 */
+    #gachaWhiteout.fire{
+      animation:v388FullWhiteout 1.24s cubic-bezier(.14,.84,.17,1) forwards!important;
+    }
+    @keyframes v388FullWhiteout{
+      0%{opacity:0}
+      12%{opacity:1}
+      58%{opacity:1}
+      100%{opacity:0}
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.9 · 真正全螢幕白爆
+       關閉時靠 display:none 擋 hit-testing；
+       opacity 不再使用 !important，動畫才有權變成 1。
+       ═══════════════════════════════════════════════════════ */
+    body > #gachaWhiteout{
+      display:none!important;
+      position:fixed!important;
+      inset:0!important;
+      z-index:2147483646!important;
+      width:100vw!important;
+      height:100dvh!important;
+      min-height:100dvh!important;
+      background:#fff!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+      opacity:0;
+      transform:none!important;
+    }
+    body > #gachaWhiteout.fire{
+      display:block!important;
+      visibility:visible!important;
+      pointer-events:none!important;
+      animation:v389Whiteout 1.55s cubic-bezier(.12,.84,.16,1) forwards!important;
+    }
+    @keyframes v389Whiteout{
+      0%{opacity:0}
+      10%{opacity:1}
+      66%{opacity:1}
+      100%{opacity:0}
+    }
+
+    /* SSR 確認後先強烈脈衝，再交給白爆 */
+    #gift .gacha-stage.ssr-confirm .gacha-summon-zone{
+      animation:v389SSRConfirmKick .34s steps(6,end)!important;
+    }
+    @keyframes v389SSRConfirmKick{
+      0%,100%{transform:translate(0)}
+      16%{transform:translate(-3px,1px)}
+      32%{transform:translate(4px,-2px)}
+      48%{transform:translate(-3px,-1px)}
+      64%{transform:translate(3px,2px)}
+      82%{transform:translate(-2px,1px)}
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.9.0 · SSR 最終演出
+       1) SSR 球結束
+       2) 全螢幕變純白
+       3) 純白停留
+       4) SSR 卡片「在白色上」慢慢淡入
+       5) 卡片完整後才無縫交回真正結果頁
+       ═══════════════════════════════════════════════════════ */
+    body > #gachaWhiteout{
+      display:none!important;
+      position:fixed!important;
+      inset:0!important;
+      z-index:2147483646!important;
+      width:100vw!important;
+      height:100dvh!important;
+      min-height:100dvh!important;
+      overflow:hidden!important;
+      box-sizing:border-box!important;
+      background:#fff!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+      opacity:0;
+      transform:none!important;
+    }
+
+    body > #gachaWhiteout.white-stage{
+      display:block!important;
+      visibility:visible!important;
+      opacity:1;
+      animation:v390WhiteIn .28s ease-out both!important;
+    }
+    @keyframes v390WhiteIn{
+      0%{opacity:0}
+      100%{opacity:1}
+    }
+
+    /* 卡片在「已經完全白掉」之後才開始出現 */
+    body > #gachaWhiteout .white-stage-result{
+      position:fixed!important;
+      z-index:2!important;
+      margin:0!important;
+      padding:0!important;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(14px) scale(.965);
+      filter:blur(5px);
+      pointer-events:none!important;
+    }
+    body > #gachaWhiteout.card-arrive .white-stage-result{
+      visibility:visible;
+      animation:v390CardEmerge 1.65s cubic-bezier(.20,.72,.18,1) forwards!important;
+    }
+    @keyframes v390CardEmerge{
+      0%{
+        opacity:0;
+        transform:translateY(14px) scale(.965);
+        filter:blur(5px) brightness(1.38);
+      }
+      38%{
+        opacity:.34;
+        filter:blur(2.4px) brightness(1.22);
+      }
+      72%{
+        opacity:.82;
+        transform:translateY(2px) scale(.995);
+        filter:blur(.6px) brightness(1.07);
+      }
+      100%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+        filter:blur(0) brightness(1);
+      }
+    }
+
+    /* 交回真正結果頁時 clone 與真正卡片重疊，
+       只把白色舞台淡掉，因此肉眼不會看到「換頁」。 */
+    body > #gachaWhiteout.handoff{
+      animation:v390WhiteHandoff .52s ease-in forwards!important;
+    }
+    @keyframes v390WhiteHandoff{
+      0%{opacity:1}
+      100%{opacity:0}
+    }
+
+    /* 因為 clone 已經搬到 body，補上結果卡原本依賴 #gift 的樣式。 */
+    body > #gachaWhiteout .gacha-result{
+      position:relative;
+      min-height:370px;
+      padding:32px 19px 10px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      box-sizing:border-box;
+    }
+    body > #gachaWhiteout .gacha-result.hidden{display:flex!important}
+    body > #gachaWhiteout .gacha-result-rays{
+      position:absolute;
+      inset:-40%;
+      opacity:.20;
+      pointer-events:none;
+      background:repeating-conic-gradient(
+        from 0deg,
+        rgba(255,193,73,.22) 0 4deg,
+        transparent 4deg 14deg
+      );
+      animation:gachaResultSpin 10s linear infinite;
+    }
+    body > #gachaWhiteout .gacha-result-rank{
+      position:relative;
+      z-index:2;
+      display:flex;
+      align-items:end;
+      gap:8px;
+      margin-bottom:9px;
+      color:#c38a28;
+    }
+    body > #gachaWhiteout .gacha-result-rank small{
+      font:800 7px/1 ui-monospace,monospace;
+      letter-spacing:.14em;
+      margin-bottom:6px;
+      color:#8c6732;
+    }
+    body > #gachaWhiteout .gacha-result-rank b{
+      font:950 42px/.8 ui-monospace,monospace;
+      color:#d9901b;
+      text-shadow:0 0 15px rgba(255,181,50,.35);
+    }
+    body > #gachaWhiteout .gacha-result-rank span{
+      font:950 13px/1 ui-monospace,monospace;
+      color:#d86f46;
+      margin-bottom:4px;
+    }
+    body > #gachaWhiteout .gacha-result-card{
+      position:relative;
+      z-index:2;
+      width:min(74vw,250px);
+      padding:12px 12px 13px;
+      box-sizing:border-box;
+      border:1px solid rgba(210,158,55,.72);
+      border-radius:10px;
+      background:linear-gradient(165deg,rgba(255,250,228,.99),rgba(231,197,132,.99));
+      box-shadow:
+        0 0 0 3px rgba(121,55,25,.24),
+        0 0 32px rgba(235,166,50,.28),
+        0 13px 28px rgba(72,45,20,.18);
+    }
+    body > #gachaWhiteout .gacha-result-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      pointer-events:none;
+      background:linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(255,255,255,.68) 43%,
+        transparent 61%
+      );
+      transform:translateX(-120%);
+      animation:v390CardShine 1.5s .45s ease-out both;
+    }
+    @keyframes v390CardShine{
+      to{transform:translateX(120%)}
+    }
+    body > #gachaWhiteout .gacha-result-card > *{position:relative;z-index:2}
+    body > #gachaWhiteout .gacha-result-image{
+      height:160px;
+      display:grid;
+      place-items:center;
+      border-radius:7px;
+      background:rgba(255,255,255,.78);
+      overflow:hidden;
+    }
+    body > #gachaWhiteout .gacha-result-image img{
+      max-width:94%;
+      max-height:94%;
+      object-fit:contain;
+    }
+    body > #gachaWhiteout .gacha-result-name{
+      text-align:center;
+      margin-top:10px;
+      font-size:17px;
+      line-height:1.24;
+      font-weight:950;
+      color:#4b2917;
+    }
+    body > #gachaWhiteout .gacha-result-tag{
+      text-align:center;
+      margin-top:6px;
+      font:800 7px/1 ui-monospace,monospace;
+      letter-spacing:.12em;
+      color:#9c5a2a;
+    }
+
+    /* 舊 fire whiteout 不再參與正式 SSR 收尾 */
+    body > #gachaWhiteout.fire{
+      display:none!important;
+      animation:none!important;
+    }
+
+  
+    @keyframes v391RuntimeCardIn{
+      0%{
+        opacity:0;
+        transform:translateY(18px) scale(.96);
+        filter:blur(6px) brightness(1.45);
+      }
+      35%{
+        opacity:.30;
+        filter:blur(3px) brightness(1.28);
+      }
+      72%{
+        opacity:.82;
+        transform:translateY(3px) scale(.995);
+        filter:blur(.7px) brightness(1.08);
+      }
+      100%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+        filter:blur(0) brightness(1);
+      }
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.9.2 · 白色舞台上的 SSR 卡獨立樣式
+       clone 已經不在 #gift 裡，不能再依賴 #gift 的 selector。
+       ═══════════════════════════════════════════════════════ */
+    #runtimeSSRWhiteStage .gacha-result{
+      position:fixed!important;
+      inset:0!important;
+      width:100vw!important;
+      height:100dvh!important;
+      min-height:100vh!important;
+      margin:0!important;
+      padding:0!important;
+      box-sizing:border-box!important;
+      display:flex!important;
+      flex-direction:column!important;
+      align-items:center!important;
+      justify-content:center!important;
+      background:#fff!important;
+      overflow:hidden!important;
+      pointer-events:none!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result.hidden{
+      display:flex!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-rays{
+      position:absolute!important;
+      inset:-45%!important;
+      opacity:.18!important;
+      pointer-events:none!important;
+      background:
+        repeating-conic-gradient(
+          from 0deg,
+          rgba(255,193,73,.20) 0 4deg,
+          transparent 4deg 14deg
+        )!important;
+      animation:gachaResultSpin 10s linear infinite!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-rank{
+      position:relative!important;
+      z-index:3!important;
+      display:flex!important;
+      align-items:flex-end!important;
+      gap:8px!important;
+      margin-bottom:12px!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-rank small{
+      font:800 7px/1 ui-monospace,monospace!important;
+      letter-spacing:.14em!important;
+      margin-bottom:6px!important;
+      color:#8c6732!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-rank b{
+      font:950 44px/.8 ui-monospace,monospace!important;
+      background:linear-gradient(
+        90deg,
+        #ff5870,#ffad46,#f4dc54,#52d17d,
+        #4ec2e8,#786dde,#cf5fc4,#ff5870
+      )!important;
+      background-size:250% 100%!important;
+      -webkit-background-clip:text!important;
+      background-clip:text!important;
+      color:transparent!important;
+      text-shadow:0 0 14px rgba(255,170,75,.22)!important;
+      animation:ssrTextRainbow 1.3s linear infinite!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-rank span{
+      font:950 13px/1 ui-monospace,monospace!important;
+      margin-bottom:4px!important;
+      color:#d86f46!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-card{
+      position:relative!important;
+      z-index:3!important;
+      width:min(74vw,250px)!important;
+      padding:12px 12px 14px!important;
+      box-sizing:border-box!important;
+      border:1px solid rgba(210,158,55,.76)!important;
+      border-radius:11px!important;
+      background:linear-gradient(
+        165deg,
+        rgba(255,251,231,.99),
+        rgba(232,199,134,.99)
+      )!important;
+      box-shadow:
+        0 0 0 3px rgba(121,55,25,.22),
+        0 0 34px rgba(235,166,50,.32),
+        0 14px 30px rgba(72,45,20,.18)!important;
+      overflow:hidden!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-card::before{
+      content:""!important;
+      position:absolute!important;
+      inset:-2px!important;
+      z-index:0!important;
+      border-radius:inherit!important;
+      padding:2px!important;
+      background:conic-gradient(
+        from 0deg,
+        #ff586f,#ffab43,#f1db55,#55d07f,
+        #4fc4e9,#7b6bdf,#d15fc4,#ff586f
+      )!important;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0)!important;
+      -webkit-mask-composite:xor!important;
+      mask-composite:exclude!important;
+      animation:v392SSRBorder 1.8s linear infinite!important;
+      pointer-events:none!important;
+    }
+    @keyframes v392SSRBorder{
+      to{transform:rotate(360deg)}
+    }
+    #runtimeSSRWhiteStage .gacha-result-card::after{
+      content:""!important;
+      position:absolute!important;
+      inset:0!important;
+      z-index:5!important;
+      border-radius:inherit!important;
+      pointer-events:none!important;
+      background:linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(255,255,255,.72) 44%,
+        transparent 62%
+      )!important;
+      transform:translateX(-125%)!important;
+      animation:v392CardShine 1.65s .42s ease-out forwards!important;
+    }
+    @keyframes v392CardShine{
+      to{transform:translateX(125%)}
+    }
+    #runtimeSSRWhiteStage .gacha-result-card > *{
+      position:relative!important;
+      z-index:2!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-image{
+      height:160px!important;
+      display:grid!important;
+      place-items:center!important;
+      border-radius:8px!important;
+      background:rgba(255,255,255,.83)!important;
+      overflow:hidden!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-image img{
+      display:block!important;
+      max-width:94%!important;
+      max-height:94%!important;
+      object-fit:contain!important;
+      opacity:1!important;
+      visibility:visible!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-name{
+      margin-top:10px!important;
+      text-align:center!important;
+      font-size:17px!important;
+      line-height:1.24!important;
+      font-weight:950!important;
+      color:#4b2917!important;
+    }
+    #runtimeSSRWhiteStage .gacha-result-tag{
+      margin-top:6px!important;
+      text-align:center!important;
+      font:800 7px/1.2 ui-monospace,monospace!important;
+      letter-spacing:.12em!important;
+      color:#9c5a2a!important;
+    }
 
   </style>
 </head>
@@ -2624,8 +4151,21 @@ size: --</div>
             <div class="gacha-ring ring-c"></div>
             <div class="gacha-orb" id="gachaOrb">
               <span class="gacha-orb-core"></span>
+              <div class="gacha-rarity" id="gachaRarity">?</div>
             </div>
-            <div class="gacha-rarity" id="gachaRarity">?</div>
+
+            <div class="gacha-rainbow-core" id="gachaRainbowCore" aria-hidden="true">
+              <span class="gacha-rainbow-ring rr1"></span>
+              <span class="gacha-rainbow-ring rr2"></span>
+              <span class="gacha-rainbow-shell"><i></i></span>
+              <span class="gacha-rainbow-spark rs1">✦</span>
+              <span class="gacha-rainbow-spark rs2">✦</span>
+              <span class="gacha-rainbow-spark rs3">✦</span>
+              <span class="gacha-rainbow-spark rs4">✦</span>
+              <span class="gacha-rainbow-spark rs5">✦</span>
+              <span class="gacha-rainbow-spark rs6">✦</span>
+            </div>
+
             <div class="gacha-stars"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div>
           </div>
 
@@ -2658,7 +4198,85 @@ size: --</div>
         <div class="gift-once" id="giftOnce">右上角可以先查看全部獎項與提供機率。</div>
 
         <!-- 提供機率 / 獎項一覽 -->
-        <div class="gift-pool-overlay gacha-pool-overlay" id="giftPoolOverlay" aria-hidden="true">
+        
+
+        <!-- 第一次直接抽時，溫柔但很明顯地勸他先看機率 -->
+        <div class="gacha-nudge" id="gachaNudge" aria-hidden="true">
+          <div class="gacha-nudge-card">
+            <div class="gacha-nudge-eye">👀</div>
+            <div class="gacha-nudge-title">等等。</div>
+            <div class="gacha-nudge-copy">SSR 的掉落率……<br>你確定不先看一下？</div>
+            <button class="gacha-nudge-primary" id="gachaNudgeRates" type="button">查看獎項與機率</button>
+            <button class="gacha-nudge-direct" id="gachaNudgeDirect" type="button">我就頭鐵，直接抽 ›</button>
+          </div>
+        </div>
+
+        
+
+        <div class="voucher-loading" id="voucherLoading" aria-hidden="true">
+          <div class="voucher-loading-card" role="status" aria-live="polite">
+            <div class="voucher-loading-orbit" aria-hidden="true"></div>
+            <div class="voucher-loading-title">正在讀取補給憑證…</div>
+            <div class="voucher-loading-sub">CHECKING SUPPLY RECORD</div>
+          </div>
+        </div>
+
+        <div class="voucher-overlay" id="voucherOverlay" aria-hidden="true">
+          <div class="voucher-sheet">
+            <div class="voucher-top">
+              <div><div class="voucher-title">BIRTHDAY SUPPLY TICKET</div><div class="voucher-sub">09.01 · PRIVATE REDEMPTION VOUCHER</div></div>
+              <div class="voucher-seal voucher-seal-pang">胖</div>
+            </div>
+            <div class="voucher-item">12V / 6A 智慧修復充電器</div>
+            <div class="voucher-meta">
+              <div class="k">持有人</div><div class="v">胖胖</div>
+              <div class="k">指定補給員</div><div class="v">元家</div>
+              <div class="k">取得日期</div><div class="v">09.01</div>
+              <div class="k">目前狀態</div><div class="v">等待實體補給</div>
+            </div>
+            <div class="voucher-qrbox">
+              <img src="art/gift-voucher-qr.png" alt="生日禮物兌換 QR CODE">
+              <div class="voucher-qrtext"><b>交付實體禮物時，出示這張 QR CODE 給元家。</b><br>元家掃描後會向你確認兌換 PIN。<span class="voucher-code">PRIVATE DELIVERY TOKEN</span></div>
+            </div>
+            <div class="voucher-status" id="voucherStatus">QUEST STATUS · WAITING FOR DELIVERY</div>
+            <div class="voucher-note" id="voucherNote">先設定你的兌換 PIN。實體禮物交付時，把這張 QR CODE 出示給元家即可。</div>
+            <div class="voucher-fine">※ 本券限本人使用 · 不得折現 · 不得轉讓 · 不得要求重抽。</div>
+            <div class="voucher-actions voucher-actions-v352">
+              <button class="voucher-direct" id="voucherSetPin" type="button">設定我的兌換 PIN</button>
+              <button class="voucher-save hidden" id="voucherSave" type="button">保存兌換憑證（PNG）</button>
+              <div class="voucher-save-hint hidden" id="voucherSaveHint">保存的是完整憑證圖片，不會包含你的 PIN。</div>
+              <button class="voucher-close" id="voucherClose">收好兌換券 ›</button>
+            </div>
+          </div>
+        </div>
+        <div class="pin-modal" id="pinModal" aria-hidden="true">
+          <div class="pin-card" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+            <div class="pin-kicker">PRIVATE REDEMPTION PIN</div>
+            <div class="pin-title" id="pinTitle">設定你的兌換 PIN</div>
+            <div class="pin-copy">設定 4～6 位數字。實體禮物交付時，元家掃描 QR 後會向你詢問這組 PIN。</div>
+            <div class="pin-field"><label for="pinInput">PIN</label><input id="pinInput" type="password" inputmode="numeric" enterkeyhint="next" autocomplete="new-password" maxlength="6" placeholder="4～6 位數字"></div>
+            <div class="pin-field"><label for="pinConfirm">再輸入一次</label><input id="pinConfirm" type="password" inputmode="numeric" enterkeyhint="done" autocomplete="new-password" maxlength="6" placeholder="再次確認"></div>
+            <div class="pin-error" id="pinError" aria-live="polite"></div>
+            <div class="pin-actions pin-actions-required"><button class="pin-submit" id="pinSubmit" type="button">確認設定</button></div>
+            <div class="pin-fine">PIN 不會顯示在兌換憑證上，也不會儲存在這支手機。忘記 PIN 時請找元家重設。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="final" data-scene="12">
+    <div class="scene-inner">
+      <div class="final-box rise">師欸，<br><br>從我 15 歲到現在，真的教了我很多東西。<br>以前可能沒有特別講，但這些我都有記得。<br><br><b>二十多年了，技能點是你幫我點的。</b><br>所以到現在，我最常講的還是——<br><br><span class="save-me">師欸，救我。</span><br><br>生日快樂啦。<div class="final-sign">—— 元家</div></div>
+      <div class="save-complete mono rise d2">QUEST COMPLETE · 2003 → 2026</div><button class="end-btn rise d3" id="endBtn" type="button">結束</button><div class="end-fallback mono hidden" id="endFallback">任務完成 · 可以關閉這個頁面了</div>
+    </div>
+  </section>
+
+  <div class="hud hidden" id="hud"><div class="hud-left mono" id="hudLabel">01 / 10</div><div class="hud-center" id="hudDots"></div><button class="advance" id="advance"><span id="advanceLabel">點一下繼續</span><i>›</i></button></div>
+</div>
+
+  <!-- Global overlays: intentionally outside all scenes -->
+<div class="gift-pool-overlay gacha-pool-overlay" id="giftPoolOverlay" aria-hidden="true">
           <div class="gift-pool-sheet gacha-pool-sheet">
             <div class="gacha-pool-head">
               <div>
@@ -2747,79 +4365,7 @@ size: --</div>
             <button class="pool-close" id="giftPoolClose" type="button">看完了，回到召喚 ›</button>
           </div>
         </div>
-
-        <!-- 第一次直接抽時，溫柔但很明顯地勸他先看機率 -->
-        <div class="gacha-nudge" id="gachaNudge" aria-hidden="true">
-          <div class="gacha-nudge-card">
-            <div class="gacha-nudge-eye">👀</div>
-            <div class="gacha-nudge-title">等等。</div>
-            <div class="gacha-nudge-copy">SSR 的掉落率……<br>你確定不先看一下？</div>
-            <button class="gacha-nudge-primary" id="gachaNudgeRates" type="button">查看獎項與機率</button>
-            <button class="gacha-nudge-direct" id="gachaNudgeDirect" type="button">我就頭鐵，直接抽 ›</button>
-          </div>
-        </div>
-
-        <div class="voucher-loading" id="voucherLoading" aria-hidden="true">
-          <div class="voucher-loading-card" role="status" aria-live="polite">
-            <div class="voucher-loading-orbit" aria-hidden="true"></div>
-            <div class="voucher-loading-title">正在讀取補給憑證…</div>
-            <div class="voucher-loading-sub">CHECKING SUPPLY RECORD</div>
-          </div>
-        </div>
-
-        <div class="voucher-overlay" id="voucherOverlay" aria-hidden="true">
-          <div class="voucher-sheet">
-            <div class="voucher-top">
-              <div><div class="voucher-title">BIRTHDAY SUPPLY TICKET</div><div class="voucher-sub">09.01 · PRIVATE REDEMPTION VOUCHER</div></div>
-              <div class="voucher-seal voucher-seal-pang">胖</div>
-            </div>
-            <div class="voucher-item">12V / 6A 智慧修復充電器</div>
-            <div class="voucher-meta">
-              <div class="k">持有人</div><div class="v">胖胖</div>
-              <div class="k">指定補給員</div><div class="v">元家</div>
-              <div class="k">取得日期</div><div class="v">09.01</div>
-              <div class="k">目前狀態</div><div class="v">等待實體補給</div>
-            </div>
-            <div class="voucher-qrbox">
-              <img src="art/gift-voucher-qr.png" alt="生日禮物兌換 QR CODE">
-              <div class="voucher-qrtext"><b>交付實體禮物時，出示這張 QR CODE 給元家。</b><br>元家掃描後會向你確認兌換 PIN。<span class="voucher-code">PRIVATE DELIVERY TOKEN</span></div>
-            </div>
-            <div class="voucher-status" id="voucherStatus">QUEST STATUS · WAITING FOR DELIVERY</div>
-            <div class="voucher-note" id="voucherNote">先設定你的兌換 PIN。實體禮物交付時，把這張 QR CODE 出示給元家即可。</div>
-            <div class="voucher-fine">※ 本券限本人使用 · 不得折現 · 不得轉讓 · 不得要求重抽。</div>
-            <div class="voucher-actions voucher-actions-v352">
-              <button class="voucher-direct" id="voucherSetPin" type="button">設定我的兌換 PIN</button>
-              <button class="voucher-save hidden" id="voucherSave" type="button">保存兌換憑證（PNG）</button>
-              <div class="voucher-save-hint hidden" id="voucherSaveHint">保存的是完整憑證圖片，不會包含你的 PIN。</div>
-              <button class="voucher-close" id="voucherClose">收好兌換券 ›</button>
-            </div>
-          </div>
-        </div>
-        <div class="pin-modal" id="pinModal" aria-hidden="true">
-          <div class="pin-card" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
-            <div class="pin-kicker">PRIVATE REDEMPTION PIN</div>
-            <div class="pin-title" id="pinTitle">設定你的兌換 PIN</div>
-            <div class="pin-copy">設定 4～6 位數字。實體禮物交付時，元家掃描 QR 後會向你詢問這組 PIN。</div>
-            <div class="pin-field"><label for="pinInput">PIN</label><input id="pinInput" type="password" inputmode="numeric" enterkeyhint="next" autocomplete="new-password" maxlength="6" placeholder="4～6 位數字"></div>
-            <div class="pin-field"><label for="pinConfirm">再輸入一次</label><input id="pinConfirm" type="password" inputmode="numeric" enterkeyhint="done" autocomplete="new-password" maxlength="6" placeholder="再次確認"></div>
-            <div class="pin-error" id="pinError" aria-live="polite"></div>
-            <div class="pin-actions pin-actions-required"><button class="pin-submit" id="pinSubmit" type="button">確認設定</button></div>
-            <div class="pin-fine">PIN 不會顯示在兌換憑證上，也不會儲存在這支手機。忘記 PIN 時請找元家重設。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="scene" id="final" data-scene="12">
-    <div class="scene-inner">
-      <div class="final-box rise">師欸，<br><br>從我 15 歲到現在，真的教了我很多東西。<br>以前可能沒有特別講，但這些我都有記得。<br><br><b>二十多年了，技能點是你幫我點的。</b><br>所以到現在，我最常講的還是——<br><br><span class="save-me">師欸，救我。</span><br><br>生日快樂啦。<div class="final-sign">—— 元家</div></div>
-      <div class="save-complete mono rise d2">QUEST COMPLETE · 2003 → 2026</div><button class="end-btn rise d3" id="endBtn" type="button">結束</button><div class="end-fallback mono hidden" id="endFallback">任務完成 · 可以關閉這個頁面了</div>
-    </div>
-  </section>
-
-  <div class="hud hidden" id="hud"><div class="hud-left mono" id="hudLabel">01 / 10</div><div class="hud-center" id="hudDots"></div><button class="advance" id="advance"><span id="advanceLabel">點一下繼續</span><i>›</i></button></div>
-</div>
+<div class="gacha-whiteout" id="gachaWhiteout" aria-hidden="true"></div>
 <script>
 (()=>{
   const scenes=[...document.querySelectorAll('.scene')];
@@ -2846,8 +4392,46 @@ size: --</div>
   const max=scenes.length-1;
   const CALIB_KEY='shie_cover_portal_v2';
   let calibrationActive=new URLSearchParams(location.search).get('calibrate')==='1';
-  const sfxSrc={timePortal:'audio/sfx_time_portal.mp3',timeArrival:'audio/sfx_time_arrival.mp3',hpHeal:'audio/sfx_hp_heal.mp3',hpFull:'audio/sfx_hp_full.mp3',candleBlow:'audio/sfx_candle_blow.mp3',wishComplete:'audio/sfx_wish_complete.mp3',giftShuffle:'audio/sfx_gift_shuffle.mp3',giftReveal:'audio/sfx_gift_reveal.mp3',bossBgm:'audio/boss_bgm.mp3',bossPunch1:'audio/boss_punch_01.mp3',bossPunch2:'audio/boss_punch_02.mp3',bossPunch3:'audio/boss_punch_03.mp3',bossCritical:'audio/boss_critical.mp3',bossKO:'audio/boss_ko.mp3',bossExplosion:'audio/boss_explosion.mp3',bossChestDrop:'audio/boss_chest_drop.mp3',bossChestOpen:'audio/boss_chest_open.mp3'};
+  const sfxSrc={timePortal:'audio/sfx_time_portal.mp3',timeYearTick:'audio/sfx_time_year_tick.mp3',timeArrival:'audio/sfx_time_arrival.mp3',hpHeal:'audio/sfx_hp_heal.mp3',hpFull:'audio/sfx_hp_full.mp3',candleBlow:'audio/sfx_candle_blow.mp3',wishComplete:'audio/sfx_wish_complete.mp3',giftShuffle:'audio/sfx_gift_shuffle.mp3',giftReveal:'audio/sfx_gift_reveal.mp3',gachaSSR:'audio/sfx_gacha_ssr_confirm.mp3',bossBgm:'audio/boss_bgm.mp3',bossPunch1:'audio/boss_punch_01.mp3',bossPunch2:'audio/boss_punch_02.mp3',bossPunch3:'audio/boss_punch_03.mp3',bossCritical:'audio/boss_critical.mp3',bossKO:'audio/boss_ko.mp3',bossExplosion:'audio/boss_explosion.mp3',bossChestDrop:'audio/boss_chest_drop.mp3',bossChestOpen:'audio/boss_chest_open.mp3'};
   const activeSfx={};
+  let gateYearTickBuffer=null,gateYearTickLoadPromise=null;
+  function getSharedAudioContext(){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return null;
+    if(!audioCtx)audioCtx=new AC();
+    if(audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});
+    return audioCtx;
+  }
+  async function ensureGateYearTickBuffer(){
+    if(gateYearTickBuffer)return gateYearTickBuffer;
+    if(gateYearTickLoadPromise)return gateYearTickLoadPromise;
+    const ctx=getSharedAudioContext();
+    if(!ctx)return null;
+    gateYearTickLoadPromise=fetch(sfxSrc.timeYearTick,{cache:'force-cache'})
+      .then(r=>{if(!r.ok)throw new Error('YEAR_TICK_FETCH_FAILED');return r.arrayBuffer()})
+      .then(buf=>ctx.decodeAudioData(buf))
+      .then(decoded=>{gateYearTickBuffer=decoded;return decoded})
+      .catch(err=>{console.warn('year tick preload failed',err);return null})
+      .finally(()=>{gateYearTickLoadPromise=null});
+    return gateYearTickLoadPromise;
+  }
+  function playGateYearTick(progress=0,finalTick=false){
+    if(!bgmOn)return;
+    const ctx=getSharedAudioContext();
+    if(ctx&&gateYearTickBuffer){
+      try{
+        const source=ctx.createBufferSource();
+        const gain=ctx.createGain();
+        source.buffer=gateYearTickBuffer;
+        source.playbackRate.value=finalTick?1.07:(.96+Math.max(0,Math.min(1,progress))*.10);
+        gain.gain.value=finalTick?.38:(.20+Math.max(0,Math.min(1,progress))*.10);
+        source.connect(gain);gain.connect(ctx.destination);source.start();
+        return;
+      }catch(_){}
+    }
+    // 首次載入還沒 decode 完時才走這條；一樣是一年一顆，不用長音檔硬對。
+    playSfx('timeYearTick',finalTick?.42:.24,false);
+  }
   function stopSfx(name){
     const a=activeSfx[name];
     if(!a)return;
@@ -2963,7 +4547,17 @@ size: ${size.toFixed(2)}%`;
     const tick=now=>{const t=Math.min(1,(now-t0)/duration);bgm.volume=Math.max(0,Math.min(1,start+(target-start)*t));if(t<1)requestAnimationFrame(tick)};requestAnimationFrame(tick);
   }
   async function startAudio(){
-    try{bgm.volume=.13;await bgm.play();bgmOn=true;audioToggle.textContent='♪'}catch(e){bgmOn=false;audioToggle.textContent='×'}
+    try{
+      bgm.volume=.13;
+      await bgm.play();
+      bgmOn=true;
+      audioToggle.textContent='♪';
+      getSharedAudioContext();
+      ensureGateYearTickBuffer().catch(()=>{});
+    }catch(e){
+      bgmOn=false;
+      audioToggle.textContent='×';
+    }
   }
   function updateHud(){
     hudLabel.textContent=`${String(index).padStart(2,'0')} / ${String(max).padStart(2,'0')}`;
@@ -2995,6 +4589,7 @@ size: ${size.toFixed(2)}%`;
 
   function runTimeGate(){
     const sec=document.getElementById('timegate'),year=document.getElementById('gateYear'),e1=document.getElementById('gateEcho1'),e2=document.getElementById('gateEcho2');
+    ensureGateYearTickBuffer().catch(()=>{});
     const lite=shouldUseLiteTimeGate();
     sec.classList.toggle('timegate-lite',lite);
     const cards=[...sec.querySelectorAll('.gate-skill-v338')];
@@ -3025,6 +4620,7 @@ size: ${size.toFixed(2)}%`;
       if(speedBand==='ultra')year.classList.add('warp-ultra');
       if(!lite){void year.offsetWidth;year.classList.add('year-tick')}
       revealSkill(y);
+      playGateYearTick((y-FIRST_YEAR)/(LAST_YEAR-FIRST_YEAR),y===LAST_YEAR);
     };
     const fireArrival=()=>{
       if(finaleQueued)return;finaleQueued=true;
@@ -3047,13 +4643,14 @@ size: ${size.toFixed(2)}%`;
 
     gateStartTimer=setTimeout(()=>{
       sec.classList.add('run');
-      portalAudio=playSfx('timePortal',.62,true);
+      // 原本 portal 長音效只保留淡淡空間感；年份節奏不再跟它綁死。
+      portalAudio=playSfx('timePortal',.26,true);
       startPerf=performance.now();
       revealSkill(FIRST_YEAR);
-      if(portalAudio){portalAudio.addEventListener('ended',finishTravel,{once:true})}
-      else{timeArrivalTimer=setTimeout(finishTravel,Math.round(FALLBACK_PORTAL_SECONDS*1000))}
+      playGateYearTick(0,false); // 2003
+      const duration=FALLBACK_PORTAL_SECONDS;
+      timeArrivalTimer=setTimeout(finishTravel,Math.round(duration*1000));
 
-      const duration=(portalAudio&&Number.isFinite(portalAudio.duration)&&portalAudio.duration>1)?portalAudio.duration:FALLBACK_PORTAL_SECONDS;
       const travelEnd=Math.max(1,duration-.36);
       const passingYears=[];for(let y=FIRST_YEAR+1;y<LAST_YEAR;y++)passingYears.push(y);
       const rawWeights=passingYears.map((_,i)=>Math.pow(.86,i)+.08);
@@ -3063,7 +4660,7 @@ size: ${size.toFixed(2)}%`;
       let nextYearIndex=0;
       const tick=now=>{
         if(ended||!sec.classList.contains('run'))return;
-        const t=(portalAudio&&!portalAudio.paused)?portalAudio.currentTime:Math.min(duration,(now-startPerf)/1000);
+        const t=Math.min(duration,(now-startPerf)/1000);
         while(nextYearIndex<passingYears.length && t>=yearTimes[nextYearIndex]){
           const y=passingYears[nextYearIndex];
           const remaining=passingYears.length-nextYearIndex;
@@ -3120,7 +4717,7 @@ size: ${size.toFixed(2)}%`;
   portal.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){enterMap(e)}});
   advance.addEventListener('click',e=>{e.stopPropagation();if(index<max)showScene(index+1)});
   document.getElementById('hpNext').addEventListener('click',e=>{e.stopPropagation();showScene(11)});
-  const giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),gachaStage=document.getElementById('gachaStage'),gachaDrawBtn=document.getElementById('gachaDrawBtn'),gachaOrb=document.getElementById('gachaOrb'),gachaRarity=document.getElementById('gachaRarity'),gachaResult=document.getElementById('gachaResult'),gachaNudge=document.getElementById('gachaNudge'),gachaNudgeRates=document.getElementById('gachaNudgeRates'),gachaNudgeDirect=document.getElementById('gachaNudgeDirect'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
+  const giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),gachaStage=document.getElementById('gachaStage'),gachaDrawBtn=document.getElementById('gachaDrawBtn'),gachaOrb=document.getElementById('gachaOrb'),gachaRarity=document.getElementById('gachaRarity'),gachaRainbowCore=document.getElementById('gachaRainbowCore'),gachaResult=document.getElementById('gachaResult'),gachaNudge=document.getElementById('gachaNudge'),gachaNudgeRates=document.getElementById('gachaNudgeRates'),gachaNudgeDirect=document.getElementById('gachaNudgeDirect'),gachaWhiteout=document.getElementById('gachaWhiteout'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
   const GIFT_KEY='shie_birthday_gift_2026',GIFT_PICK_KEY='shie_birthday_gift_pick_2026',BOSS_CLEAR_KEY='shie_birthday_boss_clear_2026',RESET_VERSION_KEY='shie_birthday_reset_version_2026',VOUCHER_SAVED_KEY='shie_birthday_voucher_saved_2026';
   const GIFT_TOKEN='SHIE-0901-HP999-X7K2';
   const GAS_WEB_APP_URL='https://script.google.com/macros/s/AKfycby3M7IV-P_Aqy-8OBWnG3oAn-CxMJwBh1nJY9szVuOOH34gYjNTUP1j_R77QcPpwNadGQ/exec';
@@ -3338,12 +4935,20 @@ size: ${size.toFixed(2)}%`;
   }
   function koBoss(){
     if(bossKO)return;rememberBossClear();bossKO=true;bossActive=false;bossTapZone.disabled=true;bossTapZone.innerHTML='K.O.<small>BOSS DEFEATED</small>';bossHpFill.style.width='0%';bossHpText.textContent='0 / '+BOSS_MAX_HP;clearTimeout(bossComboTimer);clearTimeout(bossTauntTimer);bossTaunt.classList.remove('show');
-    bossStage.classList.remove('hit','crit','shake');bossStage.classList.add('ko','heavy-shake');bossKoSfx();bossVibrate([55,28,85,32,125]);bossBurstPixels();bossTip.textContent='K.O.！寶箱正在掉落……';
+    bossStage.classList.remove('hit','crit','shake');bossStage.classList.add('ko','heavy-shake');bossKoSfx();bossVibrate([55,28,85,32,125]);bossBurstPixels();bossTip.textContent='K.O.！BOSS 核心正在掉落……';
     setTimeout(()=>{bossStage.classList.remove('heavy-shake');bossStage.classList.add('chest');bossVibrate([18,28,32]);bossChestSfx(false)},900)
   }
   function resetGachaVisual(){
     gachaDrawing=false;
-    gachaStage.classList.remove('summoning','rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact','result-mode','reveal-result');
+    gachaStage.style.opacity='';
+    gachaStage.style.transform='';
+    gachaStage.classList.remove('summoning','rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact','result-mode','reveal-result','fake-lock','rank-break','rainbow-break','rainbow-impact','rainbow-climax','ssr-confirm');
+    resetGachaWhiteStage();
+    if(gachaRainbowCore){
+      gachaRainbowCore.style.visibility='';
+      gachaRainbowCore.style.opacity='';
+      gachaRainbowCore.style.transform='';
+    }
     gachaResult.classList.add('hidden');
     gachaRarity.textContent='?';
     gachaDrawBtn.classList.remove('hidden');
@@ -3405,6 +5010,7 @@ size: ${size.toFixed(2)}%`;
     gachaNudge.setAttribute('aria-hidden','true');
     giftPoolOverlay.classList.add('show');
     giftPoolOverlay.setAttribute('aria-hidden','false');
+    giftPoolOverlay.scrollTop=0;
   }
   function closeGachaPool(){
     giftPoolOverlay.classList.remove('show');
@@ -3421,7 +5027,8 @@ size: ${size.toFixed(2)}%`;
   }
 
   function setGachaRank(rank){
-    gachaStage.classList.remove('rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact');
+    gachaStage.style.opacity='1';
+    gachaStage.classList.remove('rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact','fake-lock','rank-break','rainbow-break','rainbow-impact','rainbow-climax','ssr-confirm');
     if(rank==='R'){
       gachaStage.classList.add('rank-r');
       gachaRarity.textContent='R';
@@ -3435,30 +5042,98 @@ size: ${size.toFixed(2)}%`;
     void gachaRarity.offsetWidth;
     gachaStage.classList.add('show-rarity');
   }
+  function fakeLockGacha(){
+    gachaStage.classList.remove('fake-lock');
+    void gachaStage.offsetWidth;
+    gachaStage.classList.add('fake-lock');
+  }
+  function breakGachaRank(){
+    gachaStage.classList.remove('fake-lock','rank-break');
+    void gachaStage.offsetWidth;
+    gachaStage.classList.add('rank-break');
+  }
+  function startRainbowGacha(){
+    gachaStage.style.opacity='1';
+    gachaStage.style.transform='none';
+    gachaStage.classList.remove('fake-lock','rank-break','rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact','rainbow-climax');
+    gachaRarity.textContent='';
+    gachaStage.classList.add('rainbow-break','rainbow-impact');
+
+    // 七彩核心固定顯示；整張 stage 不再被 animation 接管。
+    if(gachaRainbowCore){
+      gachaRainbowCore.style.visibility='visible';
+      gachaRainbowCore.style.opacity='1';
+      gachaRainbowCore.style.transform='translate(-50%,-50%) scale(1.04)';
+    }
+  }
+  function climaxRainbowGacha(){
+    if(!gachaStage.classList.contains('rainbow-break'))return;
+    gachaStage.style.opacity='1';
+    gachaStage.classList.add('rainbow-climax');
+    if(gachaRainbowCore){
+      gachaRainbowCore.style.visibility='visible';
+      gachaRainbowCore.style.opacity='1';
+      gachaRainbowCore.style.transform='translate(-50%,-50%) scale(1.14)';
+    }
+  }
+  function confirmSSRGacha(){
+    if(!gachaStage.classList.contains('rainbow-break'))return;
+    gachaStage.style.opacity='1';
+    gachaStage.classList.remove('rainbow-climax');
+    gachaStage.classList.add('ssr-confirm');
+    giftStatus.textContent='SSR CONFIRMED';
+    giftCopy.innerHTML='……SSR。<br>這次真的中了。';
+    bossVibrate([26,18,45,20,70,24,95]);
+  }
+
+  function resetGachaWhiteStage(){
+    if(!gachaWhiteout)return;
+    gachaWhiteout.classList.remove('fire','white-stage','card-arrive','handoff');
+    gachaWhiteout.querySelectorAll('.white-stage-result').forEach(n=>n.remove());
+    gachaWhiteout.style.opacity='';
+  }
+
 
   function showGiftResult(pick,instant=false){
     clearTimeout(giftPickTimer);
     clearTimeout(giftResolveTimer);
     stopSfx('giftShuffle');
+    stopSfx('gachaSSR');
     gachaDrawing=false;
+
     if(voucherLoading){
       voucherLoading.classList.remove('show','choice-mode');
       voucherLoading.setAttribute('aria-hidden','true');
     }
+
     bossStage.classList.add('boss-hidden');
     giftWrap.classList.remove('boss-hidden');
     closeGachaNudge();
+
     giftPoolOverlay.classList.remove('show');
     giftPoolOverlay.setAttribute('aria-hidden','true');
     giftPoolOpen.classList.add('hidden');
 
-    gachaStage.classList.remove('summoning','rank-r','rank-sr','show-rarity','ssr-impact');
+    gachaStage.classList.remove(
+      'summoning',
+      'rank-r',
+      'rank-sr',
+      'show-rarity',
+      'ssr-impact',
+      'fake-lock',
+      'rank-break',
+      'rainbow-break',
+      'rainbow-impact',
+      'rainbow-climax',
+      'ssr-confirm'
+    );
     gachaStage.classList.add('result-mode','rank-ssr');
+
     gachaDrawBtn.classList.add('hidden');
     gachaResult.classList.remove('hidden');
+
     if(!instant){
       gachaStage.classList.add('reveal-result');
-      playSfx('giftReveal',.82);
       bossVibrate([24,25,45,32,90]);
     }else{
       gachaStage.classList.remove('reveal-result');
@@ -3467,10 +5142,136 @@ size: ${size.toFixed(2)}%`;
     giftTitle.textContent='SSR！抽到了。';
     giftCopy.innerHTML='掉落結果已鎖定。';
     giftStatus.textContent='SSR DROP · 3%';
+
     voucherOpen.classList.remove('hidden');
     giftNext.classList.add('hidden');
     giftOnce.textContent='這份補給已經為你保留，實體禮物還在等交付。';
   }
+
+  async function revealSSRThroughWhite(pick){
+    const old=document.getElementById('runtimeSSRWhiteStage');
+    if(old)old.remove();
+
+    const stage=document.createElement('div');
+    stage.id='runtimeSSRWhiteStage';
+
+    const force=(el,prop,val)=>el.style.setProperty(prop,val,'important');
+
+    force(stage,'position','fixed');
+    force(stage,'inset','0');
+    force(stage,'left','0');
+    force(stage,'top','0');
+    force(stage,'right','0');
+    force(stage,'bottom','0');
+    force(stage,'width','100vw');
+    force(stage,'height','100dvh');
+    force(stage,'min-height','100vh');
+    force(stage,'margin','0');
+    force(stage,'padding','0');
+    force(stage,'background','#ffffff');
+    force(stage,'z-index','2147483647');
+    force(stage,'display','block');
+    force(stage,'visibility','visible');
+    force(stage,'opacity','1');
+    force(stage,'overflow','hidden');
+    force(stage,'pointer-events','none');
+    force(stage,'transform','none');
+    force(stage,'filter','none');
+    force(stage,'isolation','isolate');
+
+    document.body.appendChild(stage);
+
+    // 強迫瀏覽器先完成「整個手機純白」這一幀。
+    void stage.offsetWidth;
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+    playSfx('giftReveal',.80,true);
+    bossVibrate([34,18,60,22,92]);
+
+    // 這段期間畫面上只有白色，沒有卡片。
+    await waitMs(900);
+
+    // 在純白最上層遮住的狀態下，先準備真正結果頁。
+    showGiftResult(pick,true);
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+    // 把真正結果卡複製到純白舞台，讓它「在白色上」淡入。
+    const clone=gachaResult.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.classList.remove('hidden');
+    clone.setAttribute('aria-hidden','true');
+
+    force(clone,'position','fixed');
+    force(clone,'left','0');
+    force(clone,'top','0');
+    force(clone,'width','100vw');
+    force(clone,'height','100dvh');
+    force(clone,'min-height','100vh');
+    force(clone,'margin','0');
+    force(clone,'padding','0');
+    force(clone,'box-sizing','border-box');
+    force(clone,'display','flex');
+    force(clone,'flex-direction','column');
+    force(clone,'align-items','center');
+    force(clone,'justify-content','center');
+    force(clone,'background','#ffffff');
+    force(clone,'overflow','hidden');
+    force(clone,'z-index','2');
+    force(clone,'pointer-events','none');
+    // 這三個屬性故意不能用 !important。
+    // 上一版就是把 opacity:0 鎖成 important，導致 keyframes 永遠無法變成 1。
+    clone.style.opacity='0';
+    clone.style.transform='translateY(18px) scale(.96)';
+    clone.style.filter='blur(6px) brightness(1.45)';
+
+    stage.appendChild(clone);
+    void clone.offsetWidth;
+
+    clone.style.animation='v391RuntimeCardIn 1.9s cubic-bezier(.20,.72,.18,1) forwards';
+
+    await waitMs(1950);
+
+    // 卡片完整出現後再多停一下。
+    await waitMs(750);
+
+    // 與底下已經準備好的正式結果頁極短交接。
+    stage.style.setProperty('transition','opacity .32s ease','important');
+    stage.style.setProperty('opacity','0','important');
+    await waitMs(350);
+    stage.remove();
+
+    bossVibrate([24,25,45,32,90]);
+  }
+
+
+  // QA：F12 Console 輸入 測試SSR收尾()，只看「SSR -> 全白 -> 卡片淡入」。
+  window.檢查SSR=function(){
+    return {
+      showGiftResult:typeof showGiftResult,
+      revealSSRThroughWhite:typeof revealSSRThroughWhite,
+      whiteStage:!!document.getElementById('runtimeSSRWhiteStage')
+    };
+  };
+
+  window.測試SSR收尾=async function(){
+    document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+    document.getElementById('gift')?.classList.add('active');
+    bossStage?.classList.add('boss-hidden');
+    giftWrap?.classList.remove('boss-hidden');
+    resetGachaVisual();
+    gachaStage.style.opacity='1';
+    gachaStage.classList.add('summoning','rainbow-break','ssr-confirm');
+    if(gachaRainbowCore){
+      gachaRainbowCore.style.visibility='visible';
+      gachaRainbowCore.style.opacity='1';
+      gachaRainbowCore.style.transform='translate(-50%,-50%) scale(1.18)';
+    }
+    giftStatus.textContent='SSR CONFIRMED';
+    giftCopy.innerHTML='……SSR。<br>這次真的中了。';
+    playSfx('gachaSSR',.92,true);
+    await waitMs(1750);
+    await revealSSRThroughWhite(GACHA_FINAL_PICK);
+  };
 
   async function startGachaDraw(){
     if(gachaDrawing || giftWasDrawn())return;
@@ -3488,7 +5289,9 @@ size: ${size.toFixed(2)}%`;
     giftStatus.textContent='SUMMONING…';
     giftOnce.textContent='';
     gachaStage.classList.add('summoning');
-    playSfx('giftShuffle',.72,true);
+    // V3.8.9：不再讓 4.9 秒 shuffle 音效無限循環，
+    // 否則動畫拉長後一定會聲畫錯位。只把它當召喚開場音。
+    playSfx('giftShuffle',.46,true);
     bossVibrate([18,35,18]);
 
     // Server lock starts immediately while the animation plays.
@@ -3498,30 +5301,86 @@ size: ${size.toFixed(2)}%`;
       return {drawn:true,pick:GACHA_FINAL_PICK};
     })();
 
-    await waitMs(620);
+    // V3.8.8：只有一抽，所以把「假結果 → 升階 → 真 SSR」的鋪陳拉長。
+    // GAS 仍然從一開始就在背景寫入，不讓網路等待切斷演出。
+
+    await waitMs(320);
     setGachaRank('R');
-    giftStatus.textContent='R…';
+    playSfx('bossPunch1',.18,false);
+    giftStatus.textContent='R LIGHT';
+    giftCopy.innerHTML='藍光……<br>看起來像 R。';
     bossVibrate(18);
 
-    await waitMs(720);
-    setGachaRank('SR');
-    giftStatus.textContent='SR…?';
-    bossVibrate([20,28,28]);
+    // R 先讓人看清楚，再做第一次假鎖定。
+    await waitMs(1250);
+    fakeLockGacha();
+    giftStatus.textContent='R · LOCKING…';
+    giftCopy.innerHTML='好像……<br>就要確定了？';
+    bossVibrate([18,28,26]);
 
     await waitMs(780);
-    setGachaRank('SSR');
-    giftStatus.textContent='SSR !?';
-    giftCopy.innerHTML='等等……<br>這個光不太對。';
-    bossVibrate([26,22,48,26,72]);
+    breakGachaRank();
+    playSfx('bossCritical',.28,false);
+    giftStatus.textContent='RANK UP !?';
+    giftCopy.innerHTML='等等。<br>核心沒有停下來。';
+    bossVibrate([20,16,36]);
 
-    await waitMs(720);
-    giftStatus.textContent='LOCKING DROP…';
-    gachaDrawBtn.innerHTML='<span>確認掉落中…</span><small>PLEASE WAIT</small>';
+    await waitMs(260);
+    setGachaRank('SR');
+    playSfx('hpHeal',.25,false);
+    giftStatus.textContent='SR !?';
+    giftCopy.innerHTML='紫光。<br>升到 SR 了。';
+    bossVibrate([24,20,46]);
 
+    // SR 也明確停一段，讓人真的以為這次就是 SR。
+    await waitMs(1450);
+    fakeLockGacha();
+    giftStatus.textContent='SR · LOCKING…';
+    giftCopy.innerHTML='紫光開始收束……<br>這次真的要停了？';
+    bossVibrate([22,26,36]);
+
+    await waitMs(820);
+    breakGachaRank();
+    playSfx('bossCritical',.38,false);
+    giftStatus.textContent='BREAK !';
+    giftCopy.innerHTML='不對。<br>還在往上。';
+    bossVibrate([26,16,46,18,58]);
+
+    await waitMs(260);
+    startRainbowGacha();
+    stopSfx('giftShuffle');
+    playSfx('hpFull',.44,false);
+    giftStatus.textContent='???';
+    giftCopy.innerHTML='顏色變了……<br>這是什麼光？';
+    bossVibrate([28,18,42,18,62]);
+
+    // 七彩先完整展示 2.35 秒：不是一閃而過。
+    await waitMs(2350);
+    climaxRainbowGacha();
+    playSfx('timeArrival',.42,false);
+    giftStatus.textContent='PRISM OVERLOAD';
+    giftCopy.innerHTML='七彩能量失控……<br>還在升階。';
+    bossVibrate([20,16,30,16,44]);
+
+    // 暴走再持續 1.45 秒。
+    await waitMs(1450);
+    confirmSSRGacha();
+    playSfx('gachaSSR',.92,true);
+
+    // SSR 字樣 + SSR 專屬 sting 一起停給他爽一下。
+    await waitMs(1750);
     try{
       const st=await savePromise;
-      await waitMs(180);
-      showGiftResult(Number(st&&st.pick),false);
+
+      // SSR 球／字樣結束後，不再用「白光退掉露出卡片」。
+      // 改成：純白畫面成立 -> 白色停留 -> 卡片在白色上慢慢淡入。
+      giftStatus.textContent='SSR · REVEAL';
+      gachaStage.classList.add('rainbow-impact');
+      bossVibrate([38,18,58,20,88]);
+      await waitMs(520);
+
+      await revealSSRThroughWhite(Number(st&&st.pick));
+
     }catch(err){
       // If the first request actually reached GAS but the response was lost,
       // status is the source of truth. Never accidentally reroll.
@@ -3535,7 +5394,7 @@ size: ${size.toFixed(2)}%`;
 
       stopSfx('giftShuffle');
       gachaDrawing=false;
-      gachaStage.classList.remove('summoning','rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact');
+      gachaStage.classList.remove('summoning','rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact','fake-lock','rank-break','rainbow-break','rainbow-impact','rainbow-climax','ssr-confirm');
       gachaRarity.textContent='?';
       giftPoolOpen.classList.remove('hidden');
       gachaDrawBtn.disabled=false;
