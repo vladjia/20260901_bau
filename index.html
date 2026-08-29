@@ -1,4 +1,6 @@
 <!doctype html>
+<!-- V3.8.2 · animated rarity cards + persistent candle mic guidance -->
+<!-- V3.8.1 · BOSS core drop + gacha layout fix -->
 <!-- V3.8.0 · full mobile-game gacha rebuild -->
 <!-- V3.7.6 · 開抽 glow + boss multi-touch zoom lock -->
 <!-- V3.7.5 · mobile Time Gate performance mode -->
@@ -1911,6 +1913,487 @@
       #gift .gacha-rate-btn{animation-duration:.001ms!important;animation-iteration-count:1!important}
     }
 
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.1 · BOSS CORE DROP
+       ═══════════════════════════════════════════════════════ */
+    .boss-core-wrap{
+      top:47%!important;
+      gap:11px!important;
+    }
+    .boss-drop-core{
+      width:126px!important;
+      height:126px!important;
+      position:relative!important;
+      display:grid!important;
+      place-items:center!important;
+      filter:none!important;
+      transform:translateZ(0);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .boss-core-shell{
+      position:absolute;
+      left:50%;top:50%;
+      width:78px;height:78px;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 28%,#fffde9 0 7%,#d9f1df 10%,#79aaa4 34%,#365f5b 66%,#1c3533 100%);
+      border:2px solid rgba(255,241,196,.92);
+      box-shadow:
+        0 0 0 7px rgba(87,143,134,.13),
+        0 0 25px rgba(94,169,157,.58),
+        0 0 49px rgba(68,139,130,.24),
+        inset -10px -12px 18px rgba(16,47,45,.34);
+      z-index:3;
+    }
+    .boss-core-center{
+      position:absolute;left:50%;top:50%;
+      width:17px;height:17px;border-radius:50%;
+      transform:translate(-50%,-50%);
+      background:#fff5bf;
+      box-shadow:0 0 9px #fff3b3,0 0 20px rgba(255,222,114,.72);
+    }
+    .boss-core-glint{
+      position:absolute;left:22%;top:17%;
+      width:15px;height:15px;border-radius:50%;
+      background:rgba(255,255,239,.88);
+      box-shadow:13px 13px 0 -4px rgba(255,240,196,.62);
+    }
+    .boss-core-ring{
+      position:absolute;left:50%;top:50%;border-radius:50%;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      z-index:2;
+    }
+    .boss-core-ring.core-ring-a{
+      width:105px;height:105px;border:1px dashed rgba(111,184,172,.60);
+      animation:bossCoreSpinA 6s linear infinite;
+    }
+    .boss-core-ring.core-ring-b{
+      width:121px;height:121px;border:1px solid rgba(220,177,94,.36);
+      animation:bossCoreSpinB 9s linear infinite;
+    }
+    @keyframes bossCoreSpinA{to{transform:translate(-50%,-50%) rotate(360deg)}}
+    @keyframes bossCoreSpinB{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+
+    .boss-core-particle{
+      position:absolute;z-index:4;font-style:normal;color:#efd58d;
+      font-size:10px;opacity:.38;pointer-events:none;
+      animation:bossCoreSpark 1.4s ease-in-out infinite;
+    }
+    .boss-core-particle.p1{left:11%;top:23%}
+    .boss-core-particle.p2{right:12%;top:18%;animation-delay:.35s}
+    .boss-core-particle.p3{left:18%;bottom:16%;animation-delay:.7s}
+    .boss-core-particle.p4{right:17%;bottom:22%;animation-delay:1.05s}
+    @keyframes bossCoreSpark{50%{opacity:1;transform:scale(1.55) rotate(25deg)}}
+
+    .boss-stage.chest .boss-drop-core{
+      animation:bossCoreIdle 1.05s ease-in-out .65s infinite alternate;
+    }
+    @keyframes bossCoreIdle{to{transform:translateY(-5px) scale(1.035)}}
+
+    .boss-stage.chest-opening .boss-drop-core{
+      animation:bossCoreAbsorb .82s cubic-bezier(.18,.82,.19,1) forwards!important;
+    }
+    @keyframes bossCoreAbsorb{
+      0%{transform:scale(1);opacity:1}
+      30%{transform:scale(1.20);opacity:1}
+      58%{transform:scale(.76);opacity:.96}
+      100%{transform:scale(.12);opacity:0}
+    }
+    .boss-stage.chest-opening .boss-core-ring{
+      animation-duration:.34s!important;
+    }
+    .boss-stage.chest-opening .core-copy{
+      opacity:0!important;
+      transition:opacity .22s ease;
+    }
+    .core-copy span{font-size:9px!important}
+
+    /* ═══════════════════════════════════════════════════════
+       V3.8.1 · GACHA mobile layout fix
+       不再用會超出 scene-inner 的 vw 寬度。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-wrap{
+      width:100%!important;
+      max-width:390px!important;
+      min-width:0!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+      padding-left:14px!important;
+      padding-right:14px!important;
+      box-sizing:border-box!important;
+    }
+    #gift .gacha-stage{
+      width:100%!important;
+      max-width:362px!important;
+      margin:13px auto 10px!important;
+      box-sizing:border-box!important;
+      min-width:0!important;
+    }
+    #gift .gacha-rate-btn{
+      width:78px!important;
+      height:50px!important;
+      border-radius:11px!important;
+      right:max(12px,env(safe-area-inset-right))!important;
+      top:calc(var(--safe-t) + 50px)!important;
+      white-space:nowrap!important;
+    }
+    #gift .gacha-rate-btn b{
+      font-size:11px!important;
+      white-space:nowrap!important;
+      letter-spacing:.02em!important;
+    }
+    #gift .gacha-rate-btn small{
+      white-space:nowrap!important;
+      font-size:5.5px!important;
+    }
+
+    #gift .gift-kicker{
+      padding-left:4px!important;
+      padding-right:4px!important;
+      font-size:8px!important;
+      letter-spacing:.14em!important;
+    }
+    #gift .gift-title{
+      padding-left:6px!important;
+      padding-right:6px!important;
+    }
+    #gift .gift-copy{
+      padding-left:8px!important;
+      padding-right:8px!important;
+    }
+
+    @media(max-width:420px){
+      #gift .gacha-wrap{
+        max-width:none!important;
+        padding-left:12px!important;
+        padding-right:12px!important;
+      }
+      #gift .gacha-stage{
+        max-width:none!important;
+      }
+    }
+    @media(max-width:360px){
+      #gift .gacha-wrap{
+        padding-left:8px!important;
+        padding-right:8px!important;
+      }
+      #gift .gacha-rate-btn{
+        width:72px!important;
+        right:8px!important;
+      }
+      #gift .gacha-rate-btn b{font-size:10px!important}
+      #gift .gacha-stage{min-height:388px!important}
+    }
+
+  
+    /* ═══════════════════════════════════════════════════════
+       V3.8.2 · 稀有度卡面動畫
+       R 藍 / SR 紫 / SR+ 金 / SSR 彩虹
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-pool-card{
+      position:relative!important;
+      isolation:isolate;
+      overflow:hidden!important;
+      transform:translateZ(0);
+    }
+
+    /* 所有卡都有微弱移動光帶，不會像死圖 */
+    #gift .gacha-pool-card::before{
+      content:"";
+      position:absolute;
+      z-index:0;
+      inset:-35%;
+      pointer-events:none;
+      opacity:.30;
+      transform:translateX(-34%) rotate(12deg);
+      background:linear-gradient(
+        105deg,
+        transparent 34%,
+        rgba(255,255,255,.08) 42%,
+        rgba(255,255,255,.50) 49%,
+        rgba(255,255,255,.10) 56%,
+        transparent 65%
+      );
+      animation:rarityCardSweep 3.8s ease-in-out infinite;
+    }
+    #gift .gacha-pool-card > *{
+      position:relative;
+      z-index:2;
+    }
+    @keyframes rarityCardSweep{
+      0%,18%{transform:translateX(-48%) rotate(12deg);opacity:0}
+      34%{opacity:.48}
+      58%{transform:translateX(48%) rotate(12deg);opacity:.32}
+      72%,100%{transform:translateX(48%) rotate(12deg);opacity:0}
+    }
+
+    /* R · BLUE */
+    #gift .gacha-pool-card.rank-r{
+      --pool-main:#3c8bd0!important;
+      --pool-line:rgba(70,155,225,.72)!important;
+      --pool-soft:rgba(45,122,184,.19)!important;
+      background:
+        radial-gradient(circle at 18% 12%,rgba(177,225,255,.30),transparent 34%),
+        linear-gradient(145deg,#edf8ff 0%,#cceaff 38%,#91c8eb 100%)!important;
+      box-shadow:
+        0 5px 13px rgba(32,67,94,.18),
+        inset 0 0 0 1px rgba(255,255,255,.56),
+        0 0 11px rgba(74,151,211,.18)!important;
+      animation:rarityBlueBreath 2.8s ease-in-out infinite;
+    }
+    #gift .gacha-pool-card.rank-r::after{
+      content:"";
+      position:absolute;inset:2px;z-index:1;border-radius:7px;pointer-events:none;
+      border:1px solid rgba(111,197,255,.34);
+      box-shadow:inset 0 0 12px rgba(80,160,221,.12);
+    }
+    @keyframes rarityBlueBreath{
+      50%{box-shadow:0 6px 15px rgba(32,67,94,.20),inset 0 0 0 1px rgba(255,255,255,.62),0 0 19px rgba(74,151,211,.31)!important}
+    }
+
+    /* SR · PURPLE */
+    #gift .gacha-pool-card.rank-sr{
+      --pool-main:#9554d5!important;
+      --pool-line:rgba(157,91,219,.78)!important;
+      --pool-soft:rgba(133,70,187,.21)!important;
+      background:
+        radial-gradient(circle at 78% 8%,rgba(239,210,255,.32),transparent 34%),
+        linear-gradient(145deg,#f8efff 0%,#dfc0fa 38%,#af79d8 100%)!important;
+      box-shadow:
+        0 5px 14px rgba(78,38,108,.20),
+        inset 0 0 0 1px rgba(255,255,255,.54),
+        0 0 14px rgba(151,82,205,.24)!important;
+      animation:rarityPurpleAura 2.35s ease-in-out infinite;
+    }
+    #gift .gacha-pool-card.rank-sr::after{
+      content:"";
+      position:absolute;inset:-1px;z-index:1;border-radius:10px;pointer-events:none;
+      background:radial-gradient(circle at 50% 110%,rgba(213,148,255,.22),transparent 48%);
+      animation:rarityPurpleShift 2.9s ease-in-out infinite alternate;
+    }
+    @keyframes rarityPurpleAura{
+      50%{box-shadow:0 6px 16px rgba(78,38,108,.23),inset 0 0 0 1px rgba(255,255,255,.60),0 0 24px rgba(165,94,221,.38)!important}
+    }
+    @keyframes rarityPurpleShift{
+      to{transform:translateY(-8px) scale(1.05);opacity:.75}
+    }
+
+    /* SR+ · GOLD */
+    #gift .gacha-pool-card.rank-srp{
+      --pool-main:#b77a15!important;
+      --pool-line:#e0ad43!important;
+      --pool-soft:rgba(205,145,36,.22)!important;
+      background:
+        radial-gradient(circle at 22% 6%,rgba(255,251,213,.72),transparent 25%),
+        linear-gradient(145deg,#fff7d6 0%,#f0d27d 39%,#c78b27 100%)!important;
+      box-shadow:
+        0 6px 16px rgba(110,69,18,.23),
+        inset 0 0 0 1px rgba(255,251,220,.76),
+        0 0 18px rgba(223,163,52,.31)!important;
+      animation:rarityGoldPulse 1.85s ease-in-out infinite;
+    }
+    #gift .gacha-pool-card.rank-srp::before{
+      opacity:.52;
+      background:linear-gradient(
+        106deg,
+        transparent 32%,
+        rgba(255,255,255,.10) 39%,
+        rgba(255,252,208,.92) 49%,
+        rgba(255,226,126,.34) 57%,
+        transparent 67%
+      );
+      animation-duration:2.55s;
+    }
+    #gift .gacha-pool-card.rank-srp::after{
+      content:"✦";
+      position:absolute;z-index:3;right:8px;top:7px;
+      color:#fff1a4;font-size:12px;
+      text-shadow:0 0 8px rgba(255,222,100,.9);
+      animation:rarityGoldSpark 1.25s ease-in-out infinite;
+    }
+    @keyframes rarityGoldPulse{
+      50%{box-shadow:0 7px 17px rgba(110,69,18,.25),inset 0 0 0 1px rgba(255,251,220,.82),0 0 27px rgba(238,174,49,.50)!important}
+    }
+    @keyframes rarityGoldSpark{
+      50%{opacity:.28;transform:scale(.55) rotate(35deg)}
+    }
+
+    /* SSR · RAINBOW */
+    #gift .gacha-pool-card.rank-ssr{
+      --pool-main:#fff!important;
+      --pool-line:rgba(255,255,255,.80)!important;
+      --pool-soft:rgba(255,255,255,.15)!important;
+      border:2px solid transparent!important;
+      background:
+        linear-gradient(145deg,rgba(255,250,233,.94),rgba(238,222,255,.90)) padding-box,
+        conic-gradient(
+          from var(--ssr-angle,0deg),
+          #ff5f6d,
+          #ffb347,
+          #fff36b,
+          #6cff95,
+          #65dcff,
+          #788cff,
+          #d277ff,
+          #ff69bb,
+          #ff5f6d
+        ) border-box!important;
+      box-shadow:
+        0 7px 18px rgba(69,35,72,.22),
+        0 0 15px rgba(255,109,178,.28),
+        0 0 30px rgba(86,198,255,.21)!important;
+      animation:ssrBorderCycle 2.3s linear infinite,ssrFloatGlow 1.45s ease-in-out infinite alternate;
+    }
+    #gift .gacha-pool-card.rank-ssr::before{
+      inset:-48%;
+      opacity:.68;
+      background:
+        linear-gradient(
+          108deg,
+          transparent 30%,
+          rgba(255,255,255,.05) 38%,
+          rgba(255,255,255,.96) 48%,
+          rgba(150,235,255,.65) 52%,
+          rgba(255,190,245,.55) 56%,
+          transparent 68%
+        );
+      animation:ssrRainbowSweep 1.85s ease-in-out infinite;
+    }
+    #gift .gacha-pool-card.rank-ssr::after{
+      content:"✦  ✧  ✦";
+      position:absolute;z-index:3;
+      left:7px;right:7px;top:5px;
+      text-align:right;
+      letter-spacing:3px;
+      color:white;font-size:9px;
+      text-shadow:
+        0 0 6px #fff,
+        0 0 10px rgba(101,218,255,.9),
+        0 0 15px rgba(255,112,201,.75);
+      animation:ssrSparkles 1.05s ease-in-out infinite alternate;
+    }
+    #gift .gacha-pool-card.rank-ssr .pool-rarity b{
+      background:linear-gradient(90deg,#ff5067,#f5a637,#c7a900,#37ad68,#268ac8,#7153c9,#bd49ad,#ff5067);
+      background-size:260% 100%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent!important;
+      text-shadow:none!important;
+      animation:ssrTextRainbow 1.7s linear infinite;
+    }
+    #gift .gacha-pool-card.rank-ssr .pool-rarity span{
+      color:#a43150!important;
+      text-shadow:0 0 8px rgba(255,119,162,.34);
+    }
+    @property --ssr-angle{
+      syntax:'<angle>';
+      initial-value:0deg;
+      inherits:false;
+    }
+    @keyframes ssrBorderCycle{to{--ssr-angle:360deg}}
+    @keyframes ssrFloatGlow{
+      to{
+        box-shadow:
+          0 8px 20px rgba(69,35,72,.25),
+          0 0 24px rgba(255,96,181,.40),
+          0 0 39px rgba(82,209,255,.34)!important;
+      }
+    }
+    @keyframes ssrRainbowSweep{
+      0%,12%{transform:translateX(-50%) rotate(11deg);opacity:0}
+      35%{opacity:.90}
+      62%{transform:translateX(50%) rotate(11deg);opacity:.65}
+      78%,100%{transform:translateX(50%) rotate(11deg);opacity:0}
+    }
+    @keyframes ssrSparkles{
+      to{opacity:.35;transform:translateY(2px) scale(.88)}
+    }
+    @keyframes ssrTextRainbow{
+      to{background-position:260% 0}
+    }
+
+    /* 真正抽中後的 SSR 結果卡，也要維持彩虹流動，不是靜態金卡 */
+    #gift .gacha-result-card{
+      border:2px solid transparent!important;
+      background:
+        linear-gradient(155deg,rgba(255,249,226,.98),rgba(237,222,255,.97)) padding-box,
+        conic-gradient(
+          from var(--result-rainbow-angle,0deg),
+          #ff596f,#ffae45,#fff16b,#65ec93,#65ddff,#778cff,#cd6cff,#ff66b8,#ff596f
+        ) border-box!important;
+      box-shadow:
+        0 0 0 3px rgba(81,48,67,.36),
+        0 0 24px rgba(255,111,185,.36),
+        0 0 42px rgba(92,210,255,.28),
+        0 13px 28px rgba(35,13,5,.34)!important;
+      animation:ssrResultBorder 2s linear infinite,ssrResultGlow 1.35s ease-in-out infinite alternate!important;
+    }
+    #gift .gacha-result-card::after{
+      content:"";
+      position:absolute;inset:0;border-radius:8px;pointer-events:none;
+      background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.78) 48%,transparent 63%);
+      transform:translateX(-120%);
+      animation:ssrResultSweep 2.1s ease-in-out infinite;
+    }
+    #gift .gacha-result-card > *{position:relative;z-index:2}
+    #gift .gacha-result-rank b{
+      background:linear-gradient(90deg,#ff536b,#ffab3d,#dcbf22,#43c879,#3aaadb,#7959cf,#cb54b7,#ff536b);
+      background-size:260% 100%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent!important;
+      text-shadow:none!important;
+      animation:ssrTextRainbow 1.6s linear infinite;
+    }
+    @property --result-rainbow-angle{
+      syntax:'<angle>';
+      initial-value:0deg;
+      inherits:false;
+    }
+    @keyframes ssrResultBorder{to{--result-rainbow-angle:360deg}}
+    @keyframes ssrResultGlow{
+      to{box-shadow:0 0 0 3px rgba(81,48,67,.36),0 0 34px rgba(255,111,185,.48),0 0 54px rgba(92,210,255,.38),0 14px 31px rgba(35,13,5,.36)!important}
+    }
+    @keyframes ssrResultSweep{
+      0%,18%{transform:translateX(-120%);opacity:0}
+      34%{opacity:.82}
+      62%{transform:translateX(120%);opacity:.52}
+      76%,100%{transform:translateX(120%);opacity:0}
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       V3.8.2 · 蠟燭誤點後，麥克風提示不得消失
+       ═══════════════════════════════════════════════════════ */
+    #wish .mic-btn.mic-guide-lock{
+      opacity:1!important;
+      visibility:visible!important;
+      animation:micGuidePersistent .88s ease-in-out infinite!important;
+      border-color:rgba(245,207,125,.82)!important;
+      color:#fff0c3!important;
+      background:rgba(92,58,28,.66)!important;
+      box-shadow:
+        0 0 0 0 rgba(229,178,85,0),
+        0 0 19px rgba(229,178,85,.28)!important;
+    }
+    #wish .mic-state.mic-guide-text{
+      color:#f1d39b!important;
+      font-weight:800!important;
+      opacity:1!important;
+      animation:micGuideText 1.15s ease-in-out infinite;
+    }
+    @keyframes micGuidePersistent{
+      50%{
+        transform:scale(1.045);
+        box-shadow:
+          0 0 0 6px rgba(229,178,85,.12),
+          0 0 29px rgba(229,178,85,.48)!important;
+      }
+    }
+    @keyframes micGuideText{50%{opacity:.66!important}}
+
   </style>
 </head>
 <body>
@@ -2099,18 +2582,21 @@ size: --</div>
           <div class="boss-slash"></div><div class="boss-screen-flash"></div>
           <div class="boss-damage-layer" id="bossDamageLayer"></div>
           <div class="boss-ko" id="bossKO">K.O.</div>
-          <div class="boss-chest-wrap" id="bossChestWrap">
-            <div class="chest-light"></div>
-            <button class="pixel-chest" id="bossChest" type="button" aria-label="開啟掉落寶箱">
-              <svg viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
-                <g fill="#241814"><rect x="2" y="4" width="16" height="10"/><rect x="4" y="2" width="12" height="2"/><rect x="1" y="6" width="18" height="7"/></g>
-                <g fill="#7b3f22"><rect x="3" y="5" width="14" height="3"/><rect x="2" y="9" width="16" height="4"/></g>
-                <g fill="#b96d31"><rect x="4" y="3" width="12" height="2"/><rect x="4" y="6" width="12" height="2"/><rect x="3" y="9" width="14" height="2"/></g>
-                <g fill="#e3b759"><rect x="2" y="7" width="16" height="1"/><rect x="9" y="7" width="2" height="6"/><rect x="8" y="9" width="4" height="3"/></g>
-                <rect x="9" y="10" width="2" height="2" fill="#3a291c"/>
-              </svg>
+          <div class="boss-chest-wrap boss-core-wrap" id="bossChestWrap">
+            <div class="chest-light core-drop-light"></div>
+            <button class="pixel-chest boss-drop-core" id="bossChest" type="button" aria-label="吸收 BOSS 掉落核心">
+              <span class="boss-core-ring core-ring-a"></span>
+              <span class="boss-core-ring core-ring-b"></span>
+              <span class="boss-core-shell">
+                <span class="boss-core-glint"></span>
+                <span class="boss-core-center"></span>
+              </span>
+              <span class="boss-core-particle p1">✦</span>
+              <span class="boss-core-particle p2">✦</span>
+              <span class="boss-core-particle p3">✦</span>
+              <span class="boss-core-particle p4">✦</span>
             </button>
-            <div class="chest-copy">DROP UNLOCKED<br><span>點寶箱開啟生日掉寶</span></div>
+            <div class="chest-copy core-copy">BOSS CORE DROP<br><span>點核心啟動生日補給召喚</span></div>
           </div>
         </div>
         <button class="boss-tap-zone" id="bossTapZone" type="button">連點出拳！<small>PUNCH! PUNCH! PUNCH! · 狂點越快越爽</small></button>
@@ -2120,7 +2606,7 @@ size: --</div>
       <div class="gift-wrap boss-hidden gacha-wrap" id="giftWrap">
         <div class="gift-kicker mono rise">LIMITED BIRTHDAY SUPPLY · 09.01</div>
         <h2 class="gift-title rise d2" id="giftTitle">生日補給召喚</h2>
-        <p class="gift-copy rise d2" id="giftCopy">BOSS 掉落已解鎖。<br>師欸，要不要抽一發？</p>
+        <p class="gift-copy rise d2" id="giftCopy">BOSS 核心已取得。<br>師欸，要不要抽一發？</p>
 
         <button class="gift-pool-btn gacha-rate-btn" id="giftPoolOpen" type="button">
           <b>獎項一覽</b><small>DROP RATE</small>
@@ -2605,8 +3091,11 @@ size: ${size.toFixed(2)}%`;
   }
   function resetWish(){
     clearTimeout(wishAdvanceTimer);clearTimeout(holdFallbackTimer);wishAdvanceTimer=null;holdFallbackTimer=null;stopMic();holdFallbackEnabled=false;
-    cake.classList.remove('out');fallback?.classList.remove('show');micBtn.classList.remove('attention');
+    cake.classList.remove('out');fallback?.classList.remove('show');
+    micBtn.classList.remove('attention','mic-guide-lock');
+    micState.classList.remove('mic-guide-text');
     micBtn.disabled=false;
+    micBtn.textContent='開啟麥克風，準備吹蠟燭';
     micState.textContent='先開啟麥克風，再對著螢幕吹蠟燭。';
     meterBar.style.width='0%';
   }
@@ -2876,14 +3365,14 @@ size: ${size.toFixed(2)}%`;
     delete giftPoolOpen.dataset.retry;
     giftPoolOpen.classList.remove('hidden');
     giftTitle.textContent='生日補給召喚';
-    giftCopy.innerHTML='BOSS 掉落已解鎖。<br>師欸，要不要抽一發？';
+    giftCopy.innerHTML='BOSS 核心已取得。<br>師欸，要不要抽一發？';
     giftStatus.textContent='1 DRAW AVAILABLE';
     giftOnce.textContent='右上角可以先查看全部獎項與提供機率。';
     voucherOpen.classList.add('hidden');
     giftNext.classList.add('hidden');
   }
   function openBossChest(){
-    if(!bossKO||!bossStage.classList.contains('chest')||bossStage.classList.contains('chest-opening'))return;bossStage.classList.add('chest-opening','heavy-shake');bossChestSfx(true);bossVibrate([18,20,35,25,65]);setTimeout(()=>bossStage.classList.remove('heavy-shake'),520);setTimeout(prepareGiftPool,900)
+    if(!bossKO||!bossStage.classList.contains('chest')||bossStage.classList.contains('chest-opening'))return;bossStage.classList.add('chest-opening','heavy-shake');bossChestSfx(true);bossVibrate([18,20,35,25,65]);setTimeout(()=>bossStage.classList.remove('heavy-shake'),420);setTimeout(prepareGiftPool,760)
   }
 
   // V3.7.6：BOSS 區域禁止 pinch / gesture zoom。
@@ -3421,10 +3910,12 @@ size: ${size.toFixed(2)}%`;
     holdFallbackEnabled=true;fallback.textContent=message;fallback.classList.add('show');
   }
   async function startMic(){
-    clearTimeout(holdFallbackTimer);holdFallbackEnabled=false;fallback.classList.remove('show');micBtn.classList.remove('attention');
+    clearTimeout(holdFallbackTimer);holdFallbackEnabled=false;fallback.classList.remove('show');
+    micBtn.classList.remove('attention','mic-guide-lock');
+    micState.classList.remove('mic-guide-text');
     if(!navigator.mediaDevices?.getUserMedia){micState.textContent='這台裝置無法使用麥克風。';enableHoldFallback('這台裝置不能用麥克風，長按蠟燭 1 秒完成。');return}
     if(!window.isSecureContext && location.hostname!=='localhost'){micState.textContent='本機預覽不能開麥克風；GitHub Pages 才可以。';enableHoldFallback('測試模式：長按蠟燭 1 秒完成。');return}
-    micBtn.disabled=true;micState.textContent='正在取得麥克風…';
+    micBtn.disabled=true;micBtn.textContent='麥克風啟動中…';micState.textContent='正在取得麥克風…';
     try{
       micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
       const AC=window.AudioContext||window.webkitAudioContext;const ctx=new AC();if(ctx.state==='suspended')await ctx.resume();
@@ -3435,6 +3926,7 @@ size: ${size.toFixed(2)}%`;
       setTimeout(()=>{
         calibrating=false;
         baseline=baselineSamples.length?baselineSamples.reduce((a,b)=>a+b,0)/baselineSamples.length:.008;
+        micBtn.textContent='麥克風已開啟 · 對著螢幕吹';
         micState.textContent='好了！直接對著螢幕吹一口氣。';
         holdFallbackTimer=setTimeout(()=>enableHoldFallback(),8000);
       },700);
@@ -3466,13 +3958,14 @@ size: ${size.toFixed(2)}%`;
       };
       micRAF=requestAnimationFrame(loop);
     }catch(err){
-      micBtn.disabled=false;micState.textContent='麥克風沒有開啟。';
+      micBtn.disabled=false;micBtn.textContent='重新開啟麥克風';
+      micState.textContent='麥克風沒有開啟。';
       enableHoldFallback('麥克風沒有開啟，長按蠟燭 1 秒完成。');
     }
   }
   function blowOut(){
     if(cake.classList.contains('out'))return;
-    clearTimeout(holdFallbackTimer);cake.classList.add('out');playSfx('candleBlow',.82);setTimeout(()=>playSfx('wishComplete',.62),220);stopMic();micBtn.disabled=true;fallback.classList.remove('show');micState.textContent='願望收到了。';fadeVolume(.035,550);clearTimeout(wishAdvanceTimer);wishAdvanceTimer=setTimeout(()=>showScene(9),1500)
+    clearTimeout(holdFallbackTimer);cake.classList.add('out');playSfx('candleBlow',.82);setTimeout(()=>playSfx('wishComplete',.62),220);stopMic();micBtn.classList.remove('attention','mic-guide-lock');micState.classList.remove('mic-guide-text');micBtn.disabled=true;fallback.classList.remove('show');micState.textContent='願望收到了。';fadeVolume(.035,550);clearTimeout(wishAdvanceTimer);wishAdvanceTimer=setTimeout(()=>showScene(9),1500)
   }
   micBtn.addEventListener('click',e=>{e.stopPropagation();startMic()});
   let holdTimer=null;
@@ -3480,8 +3973,14 @@ size: ${size.toFixed(2)}%`;
     e.stopPropagation();
     if(cake.classList.contains('out'))return;
     if(!holdFallbackEnabled){
-      micState.textContent='先按「開啟麥克風」，真的吹一次看看。';
-      micBtn.classList.remove('attention');void micBtn.offsetWidth;micBtn.classList.add('attention');
+      // 誤點蠟燭時，不讓提示只閃幾下就消失。
+      // 麥克風 CTA 會持續發光，直到使用者真的按下它。
+      micBtn.disabled=false;
+      micBtn.textContent='① 先按這裡開啟麥克風';
+      micState.textContent='② 麥克風開啟後，再直接對著螢幕吹蠟燭。';
+      micBtn.classList.remove('attention');
+      micBtn.classList.add('mic-guide-lock');
+      micState.classList.add('mic-guide-text');
       return;
     }
     holdTimer=setTimeout(blowOut,900)
