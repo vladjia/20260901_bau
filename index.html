@@ -25,12 +25,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#2a2119" />
-  <link rel="icon" href="favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+<!-- BauYa favicon -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#21150e">
+
   <title>給師欸｜09.01</title>
+
   <meta name="description" content="從 2003 一路走到 2026。二十多年了，技能點是你幫我點的。最後還有一場像素風的生日 BOSS 戰。" />
   <meta property="og:title" content="給師欸｜09.01" />
   <meta property="og:description" content="從 2003 到 2026。一路點技能，最後還有一份生日補給。" />
@@ -1739,10 +1744,11 @@
     @keyframes gachaStar{50%{opacity:.9;transform:scale(1.6) rotate(30deg)}}
 
     #gift .gacha-stage-quote{
-      position:absolute;left:50%;top:calc(50% + 78px);
-      transform:translate(-50%,10px) scale(.97);
+      position:relative;
+      margin:-4px auto 8px;
+      transform:translateY(8px) scale(.97);
       z-index:26;
-      width:min(82vw,250px);
+      width:min(72%,260px);
       min-height:38px;
       padding:8px 13px 9px;
       display:grid;place-items:center;
@@ -1768,7 +1774,7 @@
     #gift .gacha-stage-quote.show{
       opacity:1;
       visibility:visible;
-      transform:translate(-50%,0) scale(1);
+      transform:translateY(0) scale(1);
     }
     #gift .gacha-stage-quote[data-tone="blue"]{
       background:linear-gradient(180deg,rgba(46,88,130,.36),rgba(17,37,61,.60));
@@ -1795,7 +1801,12 @@
       filter:drop-shadow(0 0 20px rgba(255,192,81,.28));
     }
     @media (max-width:390px){
-      #gift .gacha-stage-quote{width:min(86vw,238px);font-size:12px;top:calc(50% + 74px);padding:7px 12px 8px}
+      #gift .gacha-stage-quote{
+        width:min(76%,238px);
+        font-size:12px;
+        padding:7px 12px 8px;
+        margin:-3px auto 8px;
+      }
     }
 
     #gift .gacha-banner-copy{text-align:center;padding:0 18px 11px}
@@ -4978,9 +4989,10 @@ size: --</div>
               <span class="gacha-rainbow-spark rs6">✦</span>
             </div>
 
-            <div class="gacha-stage-quote" id="gachaStageQuote" aria-live="polite" aria-atomic="true"></div>
             <div class="gacha-stars"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div>
           </div>
+
+          <div class="gacha-stage-quote" id="gachaStageQuote" aria-live="polite" aria-atomic="true"></div>
 
           <div class="gacha-banner-copy">
             <div class="gacha-banner-title">生日補給召喚</div>
@@ -5901,7 +5913,7 @@ size: ${size.toFixed(2)}%`;
       gachaStage.classList.add('core-blue');
       giftStatus.textContent='CORE SYNC';
       giftCopy.innerHTML='核心開始發光……';
-      showGachaStageQuote('先看看這顆核心……','blue');
+      showGachaStageQuote('這顆核心，好像怪怪的……','blue');
     }else if(phase==='violet'){
       gachaStage.classList.add('core-violet');
       giftStatus.textContent='ENERGY SHIFT';
