@@ -1734,6 +1734,72 @@
     #gift .gacha-stars i:nth-child(6){left:68%;top:78%;animation-delay:1.6s}
     @keyframes gachaStar{50%{opacity:.9;transform:scale(1.6) rotate(30deg)}}
 
+    #gift .gacha-stage-quote{
+      position:relative;
+      margin:-4px auto 8px;
+      transform:translateY(8px) scale(.97);
+      z-index:26;
+      width:min(72%,260px);
+      min-height:38px;
+      padding:8px 13px 9px;
+      display:grid;place-items:center;
+      text-align:center;
+      border-radius:999px;
+      border:1px solid rgba(255,246,219,.38);
+      background:linear-gradient(180deg,rgba(38,24,15,.20),rgba(22,14,10,.44));
+      box-shadow:0 10px 22px rgba(18,10,7,.24), inset 0 0 0 1px rgba(255,255,255,.10);
+      backdrop-filter:blur(5px);
+      color:#fff6dd;
+      font-size:13px;
+      line-height:1.38;
+      font-weight:950;
+      letter-spacing:.04em;
+      text-shadow:0 1px 0 rgba(47,25,15,.65),0 0 12px rgba(255,232,184,.22);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transition:opacity .24s ease, transform .24s ease, filter .24s ease, background .24s ease, border-color .24s ease;
+      will-change:transform,opacity;
+      filter:drop-shadow(0 0 0 rgba(0,0,0,0));
+    }
+    #gift .gacha-stage-quote.show{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0) scale(1);
+    }
+    #gift .gacha-stage-quote[data-tone="blue"]{
+      background:linear-gradient(180deg,rgba(46,88,130,.36),rgba(17,37,61,.60));
+      border-color:rgba(151,212,255,.50);
+      box-shadow:0 12px 26px rgba(14,28,45,.34),0 0 20px rgba(73,155,255,.20), inset 0 0 0 1px rgba(255,255,255,.10);
+      filter:drop-shadow(0 0 16px rgba(88,165,255,.22));
+    }
+    #gift .gacha-stage-quote[data-tone="violet"]{
+      background:linear-gradient(180deg,rgba(105,65,146,.40),rgba(51,22,74,.68));
+      border-color:rgba(222,177,255,.48);
+      box-shadow:0 12px 28px rgba(28,15,44,.36),0 0 21px rgba(183,102,255,.23), inset 0 0 0 1px rgba(255,255,255,.10);
+      filter:drop-shadow(0 0 18px rgba(199,132,255,.26));
+    }
+    #gift .gacha-stage-quote[data-tone="prism"]{
+      background:linear-gradient(90deg,rgba(255,95,126,.38),rgba(255,193,92,.34),rgba(96,216,141,.34),rgba(86,175,255,.34),rgba(208,104,255,.36));
+      border-color:rgba(255,248,223,.52);
+      box-shadow:0 12px 30px rgba(34,18,42,.42),0 0 25px rgba(255,255,255,.20), inset 0 0 0 1px rgba(255,255,255,.12);
+      filter:drop-shadow(0 0 19px rgba(255,215,116,.24));
+    }
+    #gift .gacha-stage-quote[data-tone="gold"]{
+      background:linear-gradient(180deg,rgba(173,110,38,.48),rgba(89,49,18,.76));
+      border-color:rgba(255,231,154,.55);
+      box-shadow:0 14px 34px rgba(44,21,9,.42),0 0 24px rgba(255,193,74,.28), inset 0 0 0 1px rgba(255,255,255,.13);
+      filter:drop-shadow(0 0 20px rgba(255,192,81,.28));
+    }
+    @media (max-width:390px){
+      #gift .gacha-stage-quote{
+        width:min(76%,238px);
+        font-size:12px;
+        padding:7px 12px 8px;
+        margin:-3px auto 8px;
+      }
+    }
+
     #gift .gacha-banner-copy{text-align:center;padding:0 18px 11px}
     #gift .gacha-banner-title{font-size:24px;font-weight:950;letter-spacing:.08em;color:#432716;text-shadow:0 1px rgba(255,255,255,.5)}
     #gift .gacha-banner-sub{margin-top:4px;font:800 7px/1 ui-monospace,monospace;letter-spacing:.18em;color:#8c623a}
@@ -4352,7 +4418,295 @@
     #gift .gacha-stage.rainbow-impact,
     #gift .gacha-stage.ssr-confirm{animation:none!important}
 
-  </style>
+  
+
+    /* ═══════════════════════════════════════════════════════
+       V3.9.8 · Core Burst Upgrade
+       目標：讓核心不是只有一圈亮光，而是真正往外釋放能量
+       保持手機可跑，不加重 JS，只用 CSS 分層強化。
+       ═══════════════════════════════════════════════════════ */
+    #gift .gacha-summon-zone::before{
+      content:"";
+      position:absolute;
+      inset:-28%;
+      z-index:12;
+      pointer-events:none;
+      border-radius:50%;
+      opacity:0;
+      visibility:hidden;
+      transform:scale(.78);
+      background:
+        radial-gradient(circle at 50% 50%,
+          rgba(var(--wash-main,80,170,245),.00) 0 13%,
+          rgba(var(--wash-main,80,170,245),.09) 24%,
+          rgba(var(--wash-sub,214,241,255),.13) 38%,
+          rgba(var(--wash-main,80,170,245),.07) 54%,
+          rgba(var(--wash-main,80,170,245),.02) 70%,
+          transparent 82%);
+      filter:blur(14px) saturate(1.08);
+      mix-blend-mode:screen;
+    }
+    #gift .gacha-stage.core-blue .gacha-summon-zone::before,
+    #gift .gacha-stage.core-violet .gacha-summon-zone::before,
+    #gift .gacha-stage.core-prism .gacha-summon-zone::before,
+    #gift .gacha-stage.core-climax .gacha-summon-zone::before{
+      visibility:visible;
+      animation:v398CoreStageWash 1.6s ease-in-out infinite alternate;
+    }
+    @keyframes v398CoreStageWash{
+      from{opacity:.42;transform:scale(.82)}
+      to{opacity:1;transform:scale(1.12)}
+    }
+
+    #gift .gacha-stage.core-blue .gacha-summon-zone{--wash-main:72,166,236;--wash-sub:217,243,255}
+    #gift .gacha-stage.core-violet .gacha-summon-zone{--wash-main:171,97,231;--wash-sub:241,215,255}
+    #gift .gacha-stage.core-prism .gacha-summon-zone,
+    #gift .gacha-stage.core-climax .gacha-summon-zone{--wash-main:255,192,92;--wash-sub:255,255,255}
+    #gift .gacha-stage.core-climax .gacha-summon-zone::before{
+      animation:v398CoreStageBurst .88s ease-in-out infinite alternate;
+    }
+    @keyframes v398CoreStageBurst{
+      from{opacity:.70;transform:scale(.95)}
+      to{opacity:1;transform:scale(1.20)}
+    }
+
+    #gift .core-energy-field{
+      width:244px;
+      height:244px;
+      z-index:18;
+      transition:opacity .42s ease, filter .42s ease, transform .42s ease;
+      filter:saturate(1.04);
+    }
+    #gift .gacha-stage.core-blue .core-energy-field,
+    #gift .gacha-stage.core-violet .core-energy-field,
+    #gift .gacha-stage.core-prism .core-energy-field,
+    #gift .gacha-stage.core-climax .core-energy-field{
+      transform:translate(-50%,-50%) scale(1);
+    }
+    #gift .core-energy-field::before{
+      inset:2%;
+      background:radial-gradient(circle,
+        rgba(var(--phase-rgb2),.52) 0 8%,
+        rgba(var(--phase-rgb2),.28) 16%,
+        rgba(var(--phase-rgb),.22) 29%,
+        rgba(var(--phase-rgb),.12) 46%,
+        rgba(var(--phase-rgb),.05) 64%,
+        transparent 79%);
+      filter:blur(10px);
+      animation:v398CoreAuraBreath 1.18s ease-in-out infinite alternate;
+    }
+    #gift .core-energy-field::after{
+      content:"";
+      position:absolute;
+      inset:-12%;
+      border-radius:50%;
+      background:
+        radial-gradient(circle,
+          rgba(var(--phase-rgb2),.00) 0 12%,
+          rgba(var(--phase-rgb2),.10) 21%,
+          rgba(var(--phase-rgb),.10) 36%,
+          rgba(var(--phase-rgb),.04) 58%,
+          transparent 76%),
+        conic-gradient(from 0deg,
+          transparent 0 10%,
+          rgba(var(--phase-rgb2),.08) 13%,
+          transparent 18% 30%,
+          rgba(var(--phase-rgb),.10) 34%,
+          transparent 39% 52%,
+          rgba(var(--phase-rgb2),.07) 57%,
+          transparent 64% 76%,
+          rgba(var(--phase-rgb),.08) 81%,
+          transparent 88% 100%);
+      filter:blur(16px);
+      opacity:.76;
+      animation:v398CoreFieldRotate 12s linear infinite, v398CoreFieldPulse 1.35s ease-in-out infinite alternate;
+    }
+    @keyframes v398CoreAuraBreath{
+      from{opacity:.64;transform:scale(.88)}
+      to{opacity:1;transform:scale(1.14)}
+    }
+    @keyframes v398CoreFieldRotate{
+      to{transform:rotate(360deg)}
+    }
+    @keyframes v398CoreFieldPulse{
+      from{opacity:.42;transform:scale(.95)}
+      to{opacity:.88;transform:scale(1.08)}
+    }
+
+    #gift .core-ray{
+      width:18px;
+      height:136px;
+      margin-left:-9px;
+      margin-top:-136px;
+      transform-origin:50% 136px;
+      opacity:.18;
+      background:linear-gradient(to top,
+        rgba(var(--phase-rgb),0),
+        rgba(var(--phase-rgb),.08) 20%,
+        rgba(var(--phase-rgb2),.42) 66%,
+        rgba(var(--phase-rgb2),0) 100%);
+      filter:blur(4.5px);
+      animation:v398CoreRayPulse 1.28s ease-in-out infinite alternate;
+    }
+    #gift .ray-1{transform:rotate(0deg) scaleY(1.04)}
+    #gift .ray-2{transform:rotate(45deg) scaleY(.86);animation-delay:-.20s}
+    #gift .ray-3{transform:rotate(90deg) scaleY(1.08);animation-delay:-.40s}
+    #gift .ray-4{transform:rotate(135deg) scaleY(.92);animation-delay:-.62s}
+    #gift .ray-5{transform:rotate(180deg) scaleY(1.02);animation-delay:-.10s}
+    #gift .ray-6{transform:rotate(225deg) scaleY(.88);animation-delay:-.52s}
+    #gift .ray-7{transform:rotate(270deg) scaleY(1.10);animation-delay:-.76s}
+    #gift .ray-8{transform:rotate(315deg) scaleY(.94);animation-delay:-.94s}
+    @keyframes v398CoreRayPulse{
+      from{opacity:.10;filter:blur(6px)}
+      to{opacity:.48;filter:blur(2.8px)}
+    }
+
+    #gift .core-arc{
+      opacity:.74;
+      filter:drop-shadow(0 0 7px rgba(var(--phase-rgb2),.44));
+    }
+    #gift .arc-1{
+      width:138px;height:138px;margin:-69px;
+      border-top:3px solid rgba(var(--phase-rgb2),.72);
+      border-right:3px solid transparent;
+      border-bottom:2px solid rgba(var(--phase-rgb),.22);
+      border-left:2px solid transparent;
+      animation:coreArcCW 4.6s linear infinite;
+    }
+    #gift .arc-2{
+      width:166px;height:166px;margin:-83px;
+      border-top:2px solid transparent;
+      border-right:3px solid rgba(var(--phase-rgb),.56);
+      border-bottom:2px solid transparent;
+      border-left:2px solid rgba(var(--phase-rgb2),.28);
+      animation:coreArcCCW 5.3s linear infinite;
+    }
+    #gift .arc-3{
+      width:114px;height:114px;margin:-57px;
+      border-top:2px solid rgba(var(--phase-rgb2),.46);
+      border-right:2px solid transparent;
+      border-bottom:3px solid transparent;
+      border-left:3px solid rgba(var(--phase-rgb),.52);
+      animation:coreArcCCW 3.9s linear infinite;
+    }
+    #gift .arc-4{
+      width:190px;height:190px;margin:-95px;
+      border-top:2px solid rgba(var(--phase-rgb),.24);
+      border-right:2px solid transparent;
+      border-bottom:2px solid rgba(var(--phase-rgb2),.28);
+      border-left:2px solid transparent;
+      animation:coreArcCW 6.4s linear infinite;
+    }
+
+    #gift .core-particle{
+      width:5px;height:5px;margin:-2.5px;
+      background:rgba(var(--phase-rgb2),.98);
+      box-shadow:0 0 12px rgba(var(--phase-rgb),.84),0 0 24px rgba(var(--phase-rgb),.26);
+      animation:v398CoreParticleOut 1.82s ease-out infinite;
+    }
+    @keyframes v398CoreParticleOut{
+      0%{opacity:0;transform:translate(0,0) scale(.36)}
+      12%{opacity:.98}
+      68%{opacity:.46}
+      100%{opacity:0;transform:translate(calc(var(--dx) * 1.22),calc(var(--dy) * 1.22)) scale(1.42)}
+    }
+
+    #gift .gacha-orb{
+      width:86px;
+      height:86px;
+      box-shadow:0 0 0 8px rgba(83,126,118,.12),0 0 38px rgba(76,135,126,.54),inset -9px -11px 17px rgba(24,49,47,.30);
+    }
+    #gift .gacha-orb-core{
+      width:20px;
+      height:20px;
+      background:#fffce8;
+      box-shadow:0 0 18px rgba(255,248,197,.94),0 0 30px rgba(255,248,197,.40);
+      animation:v398InnerCore 1.25s ease-in-out infinite alternate;
+    }
+    @keyframes v398InnerCore{
+      from{transform:scale(.9);filter:brightness(1)}
+      to{transform:scale(1.18);filter:brightness(1.22)}
+    }
+
+    #gift .gacha-stage.core-blue .gacha-orb{
+      box-shadow:
+        0 0 0 9px rgba(71,155,229,.10),
+        0 0 30px rgba(75,166,235,.54),
+        0 0 76px rgba(75,166,235,.28),
+        inset -10px -12px 20px rgba(18,62,112,.31)!important;
+    }
+    #gift .gacha-stage.core-blue .gacha-orb-core{
+      background:#f5fdff;
+      box-shadow:0 0 18px rgba(241,251,255,.98),0 0 30px rgba(92,196,255,.58),0 0 48px rgba(92,196,255,.28);
+    }
+
+    #gift .gacha-stage.core-violet .gacha-orb{
+      box-shadow:
+        0 0 0 10px rgba(166,89,222,.11),
+        0 0 34px rgba(172,91,226,.58),
+        0 0 84px rgba(154,75,221,.32),
+        inset -10px -12px 20px rgba(62,25,101,.34)!important;
+    }
+    #gift .gacha-stage.core-violet .gacha-orb-core{
+      background:#fff7ff;
+      box-shadow:0 0 20px rgba(255,241,255,.98),0 0 34px rgba(197,108,255,.62),0 0 56px rgba(197,108,255,.28);
+    }
+
+    #gift .gacha-stage.core-prism .gacha-orb,
+    #gift .gacha-stage.core-climax .gacha-orb{
+      box-shadow:
+        0 0 0 10px rgba(255,255,255,.10),
+        0 0 34px rgba(255,255,255,.72),
+        0 0 78px rgba(255,98,183,.42),
+        0 0 110px rgba(70,201,255,.34),
+        0 0 142px rgba(255,207,82,.28)!important;
+    }
+    #gift .gacha-stage.core-prism .gacha-orb-core,
+    #gift .gacha-stage.core-climax .gacha-orb-core{
+      background:radial-gradient(circle,#ffffff 0 28%,#fff8c8 48%,#ffd56a 100%);
+      box-shadow:0 0 22px rgba(255,255,255,1),0 0 38px rgba(255,194,80,.78),0 0 68px rgba(255,88,170,.42),0 0 82px rgba(74,212,255,.34);
+    }
+    #gift .gacha-stage.core-prism .core-energy-field,
+    #gift .gacha-stage.core-climax .core-energy-field{
+      filter:saturate(1.26) brightness(1.14);
+    }
+    #gift .gacha-stage.core-climax .core-energy-field{
+      filter:saturate(1.42) brightness(1.32);
+      transform:translate(-50%,-50%) scale(1.04);
+    }
+    #gift .gacha-stage.core-climax .gacha-orb{
+      transform:scale(1.08) translateZ(0);
+      filter:brightness(1.20) saturate(1.18);
+    }
+    #gift .gacha-stage.core-climax .gacha-orb-core{
+      animation:v398InnerCoreBurst .78s ease-in-out infinite alternate;
+    }
+    @keyframes v398InnerCoreBurst{
+      from{transform:scale(.92);filter:brightness(1.05)}
+      to{transform:scale(1.26);filter:brightness(1.38)}
+    }
+
+    #gift .gacha-stage.rainbow-break .gacha-rainbow-core,
+    #gift .gacha-stage.rainbow-climax .gacha-rainbow-core,
+    #gift .gacha-stage.ssr-confirm .gacha-rainbow-core{
+      filter:drop-shadow(0 0 16px rgba(255,255,255,.82)) drop-shadow(0 0 42px rgba(255,116,201,.48)) drop-shadow(0 0 52px rgba(66,219,255,.44));
+    }
+    #gift .gacha-stage.rainbow-break .gacha-summon-zone::after{
+      animation:v398RainbowField 1.15s ease-in-out infinite alternate!important;
+    }
+    @keyframes v398RainbowField{
+      0%{opacity:.50;transform:scale(.78) rotate(-7deg)}
+      100%{opacity:1;transform:scale(1.18) rotate(9deg)}
+    }
+    #gift .gacha-stage.ssr-confirm .gacha-summon-zone::after{
+      animation:v398SSRField .44s ease-in-out infinite alternate!important;
+    }
+    @keyframes v398SSRField{
+      from{transform:scale(1.05) rotate(-4deg);opacity:.82}
+      to{transform:scale(1.28) rotate(6deg);opacity:1}
+    }
+
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -4626,8 +4980,10 @@ size: --</div>
               <span class="gacha-rainbow-spark rs6">✦</span>
             </div>
 
-            <div class="gacha-stars"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div>
+                        <div class="gacha-stars"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div>
           </div>
+
+          <div class="gacha-stage-quote" id="gachaStageQuote" aria-live="polite" aria-atomic="true"></div>
 
           <div class="gacha-banner-copy">
             <div class="gacha-banner-title">生日補給召喚</div>
@@ -5196,7 +5552,7 @@ size: ${size.toFixed(2)}%`;
   portal.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){enterMap(e)}});
   advance.addEventListener('click',e=>{e.stopPropagation();if(index<max)showScene(index+1)});
   document.getElementById('hpNext').addEventListener('click',e=>{e.stopPropagation();showScene(11)});
-  const giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),gachaStage=document.getElementById('gachaStage'),gachaDrawBtn=document.getElementById('gachaDrawBtn'),gachaOrb=document.getElementById('gachaOrb'),gachaRarity=document.getElementById('gachaRarity'),gachaRainbowCore=document.getElementById('gachaRainbowCore'),gachaResult=document.getElementById('gachaResult'),gachaNudge=document.getElementById('gachaNudge'),gachaNudgeRates=document.getElementById('gachaNudgeRates'),gachaNudgeDirect=document.getElementById('gachaNudgeDirect'),gachaWhiteout=document.getElementById('gachaWhiteout'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
+  const giftNext=document.getElementById('giftNext'),giftStatus=document.getElementById('giftStatus'),giftOnce=document.getElementById('giftOnce'),giftTitle=document.getElementById('giftTitle'),giftCopy=document.getElementById('giftCopy'),giftPoolOpen=document.getElementById('giftPoolOpen'),giftPoolOverlay=document.getElementById('giftPoolOverlay'),giftPoolClose=document.getElementById('giftPoolClose'),giftWrap=document.getElementById('giftWrap'),gachaStageQuote=document.getElementById('gachaStageQuote'),gachaStage=document.getElementById('gachaStage'),gachaDrawBtn=document.getElementById('gachaDrawBtn'),gachaOrb=document.getElementById('gachaOrb'),gachaRarity=document.getElementById('gachaRarity'),gachaRainbowCore=document.getElementById('gachaRainbowCore'),gachaResult=document.getElementById('gachaResult'),gachaNudge=document.getElementById('gachaNudge'),gachaNudgeRates=document.getElementById('gachaNudgeRates'),gachaNudgeDirect=document.getElementById('gachaNudgeDirect'),gachaWhiteout=document.getElementById('gachaWhiteout'),bossStage=document.getElementById('bossStage'),bossArena=document.getElementById('bossArena'),bossTapZone=document.getElementById('bossTapZone'),bossHpFill=document.getElementById('bossHpFill'),bossHpText=document.getElementById('bossHpText'),bossCombo=document.getElementById('bossCombo'),bossTaunt=document.getElementById('bossTaunt'),bossDamageLayer=document.getElementById('bossDamageLayer'),bossReady=document.getElementById('bossReady'),bossChest=document.getElementById('bossChest'),bossTip=document.getElementById('bossTip'),bossLabel=document.getElementById('bossLabel'),bossName=document.getElementById('bossName'),bossMonster=document.getElementById('bossMonster'),bossMonsterImg=bossMonster?bossMonster.querySelector('img'):null,bossMinions=document.getElementById('bossMinions'),bossMinionEls=[...(bossMinions?bossMinions.querySelectorAll('.boss-minion'):[])],bossFighterSprite=document.getElementById('bossFighterSprite'),bossFighterCard=document.getElementById('bossFighterCard'),voucherOpen=document.getElementById('voucherOpen'),voucherLoading=document.getElementById('voucherLoading'),voucherOverlay=document.getElementById('voucherOverlay'),voucherClose=document.getElementById('voucherClose'),voucherSetPin=document.getElementById('voucherSetPin'),voucherSave=document.getElementById('voucherSave'),voucherSaveHint=document.getElementById('voucherSaveHint'),pinModal=document.getElementById('pinModal'),pinInput=document.getElementById('pinInput'),pinConfirm=document.getElementById('pinConfirm'),pinError=document.getElementById('pinError'),pinSubmit=document.getElementById('pinSubmit'),voucherLoadingTitle=voucherLoading?.querySelector('.voucher-loading-title'),voucherLoadingSub=voucherLoading?.querySelector('.voucher-loading-sub');
   const GIFT_KEY='shie_birthday_gift_2026',GIFT_PICK_KEY='shie_birthday_gift_pick_2026',BOSS_CLEAR_KEY='shie_birthday_boss_clear_2026',RESET_VERSION_KEY='shie_birthday_reset_version_2026',VOUCHER_SAVED_KEY='shie_birthday_voucher_saved_2026';
   const GIFT_TOKEN='SHIE-0901-HP999-X7K2';
   const GAS_WEB_APP_URL='https://script.google.com/macros/s/AKfycby3M7IV-P_Aqy-8OBWnG3oAn-CxMJwBh1nJY9szVuOOH34gYjNTUP1j_R77QcPpwNadGQ/exec';
@@ -5418,6 +5774,7 @@ size: ${size.toFixed(2)}%`;
     setTimeout(()=>{bossStage.classList.remove('heavy-shake');bossStage.classList.add('chest');bossVibrate([18,28,32]);bossChestSfx(false)},900)
   }
   function resetGachaVisual(){
+    clearGachaStageQuote(true);
     gachaDrawing=false;
     gachaStage.style.opacity='';
     gachaStage.style.transform='';
@@ -5505,6 +5862,29 @@ size: ${size.toFixed(2)}%`;
     gachaNudge.setAttribute('aria-hidden','true');
   }
 
+  let gachaStageQuoteTimer=0;
+  function clearGachaStageQuote(immediate=false){
+    clearTimeout(gachaStageQuoteTimer);
+    if(!gachaStageQuote)return;
+    gachaStageQuote.classList.remove('show');
+    gachaStageQuote.removeAttribute('data-tone');
+    if(immediate){
+      gachaStageQuote.innerHTML='';
+      return;
+    }
+    gachaStageQuoteTimer=setTimeout(()=>{
+      if(!gachaStageQuote.classList.contains('show'))gachaStageQuote.innerHTML='';
+    },260);
+  }
+
+  function showGachaStageQuote(html,tone='blue'){
+    clearTimeout(gachaStageQuoteTimer);
+    if(!gachaStageQuote)return;
+    gachaStageQuote.dataset.tone=tone;
+    gachaStageQuote.innerHTML=html;
+    gachaStageQuote.classList.add('show');
+  }
+
   function clearCorePhases(){
     gachaStage.classList.remove(
       'rank-r','rank-sr','rank-ssr','show-rarity','ssr-impact',
@@ -5524,14 +5904,17 @@ size: ${size.toFixed(2)}%`;
       gachaStage.classList.add('core-blue');
       giftStatus.textContent='CORE SYNC';
       giftCopy.innerHTML='核心開始發光……';
+      showGachaStageQuote('這顆核心，好像怪怪的……','blue');
     }else if(phase==='violet'){
       gachaStage.classList.add('core-violet');
       giftStatus.textContent='ENERGY SHIFT';
       giftCopy.innerHTML='顏色變了……<br>能量還在上升。';
+      showGachaStageQuote('……顏色變了？','violet');
     }else if(phase==='prism'){
       gachaStage.classList.add('core-prism');
       giftStatus.textContent='???';
       giftCopy.innerHTML='……等等。<br>這個顏色不太一樣。';
+      showGachaStageQuote('等等，還在升階。','prism');
     }
   }
 
@@ -5541,6 +5924,7 @@ size: ${size.toFixed(2)}%`;
     gachaStage.classList.add('core-climax');
     giftStatus.textContent='PRISM OVERLOAD';
     giftCopy.innerHTML='七彩能量正在收束……';
+    showGachaStageQuote('這次……不太對勁。','prism');
     bossVibrate([18,18,28,18,42]);
   }
 
@@ -5549,6 +5933,7 @@ size: ${size.toFixed(2)}%`;
     gachaStage.classList.add('core-climax');
     giftStatus.textContent='ITEM GET !';
     giftCopy.innerHTML='……中了。';
+    showGachaStageQuote('中了。','gold');
     playSfx('gachaItemGet',.94,true);
     bossVibrate([24,20,38,20,64,24,92]);
   }
@@ -5571,6 +5956,7 @@ size: ${size.toFixed(2)}%`;
 
 
   function showGiftResult(pick,instant=false){
+    clearGachaStageQuote(true);
     clearTimeout(giftPickTimer);
     clearTimeout(giftResolveTimer);
     stopSfx('gachaSSR');
@@ -5729,6 +6115,7 @@ size: ${size.toFixed(2)}%`;
     gachaStage.classList.add('summoning');
     giftTitle.textContent='召喚開始。';
     giftOnce.textContent='';
+    clearGachaStageQuote(true);
 
     await waitMs(250);
     setCorePhase('blue');
@@ -5749,6 +6136,27 @@ size: ${size.toFixed(2)}%`;
     await waitMs(1750);
 
     await revealSSRThroughWhite(GACHA_FINAL_PICK);
+  };
+
+  // QA：F12 Console 輸入 測試核心提示詞()，只看核心旁邊的驚喜台詞，不會寫入 GAS。
+  window.測試核心提示詞=async function(){
+    document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+    document.getElementById('gift')?.classList.add('active');
+    bossStage?.classList.add('boss-hidden');
+    giftWrap?.classList.remove('boss-hidden');
+    clearGachaStageQuote(true);
+    resetGachaVisual();
+    gachaStage.classList.add('summoning');
+    await waitMs(120);
+    setCorePhase('blue');
+    await waitMs(1800);
+    setCorePhase('violet');
+    await waitMs(1800);
+    setCorePhase('prism');
+    await waitMs(1800);
+    climaxCorePrism();
+    await waitMs(1500);
+    itemGetCore();
   };
 
   // QA：F12 Console 輸入 測試SSR收尾()，只看「SSR -> 全白 -> 卡片淡入」。
@@ -5777,6 +6185,7 @@ size: ${size.toFixed(2)}%`;
 
   async function startGachaDraw(){
     if(gachaDrawing || giftWasDrawn())return;
+    clearGachaStageQuote(true);
     gachaDrawing=true;
     closeGachaNudge();
     giftPoolOverlay.classList.remove('show');
